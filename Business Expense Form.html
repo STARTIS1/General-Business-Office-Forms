@@ -1,0 +1,1680 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Expense Form</title>
+
+<style>
+:root {
+    --navy: #183653;
+    --blue: #28577e;
+    --light-blue: #eaf1f7;
+    --border: #cbd5df;
+    --text: #263746;
+    --muted: #667788;
+    --white: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 14px;
+    background: #edf1f5;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+button, input, select, textarea {
+    font: inherit;
+}
+
+.toolbar {
+    max-width: 1050px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 10px 17px;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.print-btn {
+    background: var(--navy);
+    color: white;
+}
+
+.reset-btn {
+    background: #e3e8ed;
+    color: #344454;
+}
+
+.toolbar select {
+    padding: 9px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: white;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 1050px;
+    margin: auto;
+    padding: 32px 38px;
+    background: white;
+    border: 1px solid #dce2e8;
+    box-shadow: 0 4px 20px rgba(20,40,60,.08);
+}
+
+.company-header {
+    display: grid;
+    grid-template-columns: 155px 1fr;
+    gap: 25px;
+    padding-bottom: 22px;
+    border-bottom: 2px solid var(--navy);
+}
+
+.logo-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+}
+
+.logo-area {
+    width: 135px;
+    height: 105px;
+    border: 1px dashed #9eafbd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #fafcfd;
+}
+
+.logo-area img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    color: #8999a8;
+    text-align: center;
+    line-height: 1.6;
+    font-size: 12px;
+}
+
+.upload-btn {
+    background: var(--light-blue);
+    color: var(--navy);
+    border: 1px solid #c4d4e2;
+    padding: 7px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.company-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 15px;
+    align-content: center;
+}
+
+.field {
+    min-width: 0;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    display: block;
+    color: #45586a;
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    padding: 8px 9px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: #263746;
+    background: white;
+    outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #497da6;
+    box-shadow: 0 0 0 2px rgba(55,115,160,.10);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 62px;
+}
+
+.document-title {
+    text-align: center;
+    margin: 25px 0 20px;
+}
+
+.document-title h1 {
+    font-size: 25px;
+    letter-spacing: 1.5px;
+    color: var(--navy);
+    margin: 0 0 7px;
+    text-transform: uppercase;
+}
+
+.document-title p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.section {
+    margin-top: 22px;
+}
+
+.section-heading {
+    padding: 9px 12px;
+    background: var(--light-blue);
+    border-left: 4px solid var(--navy);
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    margin: 0 0 13px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 13px 16px;
+}
+
+.details-grid.two {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.expense-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.expense-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.expense-table th {
+    background: var(--navy);
+    color: white;
+    font-size: 10px;
+    padding: 10px 5px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.expense-table td {
+    border: 1px solid var(--border);
+    padding: 5px;
+    vertical-align: middle;
+}
+
+.expense-table td input,
+.expense-table td select {
+    padding: 7px 5px;
+    font-size: 11px;
+    border: 1px solid #dce3e9;
+    border-radius: 2px;
+    min-width: 0;
+}
+
+.expense-table .date-col { width: 105px; }
+.expense-table .category-col { width: 125px; }
+.expense-table .vendor-col { width: 125px; }
+.expense-table .description-col { width: 145px; }
+.expense-table .paidby-col { width: 120px; }
+.expense-table .amount-col { width: 95px; }
+.expense-table .tax-col { width: 80px; }
+.expense-table .eligible-col { width: 75px; }
+.expense-table .action-col { width: 50px; }
+
+.checkbox-cell {
+    text-align: center;
+}
+
+.checkbox-cell input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.row-number {
+    font-weight: bold;
+    color: var(--navy);
+    text-align: center;
+}
+
+.remove-row {
+    border: 0;
+    background: #f9eaea;
+    color: #a33b3b;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 6px 9px;
+    font-weight: bold;
+}
+
+.add-row-btn {
+    margin-top: 10px;
+    padding: 8px 13px;
+    background: var(--light-blue);
+    border: 1px solid #b8cad9;
+    color: var(--navy);
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.calculation-area {
+    display: grid;
+    grid-template-columns: 1fr 330px;
+    gap: 25px;
+    margin-top: 20px;
+    align-items: start;
+}
+
+.calculation-note {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.7;
+    padding: 12px;
+    border: 1px solid #e0e6ec;
+    background: #fafcfd;
+}
+
+.totals-box {
+    border: 1px solid var(--border);
+    padding: 13px 15px;
+    background: #fbfcfd;
+}
+
+.total-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid #e2e7eb;
+    font-size: 12px;
+}
+
+.total-line strong {
+    color: var(--navy);
+}
+
+.total-line.grand {
+    font-size: 15px;
+    font-weight: bold;
+    border-top: 2px solid var(--navy);
+    margin-top: 5px;
+    padding-top: 11px;
+}
+
+.total-line.highlight {
+    color: #175b43;
+    font-weight: bold;
+}
+
+.total-line input {
+    width: 115px;
+    text-align: right;
+    padding: 5px;
+}
+
+.total-value {
+    font-weight: bold;
+    text-align: right;
+}
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+    margin-top: 20px;
+}
+
+.signature-box {
+    padding-top: 15px;
+}
+
+.signature-line {
+    border-bottom: 1px solid #7b8995;
+    height: 37px;
+    margin-bottom: 7px;
+}
+
+.signature-box label {
+    color: #45586a;
+}
+
+.footer-note {
+    border-top: 1px solid var(--border);
+    margin-top: 28px;
+    padding-top: 11px;
+    text-align: center;
+    font-size: 10px;
+    color: #758493;
+}
+
+.small-note {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+.error-message {
+    color: #b12c2c;
+    font-size: 12px;
+    margin: 10px 0;
+    display: none;
+}
+
+@media(max-width: 700px) {
+    body {
+        padding: 10px 5px;
+    }
+
+    .form-container {
+        padding: 20px 13px;
+    }
+
+    .company-header {
+        grid-template-columns: 1fr;
+    }
+
+    .logo-column {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .logo-area {
+        width: 110px;
+        height: 85px;
+    }
+
+    .company-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .details-grid,
+    .details-grid.two {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .calculation-area {
+        grid-template-columns: 1fr;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .expense-table {
+        min-width: 880px;
+    }
+
+    .signature-grid {
+        gap: 15px;
+    }
+
+    .document-title h1 {
+        font-size: 21px;
+    }
+}
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        color: #000;
+        font-size: 10px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .company-header {
+        grid-template-columns: 125px 1fr;
+        gap: 15px;
+        padding-bottom: 14px;
+    }
+
+    .logo-area {
+        width: 110px;
+        height: 85px;
+    }
+
+    .document-title {
+        margin: 17px 0 14px;
+    }
+
+    .document-title h1 {
+        font-size: 20px;
+    }
+
+    .section {
+        margin-top: 15px;
+    }
+
+    .section-heading {
+        padding: 7px 9px;
+        margin-bottom: 9px;
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    input, textarea, select {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 3px 2px !important;
+        font-size: 9px !important;
+        appearance: none;
+        -webkit-appearance: none;
+    }
+
+    input::placeholder, textarea::placeholder {
+        color: transparent !important;
+    }
+
+    .company-fields input,
+    .details-grid input,
+    .details-grid select,
+    .details-grid textarea {
+        border-bottom: 1px solid #aeb8c1 !important;
+    }
+
+    .expense-table-wrap {
+        overflow: visible;
+    }
+
+    .expense-table {
+        width: 100%;
+        min-width: 0;
+        table-layout: fixed;
+        font-size: 8px;
+    }
+
+    .expense-table th {
+        font-size: 8px;
+        padding: 6px 3px;
+    }
+
+    .expense-table td {
+        padding: 3px 2px;
+        overflow-wrap: anywhere;
+    }
+
+    .expense-table td input,
+    .expense-table td select {
+        font-size: 8px !important;
+        width: 100%;
+    }
+
+    .expense-table .date-col { width: 11%; }
+    .expense-table .category-col { width: 13%; }
+    .expense-table .vendor-col { width: 12%; }
+    .expense-table .description-col { width: 16%; }
+    .expense-table .paidby-col { width: 12%; }
+    .expense-table .amount-col { width: 11%; }
+    .expense-table .tax-col { width: 8%; }
+    .expense-table .eligible-col { width: 7%; }
+
+    .expense-table tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .expense-table thead {
+        display: table-header-group;
+    }
+
+    .expense-table input[type="checkbox"] {
+        appearance: auto;
+        -webkit-appearance: checkbox;
+        width: 12px;
+        height: 12px;
+    }
+
+    .expense-table th:last-child,
+    .expense-table td:last-child {
+        display: none;
+    }
+
+    .calculation-area {
+        grid-template-columns: 1fr 260px;
+        gap: 15px;
+    }
+
+    .totals-box {
+        padding: 8px 10px;
+    }
+
+    .total-line {
+        padding: 5px 0;
+        font-size: 9px;
+    }
+
+    .total-line.grand {
+        font-size: 11px;
+    }
+
+    .signature-grid {
+        gap: 25px;
+    }
+
+    .signature-line {
+        height: 30px;
+    }
+
+    .footer-note {
+        margin-top: 18px;
+    }
+
+    .section, .signature-grid, .calculation-area {
+        break-inside: avoid;
+    }
+
+    .section-heading, label {
+        color: #183653 !important;
+    }
+
+    button {
+        display: none !important;
+    }
+
+    textarea {
+        overflow: visible;
+        resize: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+    <label style="margin:0;">Paper Size</label>
+    <select id="paperSize" aria-label="Select paper size">
+        <option value="A4">A4 Portrait</option>
+        <option value="Letter">US Letter</option>
+    </select>
+
+    <button type="button" class="reset-btn" id="resetBtn">
+        RESET FORM
+    </button>
+
+    <button type="button" class="print-btn" id="printBtn">
+        PRINT FORM / SAVE PDF
+    </button>
+</div>
+
+<main class="form-container">
+
+    <!-- COMPANY HEADER -->
+
+    <header class="company-header">
+
+        <div class="logo-column">
+
+            <div class="logo-area">
+                <img id="companyLogo" alt="Company Logo"
+                     style="display:none;">
+                <div class="logo-placeholder" id="logoPlaceholder">
+                    COMPANY<br>LOGO
+                </div>
+            </div>
+
+            <label class="upload-btn no-print" for="logoUpload">
+                UPLOAD COMPANY LOGO
+            </label>
+
+            <input type="file" id="logoUpload"
+                   accept=".jpg,.jpeg,.png,.svg,.webp,image/jpeg,image/png,image/svg+xml,image/webp"
+                   hidden>
+
+        </div>
+
+        <div class="company-fields">
+
+            <div class="field full">
+                <label for="companyName">COMPANY NAME *</label>
+                <input id="companyName" type="text"
+                       placeholder="Enter company or business name">
+            </div>
+
+            <div class="field full">
+                <label for="companyAddress">BUSINESS ADDRESS</label>
+                <input id="companyAddress" type="text"
+                       placeholder="Street address, city, country">
+            </div>
+
+            <div class="field">
+                <label for="companyPhone">PHONE NUMBER</label>
+                <input id="companyPhone" type="tel"
+                       placeholder="+00 000 0000000">
+            </div>
+
+            <div class="field">
+                <label for="companyEmail">EMAIL ADDRESS</label>
+                <input id="companyEmail" type="email"
+                       placeholder="company@example.com">
+            </div>
+
+            <div class="field">
+                <label for="companyWebsite">WEBSITE</label>
+                <input id="companyWebsite" type="text"
+                       placeholder="www.example.com">
+            </div>
+
+            <div class="field">
+                <label for="registrationNo">REGISTRATION NUMBER</label>
+                <input id="registrationNo" type="text"
+                       placeholder="Business registration number">
+            </div>
+
+        </div>
+    </header>
+
+    <!-- DOCUMENT TITLE -->
+
+    <div class="document-title">
+        <h1>Business Expense Form</h1>
+        <p>EXPENSE REPORT &amp; REIMBURSEMENT RECORD</p>
+    </div>
+
+    <!-- REPORT INFORMATION -->
+
+    <section class="section">
+
+        <h2 class="section-heading">01. Expense Report Information</h2>
+
+        <div class="details-grid">
+
+            <div class="field">
+                <label for="reportNo">EXPENSE REPORT NUMBER *</label>
+                <input id="reportNo" type="text" required
+                       placeholder="e.g. EXP-2026-001">
+            </div>
+
+            <div class="field">
+                <label for="reportDate">REPORT DATE *</label>
+                <input id="reportDate" type="date" required>
+            </div>
+
+            <div class="field">
+                <label for="expensePeriodStart">PERIOD START</label>
+                <input id="expensePeriodStart" type="date">
+            </div>
+
+            <div class="field">
+                <label for="expensePeriodEnd">PERIOD END</label>
+                <input id="expensePeriodEnd" type="date">
+            </div>
+
+            <div class="field">
+                <label for="department">DEPARTMENT</label>
+                <input id="department" type="text"
+                       placeholder="Department name">
+            </div>
+
+            <div class="field">
+                <label for="projectCode">PROJECT / COST CENTER</label>
+                <input id="projectCode" type="text"
+                       placeholder="Project or cost center">
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- EMPLOYEE INFORMATION -->
+
+    <section class="section">
+
+        <h2 class="section-heading">02. Employee / Claimant Information</h2>
+
+        <div class="details-grid">
+
+            <div class="field">
+                <label for="employeeName">EMPLOYEE / CLAIMANT NAME *</label>
+                <input id="employeeName" type="text" required
+                       placeholder="Full name">
+            </div>
+
+            <div class="field">
+                <label for="employeeId">EMPLOYEE ID</label>
+                <input id="employeeId" type="text"
+                       placeholder="Employee identification">
+            </div>
+
+            <div class="field">
+                <label for="jobTitle">JOB TITLE / POSITION</label>
+                <input id="jobTitle" type="text"
+                       placeholder="Job title">
+            </div>
+
+            <div class="field">
+                <label for="employeeEmail">EMAIL ADDRESS</label>
+                <input id="employeeEmail" type="email"
+                       placeholder="Employee email">
+            </div>
+
+            <div class="field">
+                <label for="employeePhone">CONTACT NUMBER</label>
+                <input id="employeePhone" type="tel"
+                       placeholder="Contact number">
+            </div>
+
+            <div class="field">
+                <label for="expensePurpose">EXPENSE PURPOSE *</label>
+                <input id="expensePurpose" type="text" required
+                       placeholder="Business purpose of expenses">
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- EXPENSE DETAILS -->
+
+    <section class="section">
+
+        <h2 class="section-heading">03. Detailed Expense Records</h2>
+
+        <p class="small-note">
+            Enter each business expense separately. Mark reimbursement eligibility
+            only for expenses paid personally by the claimant.
+        </p>
+
+        <div class="expense-table-wrap">
+
+            <table class="expense-table" id="expenseTable">
+
+                <thead>
+                    <tr>
+                        <th style="width:35px;">#</th>
+                        <th class="date-col">DATE</th>
+                        <th class="category-col">CATEGORY</th>
+                        <th class="vendor-col">VENDOR / PAYEE</th>
+                        <th class="description-col">DESCRIPTION</th>
+                        <th class="paidby-col">PAID BY</th>
+                        <th class="amount-col">AMOUNT</th>
+                        <th class="tax-col">TAX</th>
+                        <th class="eligible-col">REIMB.</th>
+                        <th class="action-col no-print">ACTION</th>
+                    </tr>
+                </thead>
+
+                <tbody id="expenseBody">
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <button type="button" class="add-row-btn no-print"
+                id="addRowBtn">
+            + ADD EXPENSE ROW
+        </button>
+
+    </section>
+
+    <!-- TOTALS -->
+
+    <section class="section">
+
+        <h2 class="section-heading">04. Expense Summary &amp; Calculations</h2>
+
+        <div class="calculation-area">
+
+            <div class="calculation-note">
+                <strong>Expense Calculation Information</strong>
+                <p>
+                    Subtotal = Sum of all expense amounts.
+                </p>
+                <p>
+                    Total Tax = Sum of all applicable tax amounts.
+                </p>
+                <p>
+                    Total Expenses = Subtotal + Total Tax.
+                </p>
+                <p>
+                    Reimbursement Eligible = Expenses marked as reimbursable
+                    and paid personally by the claimant, including their tax.
+                </p>
+                <p>
+                    Reimbursement Balance = Eligible Reimbursement less
+                    the advance already received.
+                </p>
+            </div>
+
+            <div class="totals-box">
+
+                <div class="field" style="margin-bottom:12px;">
+                    <label for="currency">CURRENCY</label>
+                    <select id="currency">
+                        <option value="PKR">PKR - Pakistani Rupee</option>
+                        <option value="USD">USD - US Dollar</option>
+                        <option value="GBP">GBP - British Pound</option>
+                        <option value="EUR">EUR - Euro</option>
+                        <option value="AED">AED - UAE Dirham</option>
+                        <option value="SAR">SAR - Saudi Riyal</option>
+                        <option value="CAD">CAD - Canadian Dollar</option>
+                        <option value="AUD">AUD - Australian Dollar</option>
+                        <option value="INR">INR - Indian Rupee</option>
+                    </select>
+                </div>
+
+                <div class="total-line">
+                    <span>Expense Subtotal</span>
+                    <span class="total-value" id="subtotal">0.00</span>
+                </div>
+
+                <div class="total-line">
+                    <span>Total Tax</span>
+                    <span class="total-value" id="taxTotal">0.00</span>
+                </div>
+
+                <div class="total-line grand">
+                    <span>Total Expenses</span>
+                    <span class="total-value" id="grandTotal">0.00</span>
+                </div>
+
+                <div class="total-line highlight">
+                    <span>Company-Paid Expenses</span>
+                    <span class="total-value" id="companyPaid">0.00</span>
+                </div>
+
+                <div class="total-line highlight">
+                    <span>Eligible Reimbursement</span>
+                    <span class="total-value" id="reimbursement">0.00</span>
+                </div>
+
+                <div class="total-line">
+                    <span>Advance Received</span>
+                    <input type="number" id="advancePaid"
+                           min="0" step="0.01" value="0">
+                </div>
+
+                <div class="total-line grand">
+                    <span>Balance Reimbursement Due</span>
+                    <span class="total-value" id="balanceDue">0.00</span>
+                </div>
+
+                <div class="total-line">
+                    <span>Excess Advance</span>
+                    <span class="total-value" id="excessAdvance">0.00</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- PAYMENT INFORMATION -->
+
+    <section class="section">
+
+        <h2 class="section-heading">05. Reimbursement &amp; Payment Information</h2>
+
+        <div class="details-grid">
+
+            <div class="field">
+                <label for="paymentMethod">REIMBURSEMENT PAYMENT METHOD</label>
+                <select id="paymentMethod">
+                    <option value="">Select payment method</option>
+                    <option>Bank Transfer</option>
+                    <option>Cash</option>
+                    <option>Cheque</option>
+                    <option>Payroll</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="paymentStatus">REIMBURSEMENT STATUS</label>
+                <select id="paymentStatus">
+                    <option value="">Select status</option>
+                    <option>Pending</option>
+                    <option>Submitted</option>
+                    <option>Under Review</option>
+                    <option>Approved</option>
+                    <option>Partially Paid</option>
+                    <option>Paid</option>
+                    <option>Rejected</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="paymentDate">REIMBURSEMENT DATE</label>
+                <input id="paymentDate" type="date">
+            </div>
+
+            <div class="field">
+                <label for="transactionRef">TRANSACTION / CHEQUE REFERENCE</label>
+                <input id="transactionRef" type="text"
+                       placeholder="Payment reference number">
+            </div>
+
+            <div class="field">
+                <label for="bankName">BANK NAME</label>
+                <input id="bankName" type="text"
+                       placeholder="Bank name">
+            </div>
+
+            <div class="field">
+                <label for="accountHolder">ACCOUNT HOLDER NAME</label>
+                <input id="accountHolder" type="text"
+                       placeholder="Account holder name">
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- NOTES -->
+
+    <section class="section">
+
+        <h2 class="section-heading">06. Notes &amp; Supporting Documentation</h2>
+
+        <div class="field">
+            <label for="expenseNotes">ADDITIONAL NOTES / EXPLANATION</label>
+            <textarea id="expenseNotes"
+                      placeholder="Enter any additional explanation, business justification or expense-related notes..."></textarea>
+        </div>
+
+        <div class="details-grid two" style="margin-top:13px;">
+
+            <div class="field">
+                <label for="receiptReference">RECEIPT / ATTACHMENT REFERENCES</label>
+                <textarea id="receiptReference"
+                          placeholder="List receipt numbers, invoice references or supporting document names..."></textarea>
+            </div>
+
+            <div class="field">
+                <label for="terms">EXPENSE POLICY / TERMS</label>
+                <textarea id="terms"
+                          placeholder="Enter applicable expense policy, approval conditions or reimbursement terms...">All expenses must be business-related and supported by valid receipts where applicable. Reimbursement is subject to company policy and management approval.</textarea>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- APPROVALS -->
+
+    <section class="section">
+
+        <h2 class="section-heading">07. Declaration &amp; Approval</h2>
+
+        <div class="field">
+            <label for="declaration">EMPLOYEE DECLARATION</label>
+            <textarea id="declaration">I certify that the expenses listed in this report were incurred for legitimate business purposes, are accurate to the best of my knowledge, and have not been claimed previously.</textarea>
+        </div>
+
+        <div class="details-grid" style="margin-top:14px;">
+
+            <div class="field">
+                <label for="preparedBy">PREPARED BY</label>
+                <input id="preparedBy" type="text"
+                       placeholder="Name of preparer">
+            </div>
+
+            <div class="field">
+                <label for="preparedDate">PREPARATION DATE</label>
+                <input id="preparedDate" type="date">
+            </div>
+
+            <div class="field">
+                <label for="approvalStatus">APPROVAL DECISION</label>
+                <select id="approvalStatus">
+                    <option value="">Select decision</option>
+                    <option>Pending Approval</option>
+                    <option>Approved</option>
+                    <option>Rejected</option>
+                    <option>Returned for Correction</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="approvedBy">APPROVED BY</label>
+                <input id="approvedBy" type="text"
+                       placeholder="Manager / authorized person">
+            </div>
+
+            <div class="field">
+                <label for="approvalDate">APPROVAL DATE</label>
+                <input id="approvalDate" type="date">
+            </div>
+
+            <div class="field">
+                <label for="financeChecked">FINANCE VERIFICATION</label>
+                <select id="financeChecked">
+                    <option value="">Select status</option>
+                    <option>Not Reviewed</option>
+                    <option>Verified</option>
+                    <option>Pending Documents</option>
+                    <option>Not Verified</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="signature-grid">
+
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <label>EMPLOYEE SIGNATURE &amp; DATE</label>
+            </div>
+
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <label>MANAGER / AUTHORIZED SIGNATURE &amp; DATE</label>
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer class="footer-note">
+        BUSINESS EXPENSE FORM | CONFIDENTIAL BUSINESS RECORD
+    </footer>
+
+</main>
+
+<script>
+"use strict";
+
+/* ======================================
+   LOGO UPLOAD
+====================================== */
+
+const logoUpload = document.getElementById("logoUpload");
+const companyLogo = document.getElementById("companyLogo");
+const logoPlaceholder = document.getElementById("logoPlaceholder");
+
+let logoObjectURL = null;
+
+logoUpload.addEventListener("change", function () {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP logo.");
+        this.value = "";
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert("Logo file must be smaller than 5 MB.");
+        this.value = "";
+        return;
+    }
+
+    if (logoObjectURL) {
+        URL.revokeObjectURL(logoObjectURL);
+    }
+
+    logoObjectURL = URL.createObjectURL(file);
+
+    companyLogo.onload = function () {
+        companyLogo.style.display = "block";
+        logoPlaceholder.style.display = "none";
+    };
+
+    companyLogo.onerror = function () {
+        alert("Unable to preview this logo file.");
+        companyLogo.style.display = "none";
+        logoPlaceholder.style.display = "block";
+    };
+
+    companyLogo.src = logoObjectURL;
+});
+
+
+/* ======================================
+   EXPENSE TABLE
+====================================== */
+
+const expenseBody = document.getElementById("expenseBody");
+
+function createExpenseRow() {
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="row-number"></td>
+
+        <td>
+            <input type="date" class="expense-date"
+                   aria-label="Expense date">
+        </td>
+
+        <td>
+            <select class="category" aria-label="Expense category">
+                <option value="">Select</option>
+                <option>Travel</option>
+                <option>Transportation</option>
+                <option>Fuel</option>
+                <option>Accommodation</option>
+                <option>Meals &amp; Entertainment</option>
+                <option>Office Supplies</option>
+                <option>Equipment</option>
+                <option>Software &amp; Subscriptions</option>
+                <option>Utilities</option>
+                <option>Communication</option>
+                <option>Marketing &amp; Advertising</option>
+                <option>Professional Services</option>
+                <option>Repairs &amp; Maintenance</option>
+                <option>Training</option>
+                <option>Shipping &amp; Delivery</option>
+                <option>Other</option>
+            </select>
+        </td>
+
+        <td>
+            <input type="text" class="vendor"
+                   placeholder="Vendor / Payee"
+                   aria-label="Vendor or payee">
+        </td>
+
+        <td>
+            <input type="text" class="description"
+                   placeholder="Expense details"
+                   aria-label="Expense description">
+        </td>
+
+        <td>
+            <select class="paid-by" aria-label="Paid by">
+                <option value="">Select</option>
+                <option value="Employee">Employee</option>
+                <option value="Company Card">Company Card</option>
+                <option value="Company Cash">Company Cash</option>
+                <option value="Company Bank">Company Bank</option>
+            </select>
+        </td>
+
+        <td>
+            <input type="number" class="amount"
+                   min="0" step="0.01" value="0"
+                   aria-label="Expense amount">
+        </td>
+
+        <td>
+            <input type="number" class="tax"
+                   min="0" step="0.01" value="0"
+                   aria-label="Tax amount">
+        </td>
+
+        <td class="checkbox-cell">
+            <input type="checkbox" class="eligible"
+                   aria-label="Eligible for reimbursement">
+        </td>
+
+        <td class="no-print">
+            <button type="button" class="remove-row"
+                    aria-label="Remove expense row">X</button>
+        </td>
+    `;
+
+    expenseBody.appendChild(row);
+
+    updateRowNumbers();
+    calculateTotals();
+}
+
+function updateRowNumbers() {
+
+    const rows = expenseBody.querySelectorAll("tr");
+
+    rows.forEach((row, index) => {
+        row.querySelector(".row-number").textContent = index + 1;
+    });
+}
+
+document.getElementById("addRowBtn").addEventListener("click", function () {
+    createExpenseRow();
+});
+
+expenseBody.addEventListener("click", function (event) {
+
+    if (event.target.classList.contains("remove-row")) {
+
+        const rows = expenseBody.querySelectorAll("tr");
+
+        if (rows.length <= 1) {
+            alert("At least one expense row must remain.");
+            return;
+        }
+
+        event.target.closest("tr").remove();
+
+        updateRowNumbers();
+        calculateTotals();
+    }
+});
+
+expenseBody.addEventListener("input", calculateTotals);
+expenseBody.addEventListener("change", calculateTotals);
+
+
+/* ======================================
+   CURRENCY FORMATTING
+====================================== */
+
+function getCurrency() {
+    return document.getElementById("currency").value;
+}
+
+function formatCurrency(value) {
+
+    const currency = getCurrency();
+
+    try {
+        return new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: currency,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(value);
+    } catch (error) {
+        return currency + " " + Number(value).toFixed(2);
+    }
+}
+
+function getNumber(element) {
+
+    const value = parseFloat(element.value);
+
+    if (!Number.isFinite(value) || value < 0) {
+        return 0;
+    }
+
+    return value;
+}
+
+
+/* ======================================
+   AUTOMATIC EXPENSE CALCULATIONS
+====================================== */
+
+function calculateTotals() {
+
+    let subtotal = 0;
+    let taxTotal = 0;
+    let companyPaid = 0;
+    let reimbursement = 0;
+
+    const rows = expenseBody.querySelectorAll("tr");
+
+    rows.forEach(row => {
+
+        const amount = getNumber(row.querySelector(".amount"));
+        const tax = getNumber(row.querySelector(".tax"));
+
+        const total = amount + tax;
+
+        subtotal += amount;
+        taxTotal += tax;
+
+        const paidBy = row.querySelector(".paid-by").value;
+        const eligible = row.querySelector(".eligible").checked;
+
+        if (paidBy !== "Employee" && paidBy !== "") {
+            companyPaid += total;
+        }
+
+        if (paidBy === "Employee" && eligible) {
+            reimbursement += total;
+        }
+
+    });
+
+    const grandTotal = subtotal + taxTotal;
+
+    const advance = getNumber(
+        document.getElementById("advancePaid")
+    );
+
+    const balanceDue = Math.max(reimbursement - advance, 0);
+    const excessAdvance = Math.max(advance - reimbursement, 0);
+
+    document.getElementById("subtotal").textContent =
+        formatCurrency(subtotal);
+
+    document.getElementById("taxTotal").textContent =
+        formatCurrency(taxTotal);
+
+    document.getElementById("grandTotal").textContent =
+        formatCurrency(grandTotal);
+
+    document.getElementById("companyPaid").textContent =
+        formatCurrency(companyPaid);
+
+    document.getElementById("reimbursement").textContent =
+        formatCurrency(reimbursement);
+
+    document.getElementById("balanceDue").textContent =
+        formatCurrency(balanceDue);
+
+    document.getElementById("excessAdvance").textContent =
+        formatCurrency(excessAdvance);
+}
+
+document.getElementById("advancePaid").addEventListener(
+    "input", calculateTotals
+);
+
+document.getElementById("currency").addEventListener(
+    "change", calculateTotals
+);
+
+
+/* ======================================
+   DATE DEFAULTS
+====================================== */
+
+function setDefaultDates() {
+
+    const today = new Date();
+    const localDate = new Date(
+        today.getTime() - today.getTimezoneOffset() * 60000
+    ).toISOString().split("T")[0];
+
+    document.getElementById("reportDate").value = localDate;
+    document.getElementById("preparedDate").value = localDate;
+}
+
+setDefaultDates();
+
+
+/* ======================================
+   DATE VALIDATION
+====================================== */
+
+function validateDates() {
+
+    const start = document.getElementById("expensePeriodStart").value;
+    const end = document.getElementById("expensePeriodEnd").value;
+
+    if (start && end && end < start) {
+        alert("Period End cannot be earlier than Period Start.");
+        return false;
+    }
+
+    const reportDate = document.getElementById("reportDate").value;
+
+    if (start && reportDate && reportDate < start) {
+        alert("Report Date cannot be earlier than Period Start.");
+        return false;
+    }
+
+    return true;
+}
+
+
+/* ======================================
+   VALIDATE EXPENSE ENTRIES
+====================================== */
+
+function validateExpenseRows() {
+
+    const rows = expenseBody.querySelectorAll("tr");
+
+    if (rows.length === 0) {
+        alert("Please add at least one expense entry.");
+        return false;
+    }
+
+    for (let i = 0; i < rows.length; i++) {
+
+        const row = rows[i];
+
+        const category = row.querySelector(".category").value;
+        const vendor = row.querySelector(".vendor").value.trim();
+        const description = row.querySelector(".description").value.trim();
+
+        const amount = row.querySelector(".amount").value;
+        const tax = row.querySelector(".tax").value;
+
+        const paidBy = row.querySelector(".paid-by").value;
+
+        if (!category || !vendor || !description || !paidBy) {
+
+            alert(
+                "Please complete Category, Vendor, Description and Paid By " +
+                "for expense row " + (i + 1) + "."
+            );
+
+            return false;
+        }
+
+        if (amount === "" || Number(amount) < 0 ||
+            !Number.isFinite(Number(amount))) {
+
+            alert("Please enter a valid expense amount in row " + (i + 1) + ".");
+            return false;
+        }
+
+        if (tax === "" || Number(tax) < 0 ||
+            !Number.isFinite(Number(tax))) {
+
+            alert("Please enter a valid tax amount in row " + (i + 1) + ".");
+            return false;
+        }
+
+    }
+
+    return true;
+}
+
+
+/* ======================================
+   PRINT / SAVE AS PDF
+====================================== */
+
+const paperSize = document.getElementById("paperSize");
+
+paperSize.addEventListener("change", function () {
+
+    const styleId = "dynamic-page-style";
+
+    let pageStyle = document.getElementById(styleId);
+
+    if (!pageStyle) {
+        pageStyle = document.createElement("style");
+        pageStyle.id = styleId;
+        document.head.appendChild(pageStyle);
+    }
+
+    const size = this.value === "Letter" ? "Letter" : "A4";
+
+    pageStyle.textContent =
+        "@page { size: " + size + " portrait; margin: 12mm; }";
+});
+
+document.getElementById("printBtn").addEventListener("click", function () {
+
+    const form = document.querySelector(".form-container");
+
+    const requiredFields = [
+        "companyName",
+        "reportNo",
+        "reportDate",
+        "employeeName",
+        "expensePurpose"
+    ];
+
+    for (const id of requiredFields) {
+
+        const field = document.getElementById(id);
+
+        if (!field.value.trim()) {
+            alert("Please complete the required field: " +
+                  field.previousElementSibling.textContent);
+            field.focus();
+            return;
+        }
+    }
+
+    if (!validateDates()) return;
+
+    if (!validateExpenseRows()) return;
+
+    const invalidEmail = form.querySelectorAll('input[type="email"]');
+
+    for (const field of invalidEmail) {
+
+        if (field.value.trim() && !field.checkValidity()) {
+            alert("Please enter a valid email address.");
+            field.focus();
+            return;
+        }
+    }
+
+    calculateTotals();
+
+    window.print();
+});
+
+
+/* ======================================
+   RESET FORM
+====================================== */
+
+document.getElementById("resetBtn").addEventListener("click", function () {
+
+    const confirmed = confirm(
+        "Are you sure you want to reset this form? " +
+        "All entered information and expense records will be cleared."
+    );
+
+    if (!confirmed) return;
+
+    const form = document.querySelector(".form-container");
+
+    form.querySelectorAll("input, textarea, select").forEach(field => {
+
+        if (field.type === "checkbox") {
+            field.checked = false;
+        } else if (field.type === "file") {
+            field.value = "";
+        } else if (field.tagName === "SELECT") {
+            field.selectedIndex = 0;
+        } else {
+            field.value = "";
+        }
+
+    });
+
+    expenseBody.innerHTML = "";
+
+    if (logoObjectURL) {
+        URL.revokeObjectURL(logoObjectURL);
+        logoObjectURL = null;
+    }
+
+    companyLogo.removeAttribute("src");
+    companyLogo.style.display = "none";
+    logoPlaceholder.style.display = "block";
+
+    document.getElementById("currency").value = "PKR";
+    document.getElementById("advancePaid").value = "0";
+
+    document.getElementById("terms").value =
+        "All expenses must be business-related and supported by valid receipts where applicable. Reimbursement is subject to company policy and management approval.";
+
+    document.getElementById("declaration").value =
+        "I certify that the expenses listed in this report were incurred for legitimate business purposes, are accurate to the best of my knowledge, and have not been claimed previously.";
+
+    setDefaultDates();
+    createExpenseRow();
+    calculateTotals();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+});
+
+
+/* ======================================
+   INITIALIZE FORM
+====================================== */
+
+createExpenseRow();
+calculateTotals();
+
+</script>
+
+</body>
+</html>

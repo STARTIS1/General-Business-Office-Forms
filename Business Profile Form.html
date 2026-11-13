@@ -1,0 +1,1929 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Profile Form | STARTIS STUDIO</title>
+
+<style>
+:root {
+    --navy: #17365d;
+    --blue: #2875b9;
+    --light-blue: #edf4fb;
+    --border: #cbd5e1;
+    --text: #253449;
+    --muted: #64748b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px;
+    background: #edf1f5;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+.toolbar {
+    max-width: 950px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.toolbar button,
+.toolbar select {
+    padding: 10px 16px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: white;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.print-btn {
+    background: var(--navy) !important;
+    color: white !important;
+    border-color: var(--navy) !important;
+}
+
+.reset-btn {
+    color: #b42318;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 950px;
+    margin: auto;
+    padding: 35px 38px;
+    background: #fff;
+    border: 1px solid #d8dee8;
+    box-shadow: 0 3px 15px rgba(0,0,0,.06);
+}
+
+/* HEADER */
+
+.company-header {
+    display: grid;
+    grid-template-columns: 175px 1fr;
+    gap: 28px;
+    padding-bottom: 23px;
+    border-bottom: 3px solid var(--navy);
+    margin-bottom: 22px;
+}
+
+.logo-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.logo-box {
+    width: 145px;
+    height: 110px;
+    border: 1px dashed #9ba9ba;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #fafcff;
+    padding: 8px;
+}
+
+.logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    color: #94a3b8;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.upload-btn {
+    margin-top: 9px;
+    padding: 8px 12px;
+    background: var(--navy);
+    color: white;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.company-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px 15px;
+    align-content: start;
+}
+
+.company-info .full {
+    grid-column: 1 / -1;
+}
+
+/* TITLE */
+
+.document-title {
+    text-align: center;
+    margin: 20px 0 24px;
+}
+
+.document-title h1 {
+    font-size: 24px;
+    color: var(--navy);
+    letter-spacing: 1px;
+    margin: 0 0 7px;
+    text-transform: uppercase;
+}
+
+.document-title p {
+    color: var(--muted);
+    font-size: 11px;
+    margin: 0;
+}
+
+/* FORM ELEMENTS */
+
+.field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 6px;
+}
+
+.required {
+    color: #c0392b;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    min-width: 0;
+    padding: 9px 10px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: white;
+    color: #1e293b;
+    font-family: inherit;
+    font-size: 12px;
+    outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 2px rgba(40,117,185,.09);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 65px;
+    line-height: 1.5;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    width: auto;
+    accent-color: var(--navy);
+}
+
+.grid-2,
+.grid-3,
+.grid-4 {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+}
+
+.grid-3 {
+    grid-template-columns: repeat(3, minmax(0,1fr));
+}
+
+.grid-4 {
+    grid-template-columns: repeat(4, minmax(0,1fr));
+}
+
+.section-heading {
+    background: var(--navy);
+    color: white;
+    padding: 10px 13px;
+    margin: 24px 0 15px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    break-after: avoid;
+    page-break-after: avoid;
+}
+
+.subheading {
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: 700;
+    margin: 17px 0 11px;
+    border-bottom: 1px solid #dce4ee;
+    padding-bottom: 7px;
+}
+
+.field-note {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+/* CHECKBOXES */
+
+.check-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+}
+
+.check-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+}
+
+.check-item label {
+    margin: 0;
+    font-weight: 400;
+}
+
+/* TABLES */
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th {
+    background: var(--light-blue);
+    color: var(--navy);
+    font-size: 10px;
+    text-align: left;
+    padding: 10px 7px;
+    border: 1px solid var(--border);
+}
+
+td {
+    padding: 6px;
+    border: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+td input,
+td select {
+    border: 0;
+    padding: 7px 4px;
+    background: transparent;
+    font-size: 11px;
+}
+
+.row-number {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.add-row {
+    background: var(--light-blue);
+    color: var(--navy);
+    border: 1px solid #b8cce0;
+    padding: 8px 13px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 11px;
+}
+
+.delete-row {
+    background: #fff1f0;
+    color: #b42318;
+    border: 1px solid #f2c4c0;
+    padding: 6px 8px;
+    cursor: pointer;
+    font-size: 10px;
+    border-radius: 3px;
+}
+
+/* BUSINESS HOURS */
+
+.hours-table th,
+.hours-table td {
+    text-align: center;
+}
+
+.hours-table td:first-child {
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+    padding-left: 10px;
+}
+
+.hours-table input[type="time"] {
+    min-width: 95px;
+}
+
+/* SIGNATURE */
+
+.signature-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 25px;
+}
+
+.signature-box {
+    padding-top: 38px;
+    border-bottom: 1px solid #475569;
+}
+
+.signature-label {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 8px;
+}
+
+.declaration {
+    padding: 13px;
+    background: #f7f9fc;
+    border: 1px solid #dbe3ed;
+    font-size: 11px;
+    line-height: 1.7;
+    margin-top: 20px;
+}
+
+.footer {
+    border-top: 1px solid var(--border);
+    margin-top: 28px;
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.error-message {
+    color: #b42318;
+    font-size: 11px;
+    display: none;
+    margin-bottom: 12px;
+}
+
+@media(max-width:650px) {
+    body {
+        padding: 8px;
+    }
+
+    .form-container {
+        padding: 20px 15px;
+    }
+
+    .company-header {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .company-info {
+        grid-template-columns: 1fr;
+    }
+
+    .company-info .full {
+        grid-column: auto;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+
+    .signature-section {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .document-title h1 {
+        font-size: 20px;
+    }
+}
+
+/* PRINT SETTINGS */
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        font-size: 10pt;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    input,
+    textarea,
+    select {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        font-size: 9pt;
+        border: 1px solid #aab2bd;
+        border-radius: 0;
+        appearance: none;
+        -webkit-appearance: none;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        appearance: auto;
+        -webkit-appearance: auto;
+    }
+
+    textarea {
+        overflow: visible;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .table-wrap {
+        overflow: visible;
+    }
+
+    .company-header,
+    .document-title,
+    .declaration {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .add-row,
+    .delete-row {
+        display: none !important;
+    }
+
+    .signature-section {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .footer {
+        break-inside: avoid;
+    }
+
+    button {
+        display: none !important;
+    }
+
+    .field {
+        break-inside: avoid;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ACTION TOOLBAR -->
+
+<div class="toolbar no-print">
+
+    <label for="paperSize" style="margin:0;">Paper Size</label>
+
+    <select id="paperSize" onchange="changePaperSize()">
+        <option value="A4">A4 Portrait</option>
+        <option value="Letter">US Letter</option>
+    </select>
+
+    <button type="button" class="reset-btn" onclick="resetForm()">
+        Reset Form
+    </button>
+
+    <button type="button" class="print-btn" onclick="printForm()">
+        PRINT FORM
+    </button>
+
+</div>
+
+
+<div class="form-container">
+
+<form id="businessProfileForm" onsubmit="return validateForm(event)">
+
+<!-- COMPANY HEADER -->
+
+<header class="company-header">
+
+    <div class="logo-column">
+
+        <div class="logo-box" id="logoBox">
+
+            <div class="logo-placeholder" id="logoPlaceholder">
+                COMPANY<br>LOGO
+            </div>
+
+            <img id="logoPreview" alt="Company Logo"
+                 style="display:none;">
+
+        </div>
+
+        <label class="upload-btn no-print" for="logoUpload">
+            Upload Company Logo
+        </label>
+
+        <input type="file"
+               id="logoUpload"
+               accept="image/jpeg,image/png,image/svg+xml,image/webp"
+               class="no-print"
+               hidden
+               onchange="uploadLogo(event)">
+
+    </div>
+
+
+    <div class="company-info">
+
+        <div class="field full">
+            <label>Company Name</label>
+            <input type="text" name="companyName"
+                   placeholder="Enter company name">
+        </div>
+
+        <div class="field full">
+            <label>Business Address</label>
+            <input type="text" name="companyAddress"
+                   placeholder="Street, City, State, Country">
+        </div>
+
+        <div class="field">
+            <label>Phone Number</label>
+            <input type="tel" name="companyPhone"
+                   placeholder="+1 000 000 0000">
+        </div>
+
+        <div class="field">
+            <label>Email Address</label>
+            <input type="email" name="companyEmail"
+                   placeholder="company@example.com">
+        </div>
+
+        <div class="field">
+            <label>Website</label>
+            <input type="url" name="companyWebsite"
+                   placeholder="https://www.example.com">
+        </div>
+
+        <div class="field">
+            <label>Business Registration No.</label>
+            <input type="text" name="companyRegistration"
+                   placeholder="Registration number">
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- DOCUMENT TITLE -->
+
+<div class="document-title">
+
+    <h1>Business Profile Form</h1>
+
+    <p>Official Business Information & Company Overview</p>
+
+</div>
+
+
+<div class="error-message" id="errorMessage">
+    Please complete all required fields correctly before printing.
+</div>
+
+
+<!-- SECTION 01 -->
+
+<div class="section-heading">
+    01. Business Identification
+</div>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>Legal Business Name <span class="required">*</span></label>
+        <input type="text" name="legalName" required>
+    </div>
+
+    <div class="field">
+        <label>Trading / Operating Name</label>
+        <input type="text" name="tradingName">
+    </div>
+
+    <div class="field">
+        <label>Business Type <span class="required">*</span></label>
+        <select name="businessType" required>
+            <option value="">Select Business Type</option>
+            <option>Sole Proprietorship</option>
+            <option>Partnership</option>
+            <option>Limited Liability Company (LLC)</option>
+            <option>Private Limited Company</option>
+            <option>Public Limited Company</option>
+            <option>Corporation</option>
+            <option>Non-Profit Organization</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Industry / Business Sector <span class="required">*</span></label>
+        <select name="industry" required>
+            <option value="">Select Industry</option>
+            <option>Professional Services</option>
+            <option>Retail & Wholesale</option>
+            <option>Construction & Contracting</option>
+            <option>Manufacturing</option>
+            <option>Healthcare & Medical</option>
+            <option>Education & Training</option>
+            <option>Information Technology</option>
+            <option>Financial Services</option>
+            <option>Hospitality & Food Services</option>
+            <option>Transportation & Logistics</option>
+            <option>Real Estate & Property</option>
+            <option>Beauty & Personal Care</option>
+            <option>Cleaning & Maintenance</option>
+            <option>Marketing & Advertising</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Date Established</label>
+        <input type="date" name="establishedDate">
+    </div>
+
+    <div class="field">
+        <label>Years in Operation</label>
+        <input type="number" name="yearsOperation"
+               min="0" max="200" placeholder="Enter years">
+    </div>
+
+    <div class="field">
+        <label>Business Registration Number</label>
+        <input type="text" name="registrationNumber">
+    </div>
+
+    <div class="field">
+        <label>Tax Identification Number</label>
+        <input type="text" name="taxNumber">
+    </div>
+
+    <div class="field">
+        <label>Business License Number</label>
+        <input type="text" name="licenseNumber">
+    </div>
+
+    <div class="field">
+        <label>Business License Expiry Date</label>
+        <input type="date" name="licenseExpiry">
+    </div>
+
+    <div class="field">
+        <label>Business Operating Status</label>
+        <select name="operatingStatus">
+            <option>Active</option>
+            <option>Startup</option>
+            <option>Temporarily Closed</option>
+            <option>Inactive</option>
+            <option>Under Development</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Business Ownership Status</label>
+        <select name="ownershipStatus">
+            <option>Privately Owned</option>
+            <option>Family Owned</option>
+            <option>Publicly Owned</option>
+            <option>Franchise</option>
+            <option>Government Owned</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+</div>
+
+
+<!-- SECTION 02 -->
+
+<div class="section-heading">
+    02. Business Ownership & Management
+</div>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>Owner / Principal Name <span class="required">*</span></label>
+        <input type="text" name="ownerName" required>
+    </div>
+
+    <div class="field">
+        <label>Owner / Principal Job Title</label>
+        <input type="text" name="ownerTitle"
+               placeholder="e.g. Managing Director">
+    </div>
+
+    <div class="field">
+        <label>Primary Contact Person</label>
+        <input type="text" name="contactPerson">
+    </div>
+
+    <div class="field">
+        <label>Contact Person Designation</label>
+        <input type="text" name="contactDesignation">
+    </div>
+
+    <div class="field">
+        <label>Primary Contact Phone</label>
+        <input type="tel" name="primaryPhone">
+    </div>
+
+    <div class="field">
+        <label>Primary Contact Email</label>
+        <input type="email" name="primaryEmail">
+    </div>
+
+    <div class="field">
+        <label>Number of Business Owners</label>
+        <input type="number" name="ownerCount" min="1">
+    </div>
+
+    <div class="field">
+        <label>Number of Employees</label>
+        <input type="number" name="employeeCount" min="0">
+    </div>
+
+    <div class="field">
+        <label>Management Structure</label>
+        <select name="managementStructure">
+            <option value="">Select Structure</option>
+            <option>Owner Managed</option>
+            <option>Management Team</option>
+            <option>Board of Directors</option>
+            <option>Departmental Management</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Primary Decision Maker</label>
+        <input type="text" name="decisionMaker">
+    </div>
+
+</div>
+
+
+<!-- SECTION 03 -->
+
+<div class="section-heading">
+    03. Business Address & Contact Information
+</div>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>Head Office Address</label>
+        <input type="text" name="headOffice">
+    </div>
+
+    <div class="field">
+        <label>Branch / Office Location</label>
+        <input type="text" name="branchAddress">
+    </div>
+
+    <div class="field">
+        <label>City</label>
+        <input type="text" name="city">
+    </div>
+
+    <div class="field">
+        <label>State / Province</label>
+        <input type="text" name="province">
+    </div>
+
+    <div class="field">
+        <label>Postal / ZIP Code</label>
+        <input type="text" name="postalCode">
+    </div>
+
+    <div class="field">
+        <label>Country</label>
+        <input type="text" name="country">
+    </div>
+
+    <div class="field">
+        <label>Alternative Phone Number</label>
+        <input type="tel" name="alternativePhone">
+    </div>
+
+    <div class="field">
+        <label>Customer Support Email</label>
+        <input type="email" name="supportEmail">
+    </div>
+
+    <div class="field">
+        <label>Preferred Contact Method</label>
+        <select name="preferredContact">
+            <option>Email</option>
+            <option>Phone Call</option>
+            <option>WhatsApp</option>
+            <option>SMS</option>
+            <option>Website Contact Form</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Business Time Zone</label>
+        <input type="text" name="timeZone"
+               placeholder="e.g. UTC+05:00">
+    </div>
+
+</div>
+
+
+<!-- SECTION 04 -->
+
+<div class="section-heading">
+    04. Business Overview
+</div>
+
+<div class="field" style="margin-bottom:15px;">
+    <label>Business Description <span class="required">*</span></label>
+    <textarea name="businessDescription"
+              required
+              placeholder="Describe your business, its activities and what it offers..."></textarea>
+</div>
+
+<div class="field" style="margin-bottom:15px;">
+    <label>Mission Statement</label>
+    <textarea name="mission"
+              placeholder="What is the primary purpose of your business?"></textarea>
+</div>
+
+<div class="field" style="margin-bottom:15px;">
+    <label>Vision Statement</label>
+    <textarea name="vision"
+              placeholder="Describe your long-term business vision..."></textarea>
+</div>
+
+<div class="field" style="margin-bottom:15px;">
+    <label>Core Values</label>
+    <textarea name="coreValues"
+              placeholder="List your business values and principles..."></textarea>
+</div>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>Primary Business Objectives</label>
+        <textarea name="objectives"></textarea>
+    </div>
+
+    <div class="field">
+        <label>Competitive Advantages</label>
+        <textarea name="advantages"></textarea>
+    </div>
+
+</div>
+
+
+<!-- SECTION 05 -->
+
+<div class="section-heading">
+    05. Products & Services
+</div>
+
+<div class="field" style="margin-bottom:15px;">
+    <label>Main Business Offering</label>
+    <select name="mainOffering">
+        <option value="">Select Offering</option>
+        <option>Products</option>
+        <option>Services</option>
+        <option>Products & Services</option>
+        <option>Consulting</option>
+        <option>Digital Products</option>
+        <option>Other</option>
+    </select>
+</div>
+
+<div class="subheading">Products / Services List</div>
+
+<div class="table-wrap">
+
+<table id="productsTable">
+
+    <thead>
+        <tr>
+            <th style="width:7%;">No.</th>
+            <th style="width:27%;">Product / Service Name</th>
+            <th style="width:21%;">Category</th>
+            <th style="width:30%;">Description</th>
+            <th style="width:15%;">Status</th>
+            <th class="no-print" style="width:55px;">Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td class="row-number">1</td>
+            <td><input type="text" aria-label="Product or service name"></td>
+            <td><input type="text" aria-label="Category"></td>
+            <td><input type="text" aria-label="Description"></td>
+            <td>
+                <select aria-label="Product status">
+                    <option>Active</option>
+                    <option>Coming Soon</option>
+                    <option>Discontinued</option>
+                </select>
+            </td>
+            <td class="no-print">
+                <button type="button" class="delete-row"
+                        onclick="removeRow(this)">Remove</button>
+            </td>
+        </tr>
+
+    </tbody>
+
+</table>
+
+</div>
+
+<button type="button" class="add-row no-print"
+        onclick="addProductRow()">
+    + Add Product / Service
+</button>
+
+
+<!-- SECTION 06 -->
+
+<div class="section-heading">
+    06. Target Market & Business Coverage
+</div>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>Primary Target Customers</label>
+        <select name="targetCustomers">
+            <option value="">Select Customer Type</option>
+            <option>Individuals / Consumers</option>
+            <option>Small Businesses</option>
+            <option>Medium Enterprises</option>
+            <option>Large Corporations</option>
+            <option>Government Organizations</option>
+            <option>Non-Profit Organizations</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Business Market Type</label>
+        <select name="marketType">
+            <option value="">Select Market</option>
+            <option>B2B - Business to Business</option>
+            <option>B2C - Business to Consumer</option>
+            <option>B2G - Business to Government</option>
+            <option>D2C - Direct to Consumer</option>
+            <option>Mixed Market</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Primary Market Location</label>
+        <input type="text" name="marketLocation">
+    </div>
+
+    <div class="field">
+        <label>Service Coverage</label>
+        <select name="coverage">
+            <option>Local</option>
+            <option>Citywide</option>
+            <option>Regional</option>
+            <option>National</option>
+            <option>International</option>
+            <option>Online / Worldwide</option>
+        </select>
+    </div>
+
+</div>
+
+<div class="subheading">Areas of Operation</div>
+
+<div class="check-list">
+
+    <div class="check-item">
+        <input type="checkbox" name="operation[]" id="local">
+        <label for="local">Local</label>
+    </div>
+
+    <div class="check-item">
+        <input type="checkbox" name="operation[]" id="regional">
+        <label for="regional">Regional</label>
+    </div>
+
+    <div class="check-item">
+        <input type="checkbox" name="operation[]" id="national">
+        <label for="national">National</label>
+    </div>
+
+    <div class="check-item">
+        <input type="checkbox" name="operation[]" id="international">
+        <label for="international">International</label>
+    </div>
+
+    <div class="check-item">
+        <input type="checkbox" name="operation[]" id="online">
+        <label for="online">Online</label>
+    </div>
+
+    <div class="check-item">
+        <input type="checkbox" name="operation[]" id="onsite">
+        <label for="onsite">On-Site</label>
+    </div>
+
+</div>
+
+
+<!-- SECTION 07 -->
+
+<div class="section-heading">
+    07. Business Locations & Facilities
+</div>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>Number of Business Locations</label>
+        <input type="number" name="locationCount" min="0">
+    </div>
+
+    <div class="field">
+        <label>Primary Facility Type</label>
+        <select name="facilityType">
+            <option value="">Select Facility</option>
+            <option>Office</option>
+            <option>Retail Store</option>
+            <option>Warehouse</option>
+            <option>Factory</option>
+            <option>Workshop</option>
+            <option>Home-Based Office</option>
+            <option>Virtual Office</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+</div>
+
+<div class="subheading">Branch / Business Locations</div>
+
+<div class="table-wrap">
+
+<table id="locationsTable">
+
+    <thead>
+        <tr>
+            <th style="width:8%;">No.</th>
+            <th style="width:29%;">Location Name</th>
+            <th style="width:38%;">Address</th>
+            <th style="width:25%;">Contact Number</th>
+            <th class="no-print" style="width:55px;">Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td class="row-number">1</td>
+            <td><input type="text" aria-label="Location name"></td>
+            <td><input type="text" aria-label="Location address"></td>
+            <td><input type="tel" aria-label="Location contact"></td>
+            <td class="no-print">
+                <button type="button" class="delete-row"
+                        onclick="removeRow(this)">Remove</button>
+            </td>
+        </tr>
+
+    </tbody>
+
+</table>
+
+</div>
+
+<button type="button" class="add-row no-print"
+        onclick="addLocationRow()">
+    + Add Business Location
+</button>
+
+
+<!-- SECTION 08 -->
+
+<div class="section-heading">
+    08. Business Operating Hours
+</div>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>Operating Schedule</label>
+        <select name="operatingSchedule">
+            <option>Monday to Friday</option>
+            <option>Monday to Saturday</option>
+            <option>Seven Days a Week</option>
+            <option>By Appointment Only</option>
+            <option>Flexible Hours</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Operating Time Zone</label>
+        <input type="text" name="operatingTimeZone">
+    </div>
+
+</div>
+
+<div class="table-wrap">
+
+<table class="hours-table">
+
+    <thead>
+        <tr>
+            <th style="width:23%;">Day</th>
+            <th style="width:20%;">Opening Time</th>
+            <th style="width:20%;">Closing Time</th>
+            <th style="width:17%;">Closed</th>
+            <th style="width:20%;">By Appointment</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>Monday</td>
+            <td><input type="time" name="mondayOpen"></td>
+            <td><input type="time" name="mondayClose"></td>
+            <td><input type="checkbox" name="mondayClosed" onchange="toggleClosed(this)"></td>
+            <td><input type="checkbox" name="mondayAppointment"></td>
+        </tr>
+
+        <tr>
+            <td>Tuesday</td>
+            <td><input type="time" name="tuesdayOpen"></td>
+            <td><input type="time" name="tuesdayClose"></td>
+            <td><input type="checkbox" name="tuesdayClosed" onchange="toggleClosed(this)"></td>
+            <td><input type="checkbox" name="tuesdayAppointment"></td>
+        </tr>
+
+        <tr>
+            <td>Wednesday</td>
+            <td><input type="time" name="wednesdayOpen"></td>
+            <td><input type="time" name="wednesdayClose"></td>
+            <td><input type="checkbox" name="wednesdayClosed" onchange="toggleClosed(this)"></td>
+            <td><input type="checkbox" name="wednesdayAppointment"></td>
+        </tr>
+
+        <tr>
+            <td>Thursday</td>
+            <td><input type="time" name="thursdayOpen"></td>
+            <td><input type="time" name="thursdayClose"></td>
+            <td><input type="checkbox" name="thursdayClosed" onchange="toggleClosed(this)"></td>
+            <td><input type="checkbox" name="thursdayAppointment"></td>
+        </tr>
+
+        <tr>
+            <td>Friday</td>
+            <td><input type="time" name="fridayOpen"></td>
+            <td><input type="time" name="fridayClose"></td>
+            <td><input type="checkbox" name="fridayClosed" onchange="toggleClosed(this)"></td>
+            <td><input type="checkbox" name="fridayAppointment"></td>
+        </tr>
+
+        <tr>
+            <td>Saturday</td>
+            <td><input type="time" name="saturdayOpen"></td>
+            <td><input type="time" name="saturdayClose"></td>
+            <td><input type="checkbox" name="saturdayClosed" onchange="toggleClosed(this)"></td>
+            <td><input type="checkbox" name="saturdayAppointment"></td>
+        </tr>
+
+        <tr>
+            <td>Sunday</td>
+            <td><input type="time" name="sundayOpen"></td>
+            <td><input type="time" name="sundayClose"></td>
+            <td><input type="checkbox" name="sundayClosed" onchange="toggleClosed(this)"></td>
+            <td><input type="checkbox" name="sundayAppointment"></td>
+        </tr>
+
+    </tbody>
+
+</table>
+
+</div>
+
+
+<!-- SECTION 09 -->
+
+<div class="section-heading">
+    09. Online Presence & Digital Information
+</div>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>Official Website</label>
+        <input type="url" name="website"
+               placeholder="https://www.example.com">
+    </div>
+
+    <div class="field">
+        <label>Business Email</label>
+        <input type="email" name="digitalEmail">
+    </div>
+
+    <div class="field">
+        <label>Facebook Page</label>
+        <input type="url" name="facebook">
+    </div>
+
+    <div class="field">
+        <label>Instagram Profile</label>
+        <input type="url" name="instagram">
+    </div>
+
+    <div class="field">
+        <label>LinkedIn Profile</label>
+        <input type="url" name="linkedin">
+    </div>
+
+    <div class="field">
+        <label>Other Social Media</label>
+        <input type="url" name="otherSocial">
+    </div>
+
+    <div class="field">
+        <label>Google Business Profile</label>
+        <input type="url" name="googleProfile">
+    </div>
+
+    <div class="field">
+        <label>Online Store / Marketplace</label>
+        <input type="url" name="onlineStore">
+    </div>
+
+</div>
+
+
+<!-- SECTION 10 -->
+
+<div class="section-heading">
+    10. Licenses, Certifications & Compliance
+</div>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>Industry License / Certification</label>
+        <input type="text" name="certification">
+    </div>
+
+    <div class="field">
+        <label>Issuing Authority</label>
+        <input type="text" name="issuingAuthority">
+    </div>
+
+    <div class="field">
+        <label>Certification Number</label>
+        <input type="text" name="certificationNumber">
+    </div>
+
+    <div class="field">
+        <label>Certification Expiry Date</label>
+        <input type="date" name="certificationExpiry">
+    </div>
+
+</div>
+
+<div class="subheading">Applicable Business Compliance</div>
+
+<div class="check-list">
+
+    <div class="check-item">
+        <input type="checkbox" id="taxCompliance" name="compliance[]">
+        <label for="taxCompliance">Tax Registration</label>
+    </div>
+
+    <div class="check-item">
+        <input type="checkbox" id="businessLicense" name="compliance[]">
+        <label for="businessLicense">Business License</label>
+    </div>
+
+    <div class="check-item">
+        <input type="checkbox" id="insurance" name="compliance[]">
+        <label for="insurance">Business Insurance</label>
+    </div>
+
+    <div class="check-item">
+        <input type="checkbox" id="safety" name="compliance[]">
+        <label for="safety">Health & Safety Compliance</label>
+    </div>
+
+    <div class="check-item">
+        <input type="checkbox" id="quality" name="compliance[]">
+        <label for="quality">Quality Certification</label>
+    </div>
+
+    <div class="check-item">
+        <input type="checkbox" id="privacy" name="compliance[]">
+        <label for="privacy">Data Privacy Compliance</label>
+    </div>
+
+</div>
+
+
+<!-- SECTION 11 -->
+
+<div class="section-heading">
+    11. Additional Business Information
+</div>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>Primary Suppliers / Partners</label>
+        <textarea name="suppliers"></textarea>
+    </div>
+
+    <div class="field">
+        <label>Key Business Clients</label>
+        <textarea name="clients"></textarea>
+    </div>
+
+    <div class="field">
+        <label>Business Challenges</label>
+        <textarea name="challenges"></textarea>
+    </div>
+
+    <div class="field">
+        <label>Future Business Plans</label>
+        <textarea name="futurePlans"></textarea>
+    </div>
+
+</div>
+
+<div class="field" style="margin-top:10px;">
+    <label>Additional Notes / Special Information</label>
+    <textarea name="additionalNotes"></textarea>
+</div>
+
+
+<!-- SECTION 12 -->
+
+<div class="section-heading">
+    12. Authorization & Declaration
+</div>
+
+<div class="declaration">
+
+    I hereby confirm that the information provided in this Business
+    Profile Form is accurate and complete to the best of my knowledge.
+    I understand that this information may be used for business
+    identification, administrative records, professional verification
+    and business-related communication.
+
+    <div style="margin-top:12px;">
+        <div class="check-item">
+            <input type="checkbox" id="confirmation"
+                   name="confirmation" required>
+            <label for="confirmation">
+                I confirm that the information provided is true and accurate.
+                <span class="required">*</span>
+            </label>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="grid-2" style="margin-top:18px;">
+
+    <div class="field">
+        <label>Authorized Representative Name <span class="required">*</span></label>
+        <input type="text" name="representativeName" required>
+    </div>
+
+    <div class="field">
+        <label>Designation / Job Title</label>
+        <input type="text" name="representativeTitle">
+    </div>
+
+    <div class="field">
+        <label>Date of Authorization <span class="required">*</span></label>
+        <input type="date" name="authorizationDate" required>
+    </div>
+
+    <div class="field">
+        <label>Place of Authorization</label>
+        <input type="text" name="authorizationPlace">
+    </div>
+
+</div>
+
+
+<div class="signature-section">
+
+    <div>
+        <div class="signature-box"></div>
+        <div class="signature-label">
+            Authorized Representative Signature
+        </div>
+    </div>
+
+    <div>
+        <div class="signature-box"></div>
+        <div class="signature-label">
+            Official Company Stamp / Seal
+        </div>
+    </div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+    <span>Business Profile Form | STARTIS STUDIO</span>
+
+    <span>Confidential Business Information</span>
+
+</footer>
+
+</form>
+
+</div>
+
+
+<script>
+
+/* LOGO UPLOAD */
+
+function uploadLogo(event) {
+
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please upload JPG, PNG, SVG or WebP image.");
+        event.target.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        const preview = document.getElementById("logoPreview");
+
+        preview.src = e.target.result;
+        preview.style.display = "block";
+
+        document.getElementById("logoPlaceholder")
+            .style.display = "none";
+
+    };
+
+    reader.readAsDataURL(file);
+}
+
+
+/* PRODUCT ROWS */
+
+function addProductRow() {
+
+    const tbody = document.querySelector("#productsTable tbody");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="row-number"></td>
+
+        <td>
+            <input type="text" aria-label="Product or service name">
+        </td>
+
+        <td>
+            <input type="text" aria-label="Category">
+        </td>
+
+        <td>
+            <input type="text" aria-label="Description">
+        </td>
+
+        <td>
+            <select aria-label="Product status">
+                <option>Active</option>
+                <option>Coming Soon</option>
+                <option>Discontinued</option>
+            </select>
+        </td>
+
+        <td class="no-print">
+            <button type="button" class="delete-row"
+                onclick="removeRow(this)">Remove</button>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+
+    updateNumbers("#productsTable");
+
+}
+
+
+/* LOCATION ROWS */
+
+function addLocationRow() {
+
+    const tbody = document.querySelector("#locationsTable tbody");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="row-number"></td>
+
+        <td>
+            <input type="text" aria-label="Location name">
+        </td>
+
+        <td>
+            <input type="text" aria-label="Location address">
+        </td>
+
+        <td>
+            <input type="tel" aria-label="Location contact">
+        </td>
+
+        <td class="no-print">
+            <button type="button" class="delete-row"
+                onclick="removeRow(this)">Remove</button>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+
+    updateNumbers("#locationsTable");
+
+}
+
+
+/* REMOVE ROW */
+
+function removeRow(button) {
+
+    const row = button.closest("tr");
+    const tbody = row.parentElement;
+
+    if (tbody.children.length <= 1) {
+        alert("At least one row must remain.");
+        return;
+    }
+
+    row.remove();
+
+    const table = tbody.closest("table");
+
+    updateNumbers("#" + table.id);
+
+}
+
+
+/* AUTOMATIC ROW NUMBERING */
+
+function updateNumbers(tableSelector) {
+
+    const rows = document.querySelectorAll(
+        tableSelector + " tbody tr"
+    );
+
+    rows.forEach((row, index) => {
+
+        row.querySelector(".row-number").textContent = index + 1;
+
+    });
+
+}
+
+
+/* BUSINESS HOURS */
+
+function toggleClosed(checkbox) {
+
+    const row = checkbox.closest("tr");
+
+    const timeFields = row.querySelectorAll('input[type="time"]');
+
+    timeFields.forEach(input => {
+
+        input.disabled = checkbox.checked;
+
+        if (checkbox.checked) {
+            input.value = "";
+        }
+
+    });
+
+}
+
+
+/* PAPER SIZE */
+
+function changePaperSize() {
+
+    const size = document.getElementById("paperSize").value;
+
+    let style = document.getElementById("dynamicPageStyle");
+
+    if (!style) {
+
+        style = document.createElement("style");
+
+        style.id = "dynamicPageStyle";
+
+        document.head.appendChild(style);
+
+    }
+
+    style.textContent = `
+        @media print {
+            @page {
+                size: ${size} portrait;
+                margin: 12mm;
+            }
+        }
+    `;
+
+}
+
+
+/* VALIDATION */
+
+function validateForm(event) {
+
+    event.preventDefault();
+
+    const form = document.getElementById("businessProfileForm");
+
+    const error = document.getElementById("errorMessage");
+
+    if (!form.checkValidity()) {
+
+        error.style.display = "block";
+
+        form.reportValidity();
+
+        return false;
+
+    }
+
+    error.style.display = "none";
+
+    window.print();
+
+    return false;
+
+}
+
+
+/* PRINT FORM */
+
+function printForm() {
+
+    const form = document.getElementById("businessProfileForm");
+
+    if (!form.checkValidity()) {
+
+        document.getElementById("errorMessage").style.display = "block";
+
+        form.reportValidity();
+
+        return;
+
+    }
+
+    document.getElementById("errorMessage").style.display = "none";
+
+    window.print();
+
+}
+
+
+/* RESET FORM */
+
+function resetForm() {
+
+    const confirmed = confirm(
+        "Are you sure you want to reset all business profile information?"
+    );
+
+    if (!confirmed) return;
+
+    const form = document.getElementById("businessProfileForm");
+
+    form.reset();
+
+    const logoPreview = document.getElementById("logoPreview");
+
+    logoPreview.src = "";
+    logoPreview.style.display = "none";
+
+    document.getElementById("logoPlaceholder").style.display = "block";
+
+    document.getElementById("logoUpload").value = "";
+
+    document.getElementById("errorMessage").style.display = "none";
+
+    /* Restore one default product row */
+
+    const products = document.querySelector("#productsTable tbody");
+
+    products.innerHTML = `
+        <tr>
+            <td class="row-number">1</td>
+            <td><input type="text" aria-label="Product or service name"></td>
+            <td><input type="text" aria-label="Category"></td>
+            <td><input type="text" aria-label="Description"></td>
+            <td>
+                <select aria-label="Product status">
+                    <option>Active</option>
+                    <option>Coming Soon</option>
+                    <option>Discontinued</option>
+                </select>
+            </td>
+            <td class="no-print">
+                <button type="button" class="delete-row"
+                    onclick="removeRow(this)">Remove</button>
+            </td>
+        </tr>
+    `;
+
+    /* Restore one default location row */
+
+    const locations = document.querySelector("#locationsTable tbody");
+
+    locations.innerHTML = `
+        <tr>
+            <td class="row-number">1</td>
+            <td><input type="text" aria-label="Location name"></td>
+            <td><input type="text" aria-label="Location address"></td>
+            <td><input type="tel" aria-label="Location contact"></td>
+            <td class="no-print">
+                <button type="button" class="delete-row"
+                    onclick="removeRow(this)">Remove</button>
+            </td>
+        </tr>
+    `;
+
+    updateNumbers("#productsTable");
+    updateNumbers("#locationsTable");
+
+    changePaperSize();
+
+}
+
+
+/* PREVENT INVALID DATE RANGES */
+
+document.querySelectorAll('input[type="date"]').forEach(input => {
+
+    input.addEventListener("change", function() {
+
+        if (!this.value) return;
+
+        const licenseExpiry = document.querySelector(
+            '[name="licenseExpiry"]'
+        );
+
+        const established = document.querySelector(
+            '[name="establishedDate"]'
+        );
+
+        if (this.name === "licenseExpiry" &&
+            established.value &&
+            this.value < established.value) {
+
+            alert("License expiry date cannot be earlier than establishment date.");
+
+            this.value = "";
+
+        }
+
+    });
+
+});
+
+
+/* INITIALIZATION */
+
+updateNumbers("#productsTable");
+updateNumbers("#locationsTable");
+
+</script>
+
+</body>
+</html>

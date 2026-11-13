@@ -1,0 +1,1045 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us Form</title>
+
+<style>
+:root {
+    --navy: #17365d;
+    --blue: #2874a6;
+    --light: #eaf2f8;
+    --border: #cbd5df;
+    --text: #263445;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 14px;
+    background: #edf1f5;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+.toolbar {
+    max-width: 850px;
+    margin: 0 auto 12px;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+button, .upload-label {
+    border: none;
+    border-radius: 4px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.print-btn {
+    background: var(--navy);
+    color: white;
+}
+
+.reset-btn {
+    background: #e7ebef;
+    color: #333;
+}
+
+.upload-label {
+    display: inline-block;
+    background: var(--light);
+    color: var(--navy);
+    border: 1px solid #b8cbdc;
+    margin-top: 8px;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 850px;
+    margin: auto;
+    padding: 28px 34px;
+    background: #fff;
+    border: 1px solid #dce2e8;
+    box-shadow: 0 3px 16px rgba(0,0,0,.07);
+}
+
+.company-header {
+    display: grid;
+    grid-template-columns: 155px 1fr;
+    gap: 24px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--navy);
+}
+
+.logo-area {
+    text-align: center;
+    min-width: 0;
+}
+
+.logo-box {
+    height: 105px;
+    width: 145px;
+    border: 1px dashed #9eacba;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    color: #8795a3;
+    font-size: 11px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.company-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px 13px;
+    align-content: start;
+}
+
+.company-fields .full {
+    grid-column: 1 / -1;
+}
+
+.company-title {
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .5px;
+    margin-bottom: 2px;
+    grid-column: 1 / -1;
+}
+
+.document-heading {
+    text-align: center;
+    padding: 22px 0 16px;
+}
+
+.document-heading h1 {
+    color: var(--navy);
+    font-size: 25px;
+    margin: 0 0 7px;
+    letter-spacing: .8px;
+}
+
+.document-heading p {
+    color: #687789;
+    margin: 0;
+    font-size: 12px;
+}
+
+.section-heading {
+    background: var(--light);
+    color: var(--navy);
+    border-left: 4px solid var(--blue);
+    padding: 9px 12px;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 19px 0 13px;
+    break-after: avoid;
+    page-break-after: avoid;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 13px 17px;
+}
+
+.field {
+    min-width: 0;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    font-size: 11px;
+    color: #394a5d;
+    margin-bottom: 6px;
+}
+
+.required {
+    color: #c0392b;
+}
+
+input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    min-height: 35px;
+    padding: 8px 9px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: #fff;
+    color: #263445;
+    font-family: inherit;
+    font-size: 12px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 105px;
+    line-height: 1.5;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 2px rgba(40,116,166,.10);
+}
+
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 22px;
+    padding: 7px 0;
+}
+
+.radio-option, .check-option {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0;
+}
+
+.radio-option input, .check-option input {
+    width: 14px;
+    height: 14px;
+    min-height: 14px;
+    margin: 0;
+    padding: 0;
+    accent-color: var(--navy);
+    flex-shrink: 0;
+}
+
+.consent-area {
+    border: 1px solid var(--border);
+    padding: 12px;
+    margin-top: 18px;
+    border-radius: 3px;
+    background: #fafcfe;
+}
+
+.form-footer {
+    margin-top: 23px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    font-size: 10px;
+    color: #647487;
+}
+
+@media(max-width:600px) {
+    body {
+        padding: 10px 5px;
+    }
+
+    .form-container {
+        padding: 19px 15px;
+    }
+
+    .company-header {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .company-fields, .field-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .company-fields .full, .field.full {
+        grid-column: auto;
+    }
+
+    .document-heading h1 {
+        font-size: 21px;
+    }
+
+    .form-footer {
+        flex-direction: column;
+    }
+}
+
+/* A4 PRINT */
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        font-size: 11px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+    }
+
+    .company-header {
+        grid-template-columns: 140px 1fr;
+    }
+
+    .logo-box {
+        width: 130px;
+        height: 90px;
+    }
+
+    input, textarea, select {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: 1px solid #999;
+        border-radius: 0;
+    }
+
+    input, select {
+        min-height: 27px;
+        padding: 5px;
+    }
+
+    textarea {
+        min-height: 85px;
+    }
+
+    .section-heading,
+    .document-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .field, .company-header, .consent-area,
+    .form-footer {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        appearance: auto;
+        -webkit-appearance: auto;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: transparent !important;
+    }
+
+    button, .upload-label {
+        display: none !important;
+    }
+}
+
+/* US LETTER OPTION */
+@page letter {
+    size: Letter portrait;
+    margin: 12mm;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ACTION BUTTONS -->
+<div class="toolbar no-print">
+
+    <button type="button"
+            class="reset-btn"
+            id="resetButton">
+        RESET FORM
+    </button>
+
+    <button type="button"
+            class="print-btn"
+            id="printButton">
+        PRINT FORM / SAVE PDF
+    </button>
+
+</div>
+
+<!-- MAIN FORM -->
+<form class="form-container"
+      id="contactForm"
+      onsubmit="return false;">
+
+    <!-- COMPANY HEADER -->
+    <header class="company-header">
+
+        <div class="logo-area">
+
+            <div class="logo-box" id="logoBox">
+                <span>COMPANY LOGO</span>
+            </div>
+
+            <label class="upload-label no-print"
+                   for="logoUpload">
+                Upload Company Logo
+            </label>
+
+            <input type="file"
+                   id="logoUpload"
+                   accept=".jpg,.jpeg,.png,.svg,.webp"
+                   hidden>
+
+        </div>
+
+        <div class="company-fields">
+
+            <div class="company-title">
+                BUSINESS INFORMATION
+            </div>
+
+            <div class="field full">
+                <label for="companyName">Company Name</label>
+                <input type="text"
+                       id="companyName"
+                       placeholder="Enter company name">
+            </div>
+
+            <div class="field full">
+                <label for="companyAddress">Business Address</label>
+                <input type="text"
+                       id="companyAddress"
+                       placeholder="Enter business address">
+            </div>
+
+            <div class="field">
+                <label for="companyPhone">Phone Number</label>
+                <input type="tel"
+                       id="companyPhone"
+                       placeholder="+1 000 000 0000">
+            </div>
+
+            <div class="field">
+                <label for="companyEmail">Email Address</label>
+                <input type="email"
+                       id="companyEmail"
+                       placeholder="business@example.com">
+            </div>
+
+            <div class="field">
+                <label for="companyWebsite">Website</label>
+                <input type="url"
+                       id="companyWebsite"
+                       placeholder="www.example.com">
+            </div>
+
+            <div class="field">
+                <label for="registrationNo">Registration Number</label>
+                <input type="text"
+                       id="registrationNo"
+                       placeholder="Registration number">
+            </div>
+
+        </div>
+    </header>
+
+    <!-- TITLE -->
+    <div class="document-heading">
+        <h1>CONTACT US FORM</h1>
+        <p>We value your feedback and inquiries. Please complete the form below.</p>
+    </div>
+
+    <!-- FORM INFORMATION -->
+    <section>
+        <div class="section-heading">FORM INFORMATION</div>
+
+        <div class="field-grid">
+
+            <div class="field">
+                <label for="referenceNo">Reference Number</label>
+                <input type="text"
+                       id="referenceNo"
+                       placeholder="Enter reference number">
+            </div>
+
+            <div class="field">
+                <label for="submissionDate">
+                    Submission Date <span class="required">*</span>
+                </label>
+                <input type="date"
+                       id="submissionDate"
+                       required>
+            </div>
+
+            <div class="field">
+                <label for="inquirySource">How Did You Find Us?</label>
+                <select id="inquirySource">
+                    <option value="">Select source</option>
+                    <option>Google Search</option>
+                    <option>Social Media</option>
+                    <option>Website</option>
+                    <option>Referral</option>
+                    <option>Advertisement</option>
+                    <option>Existing Customer</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="customerType">Customer Type</label>
+                <select id="customerType">
+                    <option value="">Select customer type</option>
+                    <option>New Customer</option>
+                    <option>Existing Customer</option>
+                    <option>Business / Corporate</option>
+                    <option>Individual</option>
+                    <option>Potential Customer</option>
+                </select>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT INFORMATION -->
+    <section>
+        <div class="section-heading">CONTACT INFORMATION</div>
+
+        <div class="field-grid">
+
+            <div class="field">
+                <label for="fullName">
+                    Full Name <span class="required">*</span>
+                </label>
+                <input type="text"
+                       id="fullName"
+                       placeholder="Enter your full name"
+                       autocomplete="name"
+                       required>
+            </div>
+
+            <div class="field">
+                <label for="jobTitle">Job Title / Position</label>
+                <input type="text"
+                       id="jobTitle"
+                       placeholder="Enter job title">
+            </div>
+
+            <div class="field">
+                <label for="customerCompany">Company / Organization</label>
+                <input type="text"
+                       id="customerCompany"
+                       placeholder="Enter company name">
+            </div>
+
+            <div class="field">
+                <label for="customerPhone">Phone Number</label>
+                <input type="tel"
+                       id="customerPhone"
+                       placeholder="Enter phone number"
+                       autocomplete="tel">
+            </div>
+
+            <div class="field">
+                <label for="customerEmail">
+                    Email Address <span class="required">*</span>
+                </label>
+                <input type="email"
+                       id="customerEmail"
+                       placeholder="name@example.com"
+                       autocomplete="email"
+                       required>
+            </div>
+
+            <div class="field">
+                <label for="alternatePhone">Alternative Contact Number</label>
+                <input type="tel"
+                       id="alternatePhone"
+                       placeholder="Enter alternative number">
+            </div>
+
+            <div class="field">
+                <label for="country">Country</label>
+                <input type="text"
+                       id="country"
+                       placeholder="Enter country">
+            </div>
+
+            <div class="field">
+                <label for="city">City</label>
+                <input type="text"
+                       id="city"
+                       placeholder="Enter city">
+            </div>
+
+        </div>
+    </section>
+
+    <!-- INQUIRY DETAILS -->
+    <section>
+        <div class="section-heading">INQUIRY DETAILS</div>
+
+        <div class="field-grid">
+
+            <div class="field">
+                <label for="inquiryType">
+                    Inquiry Type <span class="required">*</span>
+                </label>
+                <select id="inquiryType" required>
+                    <option value="">Select inquiry type</option>
+                    <option>General Inquiry</option>
+                    <option>Product Information</option>
+                    <option>Service Information</option>
+                    <option>Sales Inquiry</option>
+                    <option>Pricing / Quotation</option>
+                    <option>Technical Support</option>
+                    <option>Billing / Payment</option>
+                    <option>Order Status</option>
+                    <option>Partnership Opportunity</option>
+                    <option>Complaint</option>
+                    <option>Feedback / Suggestion</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="subject">
+                    Subject <span class="required">*</span>
+                </label>
+                <input type="text"
+                       id="subject"
+                       placeholder="Enter inquiry subject"
+                       required>
+            </div>
+
+            <div class="field">
+                <label for="productService">Product / Service Name</label>
+                <input type="text"
+                       id="productService"
+                       placeholder="Enter relevant product or service">
+            </div>
+
+            <div class="field">
+                <label for="orderNo">Order / Reference Number</label>
+                <input type="text"
+                       id="orderNo"
+                       placeholder="If applicable">
+            </div>
+
+            <div class="field full">
+                <label for="priority">Inquiry Priority</label>
+                <select id="priority">
+                    <option>Normal</option>
+                    <option>Low</option>
+                    <option>High</option>
+                    <option>Urgent</option>
+                </select>
+            </div>
+
+            <div class="field full">
+                <label>Preferred Contact Method</label>
+
+                <div class="radio-group">
+
+                    <label class="radio-option">
+                        <input type="radio"
+                               name="contactMethod"
+                               value="Email"
+                               checked>
+                        Email
+                    </label>
+
+                    <label class="radio-option">
+                        <input type="radio"
+                               name="contactMethod"
+                               value="Phone">
+                        Phone
+                    </label>
+
+                    <label class="radio-option">
+                        <input type="radio"
+                               name="contactMethod"
+                               value="WhatsApp">
+                        WhatsApp
+                    </label>
+
+                    <label class="radio-option">
+                        <input type="radio"
+                               name="contactMethod"
+                               value="No Preference">
+                        No Preference
+                    </label>
+
+                </div>
+            </div>
+
+            <div class="field full">
+                <label for="bestTime">Best Time to Contact You</label>
+                <select id="bestTime">
+                    <option value="">Select preferred time</option>
+                    <option>Morning (9 AM – 12 PM)</option>
+                    <option>Afternoon (12 PM – 3 PM)</option>
+                    <option>Evening (3 PM – 6 PM)</option>
+                    <option>Anytime</option>
+                </select>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MESSAGE -->
+    <section>
+        <div class="section-heading">MESSAGE / DESCRIPTION</div>
+
+        <div class="field-grid">
+
+            <div class="field full">
+                <label for="message">
+                    Your Message <span class="required">*</span>
+                </label>
+                <textarea id="message"
+                          placeholder="Please describe your inquiry, question, concern or feedback in detail..."
+                          required></textarea>
+            </div>
+
+            <div class="field full">
+                <label for="additionalComments">Additional Comments</label>
+                <textarea id="additionalComments"
+                          placeholder="Enter any additional information (optional)"
+                          style="min-height:65px;"></textarea>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONSENT -->
+    <section>
+        <div class="section-heading">CONSENT & DECLARATION</div>
+
+        <div class="consent-area">
+
+            <label class="check-option">
+                <input type="checkbox"
+                       id="consent"
+                       required>
+                I confirm that the information provided above is accurate and complete.
+                <span class="required">*</span>
+            </label>
+
+            <div style="height:12px;"></div>
+
+            <label class="check-option">
+                <input type="checkbox"
+                       id="privacyConsent">
+                I agree that my contact information may be used to respond to my inquiry
+                in accordance with the company's privacy policy.
+            </label>
+
+        </div>
+    </section>
+
+    <!-- CUSTOMER ACKNOWLEDGEMENT -->
+    <section>
+        <div class="section-heading">CUSTOMER ACKNOWLEDGEMENT</div>
+
+        <div class="field-grid">
+
+            <div class="field">
+                <label for="signatureName">Customer Name</label>
+                <input type="text"
+                       id="signatureName"
+                       placeholder="Enter full name">
+            </div>
+
+            <div class="field">
+                <label for="signatureDate">Date</label>
+                <input type="date"
+                       id="signatureDate">
+            </div>
+
+            <div class="field full">
+                <label for="signature">Signature / Digital Signature</label>
+                <input type="text"
+                       id="signature"
+                       placeholder="Type your full name as signature">
+            </div>
+
+        </div>
+    </section>
+
+    <!-- OFFICE USE -->
+    <section>
+        <div class="section-heading">FOR OFFICE USE ONLY</div>
+
+        <div class="field-grid">
+
+            <div class="field">
+                <label for="receivedBy">Received By</label>
+                <input type="text"
+                       id="receivedBy"
+                       placeholder="Staff member name">
+            </div>
+
+            <div class="field">
+                <label for="receivedDate">Date Received</label>
+                <input type="date"
+                       id="receivedDate">
+            </div>
+
+            <div class="field">
+                <label for="caseStatus">Inquiry Status</label>
+                <select id="caseStatus">
+                    <option value="">Select status</option>
+                    <option>New</option>
+                    <option>In Progress</option>
+                    <option>Pending Customer Response</option>
+                    <option>Resolved</option>
+                    <option>Closed</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="assignedTo">Assigned To</label>
+                <input type="text"
+                       id="assignedTo"
+                       placeholder="Responsible employee">
+            </div>
+
+            <div class="field full">
+                <label for="internalNotes">Internal Notes / Action Taken</label>
+                <textarea id="internalNotes"
+                          placeholder="For internal office use only..."
+                          style="min-height:70px;"></textarea>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="form-footer">
+        <span>Thank you for contacting us. We appreciate your interest.</span>
+        <span>CONTACT US FORM</span>
+    </footer>
+
+</form>
+
+<script>
+"use strict";
+
+/* =================================
+   DEFAULT DATE
+================================= */
+
+function getTodayDate() {
+    const today = new Date();
+
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+function setDefaultDates() {
+    document.getElementById("submissionDate").value = getTodayDate();
+}
+
+/* =================================
+   LOGO UPLOAD
+================================= */
+
+const logoUpload = document.getElementById("logoUpload");
+const logoBox = document.getElementById("logoBox");
+
+let currentLogoUrl = null;
+
+function restoreLogoPlaceholder() {
+    if (currentLogoUrl) {
+        URL.revokeObjectURL(currentLogoUrl);
+        currentLogoUrl = null;
+    }
+
+    logoBox.innerHTML = "<span>COMPANY LOGO</span>";
+    logoUpload.value = "";
+}
+
+logoUpload.addEventListener("change", function () {
+
+    const file = this.files && this.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP logo.");
+
+        this.value = "";
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert("Logo file size must not exceed 5 MB.");
+
+        this.value = "";
+        return;
+    }
+
+    if (currentLogoUrl) {
+        URL.revokeObjectURL(currentLogoUrl);
+    }
+
+    currentLogoUrl = URL.createObjectURL(file);
+
+    const image = document.createElement("img");
+
+    image.src = currentLogoUrl;
+    image.alt = "Company Logo";
+
+    image.onerror = function () {
+        restoreLogoPlaceholder();
+        alert("Unable to display this logo. Please select another image.");
+    };
+
+    logoBox.innerHTML = "";
+    logoBox.appendChild(image);
+});
+
+/* =================================
+   RESET FORM - FIXED
+================================= */
+
+function resetForm() {
+
+    const confirmation = window.confirm(
+        "Are you sure you want to reset the entire Contact Us Form?\n\nAll company details, customer information, messages, selections, signatures and uploaded logo will be cleared."
+    );
+
+    if (!confirmation) {
+        return;
+    }
+
+    const form = document.getElementById("contactForm");
+
+    // Reset all native form controls.
+    form.reset();
+
+    // Explicitly clear all text, date, email,
+    // telephone, number, URL and textarea fields.
+    const editableFields = form.querySelectorAll(
+        "input:not([type='radio']):not([type='checkbox']):not([type='file']), textarea"
+    );
+
+    editableFields.forEach(function(field) {
+        field.value = "";
+        field.setCustomValidity("");
+    });
+
+    // Reset all dropdowns to their first option.
+    form.querySelectorAll("select").forEach(function(select) {
+        select.selectedIndex = 0;
+    });
+
+    // Clear checkbox selections.
+    form.querySelectorAll("input[type='checkbox']").forEach(function(box) {
+        box.checked = false;
+    });
+
+    // Restore default preferred contact method.
+    const defaultRadio = form.querySelector(
+        'input[name="contactMethod"][value="Email"]'
+    );
+
+    if (defaultRadio) {
+        defaultRadio.checked = true;
+    }
+
+    // Remove uploaded logo and restore placeholder.
+    restoreLogoPlaceholder();
+
+    // Restore today's submission date.
+    setDefaultDates();
+
+    // Remove focus and validation states.
+    if (document.activeElement &&
+        typeof document.activeElement.blur === "function") {
+        document.activeElement.blur();
+    }
+
+    alert("Form has been successfully reset.");
+}
+
+/* =================================
+   PRINT FORM / SAVE PDF
+================================= */
+
+function printForm() {
+
+    const form = document.getElementById("contactForm");
+
+    // Validate mandatory fields before printing.
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    window.print();
+}
+
+/* =================================
+   BUTTON EVENT LISTENERS
+================================= */
+
+document.getElementById("resetButton")
+    .addEventListener("click", resetForm);
+
+document.getElementById("printButton")
+    .addEventListener("click", printForm);
+
+/* =================================
+   INITIALIZE FORM
+================================= */
+
+document.addEventListener("DOMContentLoaded", function() {
+    setDefaultDates();
+});
+
+// Also initialize immediately for standalone HTML.
+setDefaultDates();
+
+</script>
+
+</body>
+</html>

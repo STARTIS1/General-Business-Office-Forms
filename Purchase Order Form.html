@@ -1,0 +1,2011 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Purchase Order Form</title>
+
+<style>
+:root {
+    --navy: #183451;
+    --blue: #28577d;
+    --light-blue: #eaf1f7;
+    --border: #cbd5df;
+    --text: #263445;
+    --muted: #64748b;
+    --white: #ffffff;
+    --danger: #b42318;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 24px 14px;
+    background: #edf1f5;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.toolbar {
+    max-width: 1000px;
+    margin: 0 auto 14px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+button, .upload-label {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 12px;
+    font-weight: 700;
+    transition: background .2s;
+}
+
+.print-btn {
+    background: var(--navy);
+    color: white;
+}
+
+.print-btn:hover {
+    background: #254f75;
+}
+
+.reset-btn {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.reset-btn:hover {
+    background: #cbd5e1;
+}
+
+.upload-label {
+    display: inline-block;
+    background: var(--light-blue);
+    color: var(--navy);
+    border: 1px solid #b8c8d8;
+    margin-top: 8px;
+}
+
+.remove-logo-btn {
+    display: block;
+    margin-top: 5px;
+    padding: 5px 9px;
+    background: #fce8e6;
+    color: var(--danger);
+    font-size: 10px;
+}
+
+.page-setting {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.page-setting select {
+    width: auto;
+    min-width: 105px;
+}
+
+.form-container {
+    max-width: 1000px;
+    margin: auto;
+    background: white;
+    padding: 34px 38px;
+    border: 1px solid #d8e0e8;
+    box-shadow: 0 5px 22px rgba(20,40,60,.08);
+}
+
+input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    font-family: inherit;
+    font-size: 12px;
+    color: var(--text);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 8px 9px;
+    outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #3979ac;
+    box-shadow: 0 0 0 2px rgba(57,121,172,.10);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    width: auto;
+    accent-color: var(--navy);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 65px;
+}
+
+label.field-label {
+    display: block;
+    color: #536579;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .35px;
+    margin-bottom: 5px;
+}
+
+.required {
+    color: var(--danger);
+}
+
+.field {
+    min-width: 0;
+}
+
+.company-header {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 25px;
+    padding-bottom: 22px;
+    border-bottom: 2px solid var(--navy);
+}
+
+.logo-column {
+    text-align: center;
+}
+
+.logo-area {
+    height: 115px;
+    width: 100%;
+    border: 1px dashed #aebdcb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #fafbfd;
+    padding: 8px;
+}
+
+.logo-area img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    color: #8a9aab;
+    font-size: 11px;
+    text-align: center;
+}
+
+.company-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 14px;
+    align-content: start;
+}
+
+.company-fields .full {
+    grid-column: 1 / -1;
+}
+
+.document-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 0 17px;
+}
+
+.document-heading h1 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.heading-subtitle {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.po-number-box {
+    text-align: right;
+    min-width: 165px;
+}
+
+.po-number-box .number-label {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.po-number-box input {
+    text-align: right;
+    color: var(--navy);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.section-heading {
+    background: var(--navy);
+    color: white;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .65px;
+    text-transform: uppercase;
+    margin: 19px 0 12px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 13px 14px;
+}
+
+.info-grid.two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.info-grid.four {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.info-grid .span-2 {
+    grid-column: span 2;
+}
+
+.info-grid .span-3 {
+    grid-column: span 3;
+}
+
+.info-grid .span-4 {
+    grid-column: span 4;
+}
+
+.delivery-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 8px 0;
+}
+
+.choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-top: 8px;
+}
+
+.items-table th {
+    background: #e9eff5;
+    color: var(--navy);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    padding: 9px 5px;
+    border: 1px solid #bac9d7;
+    text-align: center;
+}
+
+.items-table td {
+    padding: 5px;
+    border: 1px solid #cbd5df;
+    vertical-align: middle;
+}
+
+.items-table td input,
+.items-table td select {
+    border: 1px solid transparent;
+    padding: 7px 4px;
+    background: transparent;
+    border-radius: 0;
+    text-align: center;
+    font-size: 11px;
+}
+
+.items-table td input:focus,
+.items-table td select:focus {
+    border: 1px solid #3979ac;
+    background: white;
+}
+
+.items-table .description-input {
+    text-align: left;
+}
+
+.items-table .line-total {
+    text-align: right;
+    font-weight: 700;
+    color: var(--navy);
+    padding-right: 8px;
+    overflow-wrap: anywhere;
+}
+
+.items-table .row-number {
+    text-align: center;
+    color: var(--muted);
+    font-weight: bold;
+}
+
+.row-action {
+    padding: 5px 7px;
+    background: #fce8e6;
+    color: var(--danger);
+    font-size: 10px;
+}
+
+.add-row-btn {
+    margin-top: 9px;
+    background: #eaf1f7;
+    color: var(--navy);
+    border: 1px solid #c6d5e3;
+    padding: 8px 13px;
+}
+
+.add-row-btn:hover {
+    background: #dce8f2;
+}
+
+.bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 330px;
+    gap: 25px;
+    margin-top: 18px;
+    align-items: start;
+}
+
+.notes-area textarea {
+    min-height: 100px;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-table td {
+    padding: 8px 5px;
+    border-bottom: 1px solid #e0e6ed;
+    font-size: 12px;
+}
+
+.totals-table td:last-child {
+    text-align: right;
+    width: 48%;
+}
+
+.totals-table input {
+    text-align: right;
+    padding: 6px;
+}
+
+.total-value {
+    font-weight: bold;
+    color: var(--navy);
+    text-align: right;
+    min-height: 20px;
+}
+
+.grand-total td {
+    background: var(--navy);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    padding: 12px 8px;
+}
+
+.grand-total td:last-child {
+    color: white;
+}
+
+.amount-words {
+    margin-top: 13px;
+}
+
+.amount-words input {
+    font-style: italic;
+}
+
+.terms-box {
+    border: 1px solid var(--border);
+    padding: 12px;
+    background: #fbfcfd;
+}
+
+.terms-box textarea {
+    min-height: 85px;
+    border: none;
+    background: transparent;
+    padding: 0;
+}
+
+.approval-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 22px;
+}
+
+.signature-box {
+    border-top: 1px solid #64748b;
+    padding-top: 7px;
+    margin-top: 35px;
+}
+
+.signature-box label {
+    font-size: 10px;
+    color: #526174;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.signature-box input {
+    border: none;
+    border-bottom: 1px solid #d5dce4;
+    border-radius: 0;
+    padding: 7px 2px;
+    margin-top: 4px;
+}
+
+.footer-note {
+    border-top: 1px solid #d8e0e8;
+    text-align: center;
+    color: #7b8794;
+    font-size: 10px;
+    margin-top: 30px;
+    padding-top: 12px;
+}
+
+.error-message {
+    display: none;
+    color: var(--danger);
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.invalid {
+    border: 1px solid var(--danger) !important;
+    background: #fff5f5 !important;
+}
+
+@media screen and (max-width: 700px) {
+    body {
+        padding: 10px 6px;
+    }
+
+    .form-container {
+        padding: 20px 14px;
+    }
+
+    .company-header {
+        grid-template-columns: 1fr;
+    }
+
+    .logo-column {
+        max-width: 180px;
+        margin: auto;
+    }
+
+    .company-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .company-fields .full {
+        grid-column: auto;
+    }
+
+    .document-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .po-number-box {
+        text-align: left;
+        width: 100%;
+    }
+
+    .po-number-box input {
+        text-align: left;
+    }
+
+    .info-grid,
+    .info-grid.two,
+    .info-grid.four {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .info-grid .span-3,
+    .info-grid .span-4 {
+        grid-column: span 2;
+    }
+
+    .bottom-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .approval-grid {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .table-wrapper {
+        padding-bottom: 6px;
+    }
+
+    .items-table {
+        min-width: 680px;
+    }
+}
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        font-size: 10px;
+        color: #000;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+    }
+
+    .company-header {
+        grid-template-columns: 145px 1fr;
+        gap: 15px;
+    }
+
+    .logo-area {
+        height: 90px;
+    }
+
+    .document-heading {
+        padding: 15px 0 12px;
+    }
+
+    .document-heading h1 {
+        font-size: 22px;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+        margin-top: 14px;
+        padding: 7px 9px;
+    }
+
+    input, textarea, select {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border-color: transparent !important;
+        padding: 5px 3px;
+        font-size: 10px;
+    }
+
+    input[type="date"],
+    input[type="number"] {
+        color: #000 !important;
+    }
+
+    textarea {
+        resize: none;
+        overflow: visible;
+    }
+
+    .items-table {
+        width: 100%;
+        min-width: 0;
+        table-layout: fixed;
+        border-collapse: collapse;
+    }
+
+    .table-wrapper {
+        overflow: visible;
+    }
+
+    .items-table th,
+    .items-table td {
+        padding: 5px 3px;
+        border: 1px solid #9aa9b8 !important;
+        font-size: 9px;
+    }
+
+    .items-table th {
+        background: #e9eff5 !important;
+        color: #183451 !important;
+    }
+
+    .items-table td input,
+    .items-table td select {
+        font-size: 9px;
+        padding: 4px 1px;
+    }
+
+    .items-table .line-total {
+        font-size: 9px;
+    }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tfoot {
+        display: table-row-group;
+    }
+
+    .bottom-grid,
+    .approval-grid {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .totals-table td {
+        padding: 6px 4px;
+    }
+
+    .grand-total td {
+        background: #183451 !important;
+        color: white !important;
+    }
+
+    .logo-area {
+        border: none;
+    }
+
+    .footer-note {
+        break-inside: avoid;
+    }
+
+    .invalid {
+        background: transparent !important;
+        border-color: transparent !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ACTION TOOLBAR -->
+<div class="toolbar no-print">
+
+    <div class="page-setting">
+        Paper:
+        <select id="paperSize" aria-label="Paper size">
+            <option value="A4">A4 Portrait</option>
+            <option value="Letter">US Letter</option>
+        </select>
+    </div>
+
+    <button type="button" class="reset-btn" id="resetBtn">
+        RESET FORM
+    </button>
+
+    <button type="button" class="print-btn" id="printBtn">
+        PRINT FORM / SAVE PDF
+    </button>
+
+</div>
+
+<main class="form-container" id="purchaseOrder">
+
+    <!-- COMPANY HEADER -->
+    <header class="company-header">
+
+        <div class="logo-column">
+
+            <div class="logo-area" id="logoArea">
+                <span class="logo-placeholder">
+                    COMPANY LOGO<br>
+                    <small>Logo Preview Area</small>
+                </span>
+            </div>
+
+            <div class="no-print">
+                <label class="upload-label" for="logoUpload">
+                    UPLOAD COMPANY LOGO
+                </label>
+
+                <input
+                    type="file"
+                    id="logoUpload"
+                    accept=".jpg,.jpeg,.png,.svg,.webp,image/jpeg,image/png,image/svg+xml,image/webp"
+                    hidden
+                >
+
+                <button
+                    type="button"
+                    class="remove-logo-btn"
+                    id="removeLogoBtn"
+                    style="display:none"
+                >
+                    REMOVE LOGO
+                </button>
+            </div>
+
+        </div>
+
+        <div class="company-fields">
+
+            <div class="field full">
+                <label class="field-label">Company Name *</label>
+                <input type="text" id="companyName"
+                       placeholder="Enter company name" required>
+            </div>
+
+            <div class="field full">
+                <label class="field-label">Business Address</label>
+                <input type="text" id="companyAddress"
+                       placeholder="Street address, city, country">
+            </div>
+
+            <div class="field">
+                <label class="field-label">Phone Number</label>
+                <input type="tel" id="companyPhone"
+                       placeholder="+00 000 0000000">
+            </div>
+
+            <div class="field">
+                <label class="field-label">Email Address</label>
+                <input type="email" id="companyEmail"
+                       placeholder="company@example.com">
+            </div>
+
+            <div class="field">
+                <label class="field-label">Website</label>
+                <input type="text" id="companyWebsite"
+                       placeholder="www.company.com">
+            </div>
+
+            <div class="field">
+                <label class="field-label">Business Registration No.</label>
+                <input type="text" id="companyReg"
+                       placeholder="Registration number">
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- DOCUMENT TITLE -->
+    <section class="document-heading">
+
+        <div>
+            <h1>Purchase Order</h1>
+            <div class="heading-subtitle">
+                Official Request for Goods and Services
+            </div>
+        </div>
+
+        <div class="po-number-box">
+            <span class="number-label">Purchase Order Number *</span>
+            <input type="text" id="poNumber"
+                   value="PO-0001" required>
+        </div>
+
+    </section>
+
+    <!-- ORDER INFORMATION -->
+    <div class="section-heading">01. Order Information</div>
+
+    <div class="info-grid four">
+
+        <div class="field">
+            <label class="field-label">Order Date *</label>
+            <input type="date" id="orderDate" required>
+        </div>
+
+        <div class="field">
+            <label class="field-label">Required Delivery Date *</label>
+            <input type="date" id="deliveryDate" required>
+        </div>
+
+        <div class="field">
+            <label class="field-label">Reference Number</label>
+            <input type="text" id="referenceNumber"
+                   placeholder="Reference number">
+        </div>
+
+        <div class="field">
+            <label class="field-label">Order Priority</label>
+            <select id="priority">
+                <option value="Normal">Normal</option>
+                <option value="Urgent">Urgent</option>
+                <option value="High">High</option>
+                <option value="Low">Low</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label class="field-label">Currency</label>
+            <select id="currency">
+                <option value="USD">USD - US Dollar</option>
+                <option value="PKR" selected>PKR - Pakistani Rupee</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="AED">AED - UAE Dirham</option>
+                <option value="SAR">SAR - Saudi Riyal</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="AUD">AUD - Australian Dollar</option>
+                <option value="INR">INR - Indian Rupee</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label class="field-label">Other Currency Code</label>
+            <input type="text" id="otherCurrency"
+                   placeholder="e.g. BDT" maxlength="5"
+                   disabled>
+        </div>
+
+        <div class="field">
+            <label class="field-label">Department</label>
+            <input type="text" id="department"
+                   placeholder="Department name">
+        </div>
+
+        <div class="field">
+            <label class="field-label">Requested By *</label>
+            <input type="text" id="requestedBy"
+                   placeholder="Employee / requester name" required>
+        </div>
+
+    </div>
+
+    <!-- SUPPLIER DETAILS -->
+    <div class="section-heading">02. Supplier / Vendor Information</div>
+
+    <div class="info-grid">
+
+        <div class="field span-2">
+            <label class="field-label">Supplier / Vendor Name *</label>
+            <input type="text" id="supplierName"
+                   placeholder="Enter supplier business name" required>
+        </div>
+
+        <div class="field">
+            <label class="field-label">Supplier Contact Person</label>
+            <input type="text" id="supplierContact"
+                   placeholder="Contact person">
+        </div>
+
+        <div class="field span-2">
+            <label class="field-label">Supplier Address</label>
+            <input type="text" id="supplierAddress"
+                   placeholder="Street, city, country">
+        </div>
+
+        <div class="field">
+            <label class="field-label">Supplier Phone</label>
+            <input type="tel" id="supplierPhone"
+                   placeholder="Phone number">
+        </div>
+
+        <div class="field">
+            <label class="field-label">Supplier Email</label>
+            <input type="email" id="supplierEmail"
+                   placeholder="supplier@example.com">
+        </div>
+
+        <div class="field">
+            <label class="field-label">Supplier Tax / VAT ID</label>
+            <input type="text" id="supplierTax"
+                   placeholder="Tax identification number">
+        </div>
+
+    </div>
+
+    <!-- DELIVERY INFORMATION -->
+    <div class="section-heading">03. Delivery Information</div>
+
+    <div class="info-grid two">
+
+        <div class="field">
+            <label class="field-label">Ship To / Delivery Location *</label>
+            <input type="text" id="shipTo"
+                   placeholder="Delivery location / department" required>
+        </div>
+
+        <div class="field">
+            <label class="field-label">Delivery Contact Person</label>
+            <input type="text" id="deliveryContact"
+                   placeholder="Recipient name">
+        </div>
+
+        <div class="field">
+            <label class="field-label">Delivery Phone</label>
+            <input type="tel" id="deliveryPhone"
+                   placeholder="Contact number">
+        </div>
+
+        <div class="field">
+            <label class="field-label">Shipping Method</label>
+            <select id="shippingMethod">
+                <option value="Standard Delivery">Standard Delivery</option>
+                <option value="Express Delivery">Express Delivery</option>
+                <option value="Supplier Transport">Supplier Transport</option>
+                <option value="Customer Pickup">Customer Pickup</option>
+                <option value="Courier">Courier</option>
+                <option value="Freight">Freight</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label class="field-label">Delivery Instructions</label>
+            <input type="text" id="deliveryInstructions"
+                   placeholder="Gate, floor, receiving hours, etc.">
+        </div>
+
+        <div class="field">
+            <label class="field-label">Shipping Responsibility</label>
+            <select id="shippingResponsibility">
+                <option value="Supplier">Supplier</option>
+                <option value="Buyer">Buyer</option>
+                <option value="As Agreed">As Agreed</option>
+            </select>
+        </div>
+
+    </div>
+
+    <!-- ORDER ITEMS -->
+    <div class="section-heading">04. Ordered Products / Services</div>
+
+    <div class="table-wrapper">
+
+        <table class="items-table" id="itemsTable">
+
+            <colgroup>
+                <col style="width:5%">
+                <col style="width:31%">
+                <col style="width:11%">
+                <col style="width:10%">
+                <col style="width:16%">
+                <col style="width:17%">
+                <col style="width:10%">
+            </colgroup>
+
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Description / Item</th>
+                    <th>Quantity</th>
+                    <th>Unit</th>
+                    <th>Unit Price</th>
+                    <th>Line Total</th>
+                    <th class="no-print">Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="itemsBody">
+
+                <tr class="item-row">
+                    <td class="row-number">1</td>
+
+                    <td>
+                        <input class="description-input item-description"
+                               type="text"
+                               placeholder="Product / service description"
+                               required>
+                    </td>
+
+                    <td>
+                        <input class="item-qty" type="number"
+                               min="0" step="0.01" value="1">
+                    </td>
+
+                    <td>
+                        <select class="item-unit">
+                            <option value="Each">Each</option>
+                            <option value="Piece">Piece</option>
+                            <option value="Box">Box</option>
+                            <option value="Pack">Pack</option>
+                            <option value="Set">Set</option>
+                            <option value="Kg">Kg</option>
+                            <option value="Gram">Gram</option>
+                            <option value="Liter">Liter</option>
+                            <option value="Meter">Meter</option>
+                            <option value="Foot">Foot</option>
+                            <option value="Hour">Hour</option>
+                            <option value="Day">Day</option>
+                            <option value="Month">Month</option>
+                            <option value="Service">Service</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <input class="item-price" type="number"
+                               min="0" step="0.01" value="0">
+                    </td>
+
+                    <td class="line-total">0.00</td>
+
+                    <td class="no-print" style="text-align:center">
+                        <button type="button" class="row-action remove-row">
+                            Remove
+                        </button>
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <button type="button" class="add-row-btn no-print" id="addRowBtn">
+        + ADD ITEM / PRODUCT
+    </button>
+
+    <!-- TOTALS -->
+    <div class="bottom-grid">
+
+        <div class="notes-area">
+
+            <div class="field">
+                <label class="field-label">Order Notes / Special Instructions</label>
+                <textarea id="orderNotes"
+                    placeholder="Enter additional instructions, specifications, quality requirements or other important information..."></textarea>
+            </div>
+
+            <div class="field amount-words">
+                <label class="field-label">Additional Order Information</label>
+                <textarea id="additionalInfo"
+                    placeholder="Enter any other relevant order information..."
+                ></textarea>
+            </div>
+
+        </div>
+
+        <div class="totals-section">
+
+            <table class="totals-table">
+
+                <tr>
+                    <td>Subtotal</td>
+                    <td>
+                        <div class="total-value" id="subtotal">0.00</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Discount (%)
+                        <input type="number" id="discountPercent"
+                               min="0" max="100" step="0.01" value="0"
+                               aria-label="Discount percentage">
+                    </td>
+                    <td>
+                        <div class="total-value" id="discountAmount">0.00</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Tax / VAT (%)
+                        <input type="number" id="taxPercent"
+                               min="0" max="100" step="0.01" value="0"
+                               aria-label="Tax percentage">
+                    </td>
+                    <td>
+                        <div class="total-value" id="taxAmount">0.00</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Shipping / Freight</td>
+                    <td>
+                        <input type="number" id="shippingCost"
+                               min="0" step="0.01" value="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Additional Charges</td>
+                    <td>
+                        <input type="number" id="additionalCharges"
+                               min="0" step="0.01" value="0">
+                    </td>
+                </tr>
+
+                <tr class="grand-total">
+                    <td>GRAND TOTAL</td>
+                    <td id="grandTotal">0.00</td>
+                </tr>
+
+            </table>
+
+            <div class="field amount-words">
+                <label class="field-label">Total Amount in Words</label>
+                <input type="text" id="amountInWords"
+                       placeholder="Enter amount in words">
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- PAYMENT TERMS -->
+    <div class="section-heading">05. Payment & Purchase Terms</div>
+
+    <div class="info-grid">
+
+        <div class="field">
+            <label class="field-label">Payment Terms</label>
+            <select id="paymentTerms">
+                <option value="Advance Payment">Advance Payment</option>
+                <option value="Payment on Delivery">Payment on Delivery</option>
+                <option value="Net 7 Days">Net 7 Days</option>
+                <option value="Net 15 Days">Net 15 Days</option>
+                <option value="Net 30 Days">Net 30 Days</option>
+                <option value="Net 45 Days">Net 45 Days</option>
+                <option value="Net 60 Days">Net 60 Days</option>
+                <option value="50% Advance / 50% on Delivery">50% Advance / 50% on Delivery</option>
+                <option value="As Agreed">As Agreed</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label class="field-label">Payment Method</label>
+            <select id="paymentMethod">
+                <option value="Bank Transfer">Bank Transfer</option>
+                <option value="Cash">Cash</option>
+                <option value="Cheque">Cheque</option>
+                <option value="Credit Card">Credit Card</option>
+                <option value="Debit Card">Debit Card</option>
+                <option value="Online Payment">Online Payment</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label class="field-label">Delivery Terms</label>
+            <select id="deliveryTerms">
+                <option value="Delivered at Destination">Delivered at Destination</option>
+                <option value="Ex Works">Ex Works</option>
+                <option value="Free on Board (FOB)">Free on Board (FOB)</option>
+                <option value="Freight Prepaid">Freight Prepaid</option>
+                <option value="Freight Collect">Freight Collect</option>
+                <option value="As Agreed">As Agreed</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div style="margin-top:15px">
+        <label class="field-label">Purchase Conditions</label>
+
+        <div class="terms-box">
+            <textarea id="purchaseConditions">1. The supplier must provide the goods or services according to the specifications and quantities stated in this purchase order.
+2. All items must be delivered by the agreed delivery date and to the specified delivery location.
+3. Any changes in pricing, quantity, specifications or delivery schedule must receive written approval from the buyer.
+4. Goods may be inspected upon delivery. Damaged, defective or incorrect items may be rejected.
+5. The supplier must provide the applicable invoice and delivery documentation.
+6. Payment will be processed according to the agreed payment terms after satisfactory delivery and verification.
+7. This purchase order is subject to the buyer's approval and applicable business terms.</textarea>
+        </div>
+    </div>
+
+    <!-- APPROVAL -->
+    <div class="section-heading">06. Authorization & Approval</div>
+
+    <div class="info-grid three">
+        <div class="field">
+            <label class="field-label">Prepared By *</label>
+            <input type="text" id="preparedBy"
+                   placeholder="Name of preparer" required>
+        </div>
+
+        <div class="field">
+            <label class="field-label">Reviewed By</label>
+            <input type="text" id="reviewedBy"
+                   placeholder="Name of reviewer">
+        </div>
+
+        <div class="field">
+            <label class="field-label">Approved By *</label>
+            <input type="text" id="approvedBy"
+                   placeholder="Authorized person's name" required>
+        </div>
+    </div>
+
+    <div class="approval-grid">
+
+        <div class="signature-box">
+            <label>Prepared By Signature</label>
+            <input type="text" id="preparedSignature"
+                   placeholder="Signature / initials">
+            <input type="date" id="preparedDate"
+                   aria-label="Prepared signature date">
+        </div>
+
+        <div class="signature-box">
+            <label>Reviewed By Signature</label>
+            <input type="text" id="reviewedSignature"
+                   placeholder="Signature / initials">
+            <input type="date" id="reviewedDate"
+                   aria-label="Reviewed signature date">
+        </div>
+
+        <div class="signature-box">
+            <label>Authorized Approval Signature</label>
+            <input type="text" id="approvedSignature"
+                   placeholder="Signature / initials">
+            <input type="date" id="approvedDate"
+                   aria-label="Approval signature date">
+        </div>
+
+    </div>
+
+    <div class="footer-note">
+        This Purchase Order is an official authorization to supply the goods or services specified above,
+        subject to the stated terms and conditions.
+    </div>
+
+</main>
+
+<script>
+(function () {
+    "use strict";
+
+    const $ = id => document.getElementById(id);
+
+    const itemsBody = $("itemsBody");
+
+    let logoObjectURL = null;
+
+    // ------------------------------------
+    // CURRENCY SETTINGS
+    // ------------------------------------
+
+    function getCurrency() {
+        const currency = $("currency").value;
+        return currency === "Other"
+            ? ($("otherCurrency").value.trim().toUpperCase() || "CUR")
+            : currency;
+    }
+
+    function formatMoney(amount) {
+        const currency = getCurrency();
+
+        try {
+            return new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: currency,
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(amount);
+        } catch (error) {
+            return currency + " " + Number(amount).toFixed(2);
+        }
+    }
+
+    $("currency").addEventListener("change", function () {
+        const isOther = this.value === "Other";
+        $("otherCurrency").disabled = !isOther;
+        calculateTotals();
+    });
+
+    $("otherCurrency").addEventListener("input", calculateTotals);
+
+    // ------------------------------------
+    // LOGO UPLOAD AND PREVIEW
+    // ------------------------------------
+
+    $("logoUpload").addEventListener("change", function () {
+
+        const file = this.files[0];
+
+        if (!file) return;
+
+        const allowed = [
+            "image/jpeg",
+            "image/png",
+            "image/svg+xml",
+            "image/webp"
+        ];
+
+        if (!allowed.includes(file.type)) {
+            alert("Please upload a JPG, PNG, SVG or WebP image.");
+            this.value = "";
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            alert("Logo file size must be less than 5 MB.");
+            this.value = "";
+            return;
+        }
+
+        if (logoObjectURL) {
+            URL.revokeObjectURL(logoObjectURL);
+        }
+
+        logoObjectURL = URL.createObjectURL(file);
+
+        const img = document.createElement("img");
+        img.alt = "Company Logo";
+        img.src = logoObjectURL;
+
+        img.onload = function () {
+            const area = $("logoArea");
+            area.replaceChildren(img);
+            $("removeLogoBtn").style.display = "block";
+        };
+
+        img.onerror = function () {
+            alert("Unable to preview this logo. Please select another file.");
+            URL.revokeObjectURL(logoObjectURL);
+            logoObjectURL = null;
+            $("logoUpload").value = "";
+        };
+    });
+
+    $("removeLogoBtn").addEventListener("click", function () {
+        removeLogo();
+    });
+
+    function removeLogo() {
+
+        if (logoObjectURL) {
+            URL.revokeObjectURL(logoObjectURL);
+            logoObjectURL = null;
+        }
+
+        $("logoArea").innerHTML =
+            '<span class="logo-placeholder">COMPANY LOGO<br><small>Logo Preview Area</small></span>';
+
+        $("logoUpload").value = "";
+        $("removeLogoBtn").style.display = "none";
+    }
+
+    // ------------------------------------
+    // ADD NEW ITEM ROW
+    // ------------------------------------
+
+    function createItemRow() {
+
+        const row = document.createElement("tr");
+        row.className = "item-row";
+
+        row.innerHTML = `
+            <td class="row-number"></td>
+
+            <td>
+                <input class="description-input item-description"
+                    type="text"
+                    placeholder="Product / service description"
+                    required>
+            </td>
+
+            <td>
+                <input class="item-qty" type="number"
+                    min="0" step="0.01" value="1">
+            </td>
+
+            <td>
+                <select class="item-unit">
+                    <option value="Each">Each</option>
+                    <option value="Piece">Piece</option>
+                    <option value="Box">Box</option>
+                    <option value="Pack">Pack</option>
+                    <option value="Set">Set</option>
+                    <option value="Kg">Kg</option>
+                    <option value="Gram">Gram</option>
+                    <option value="Liter">Liter</option>
+                    <option value="Meter">Meter</option>
+                    <option value="Foot">Foot</option>
+                    <option value="Hour">Hour</option>
+                    <option value="Day">Day</option>
+                    <option value="Month">Month</option>
+                    <option value="Service">Service</option>
+                    <option value="Other">Other</option>
+                </select>
+            </td>
+
+            <td>
+                <input class="item-price" type="number"
+                    min="0" step="0.01" value="0">
+            </td>
+
+            <td class="line-total">0.00</td>
+
+            <td class="no-print" style="text-align:center">
+                <button type="button" class="row-action remove-row">
+                    Remove
+                </button>
+            </td>
+        `;
+
+        itemsBody.appendChild(row);
+
+        updateRowNumbers();
+        calculateTotals();
+
+        row.querySelector(".item-description").focus();
+    }
+
+    $("addRowBtn").addEventListener("click", createItemRow);
+
+    // ------------------------------------
+    // REMOVE ITEM ROW
+    // ------------------------------------
+
+    itemsBody.addEventListener("click", function (event) {
+
+        if (!event.target.classList.contains("remove-row")) {
+            return;
+        }
+
+        const rows = itemsBody.querySelectorAll(".item-row");
+
+        if (rows.length <= 1) {
+            alert("At least one purchase item row must remain.");
+            return;
+        }
+
+        event.target.closest("tr").remove();
+
+        updateRowNumbers();
+        calculateTotals();
+    });
+
+    // ------------------------------------
+    // AUTOMATIC ROW NUMBERS
+    // ------------------------------------
+
+    function updateRowNumbers() {
+
+        const rows = itemsBody.querySelectorAll(".item-row");
+
+        rows.forEach((row, index) => {
+            row.querySelector(".row-number").textContent = index + 1;
+        });
+    }
+
+    // ------------------------------------
+    // SAFE NUMBER INPUT
+    // ------------------------------------
+
+    function getNumber(id) {
+        const value = parseFloat($(id).value);
+
+        return Number.isFinite(value) && value > 0
+            ? value
+            : 0;
+    }
+
+    // ------------------------------------
+    // AUTOMATIC CALCULATIONS
+    // ------------------------------------
+
+    function calculateTotals() {
+
+        let subtotal = 0;
+
+        const rows = itemsBody.querySelectorAll(".item-row");
+
+        rows.forEach(row => {
+
+            const qtyInput = row.querySelector(".item-qty");
+            const priceInput = row.querySelector(".item-price");
+
+            let qty = parseFloat(qtyInput.value);
+            let price = parseFloat(priceInput.value);
+
+            if (!Number.isFinite(qty) || qty < 0) qty = 0;
+            if (!Number.isFinite(price) || price < 0) price = 0;
+
+            const lineTotal = qty * price;
+
+            row.querySelector(".line-total").textContent =
+                formatMoney(lineTotal);
+
+            subtotal += lineTotal;
+        });
+
+        const discountPercent = Math.min(
+            100,
+            getNumber("discountPercent")
+        );
+
+        const taxPercent = Math.min(
+            100,
+            getNumber("taxPercent")
+        );
+
+        const discountAmount =
+            subtotal * discountPercent / 100;
+
+        const taxableAmount = Math.max(
+            0,
+            subtotal - discountAmount
+        );
+
+        const taxAmount =
+            taxableAmount * taxPercent / 100;
+
+        const shipping = getNumber("shippingCost");
+
+        const additional = getNumber("additionalCharges");
+
+        const grandTotal =
+            taxableAmount +
+            taxAmount +
+            shipping +
+            additional;
+
+        $("subtotal").textContent = formatMoney(subtotal);
+
+        $("discountAmount").textContent =
+            formatMoney(discountAmount);
+
+        $("taxAmount").textContent =
+            formatMoney(taxAmount);
+
+        $("grandTotal").textContent =
+            formatMoney(grandTotal);
+    }
+
+    // Listen for changes in all calculation-related fields.
+    itemsBody.addEventListener("input", calculateTotals);
+    itemsBody.addEventListener("change", calculateTotals);
+
+    [
+        "discountPercent",
+        "taxPercent",
+        "shippingCost",
+        "additionalCharges"
+    ].forEach(id => {
+        $(id).addEventListener("input", calculateTotals);
+        $(id).addEventListener("change", calculateTotals);
+    });
+
+    // ------------------------------------
+    // DATE VALIDATION
+    // ------------------------------------
+
+    function validateDates() {
+
+        const orderDate = $("orderDate").value;
+        const deliveryDate = $("deliveryDate").value;
+
+        $("orderDate").setCustomValidity("");
+        $("deliveryDate").setCustomValidity("");
+
+        if (orderDate && deliveryDate && deliveryDate < orderDate) {
+            $("deliveryDate").setCustomValidity(
+                "Required delivery date cannot be earlier than the order date."
+            );
+            return false;
+        }
+
+        return true;
+    }
+
+    $("orderDate").addEventListener("change", validateDates);
+    $("deliveryDate").addEventListener("change", validateDates);
+
+    // ------------------------------------
+    // NUMBER VALIDATION
+    // ------------------------------------
+
+    function validateNumbers() {
+
+        let valid = true;
+
+        const numberInputs = document.querySelectorAll(
+            "#purchaseOrder input[type='number']"
+        );
+
+        numberInputs.forEach(input => {
+
+            input.setCustomValidity("");
+
+            if (input.value.trim() === "") return;
+
+            const value = Number(input.value);
+
+            if (!Number.isFinite(value) || value < 0) {
+                input.setCustomValidity(
+                    "Please enter a valid non-negative number."
+                );
+                valid = false;
+            }
+
+            if (
+                (input.id === "discountPercent" ||
+                 input.id === "taxPercent") &&
+                value > 100
+            ) {
+                input.setCustomValidity(
+                    "Percentage cannot exceed 100."
+                );
+                valid = false;
+            }
+        });
+
+        return valid;
+    }
+
+    // ------------------------------------
+    // VALIDATE EMAILS
+    // ------------------------------------
+
+    function validateEmails() {
+
+        const emailIds = [
+            "companyEmail",
+            "supplierEmail"
+        ];
+
+        let valid = true;
+
+        emailIds.forEach(id => {
+
+            const input = $(id);
+
+            input.setCustomValidity("");
+
+            if (
+                input.value.trim() &&
+                !input.checkValidity()
+            ) {
+                input.setCustomValidity(
+                    "Please enter a valid email address."
+                );
+                valid = false;
+            }
+        });
+
+        return valid;
+    }
+
+    // ------------------------------------
+    // REQUIRED FIELD VALIDATION
+    // ------------------------------------
+
+    function validateForm() {
+
+        document.querySelectorAll(".invalid").forEach(el => {
+            el.classList.remove("invalid");
+        });
+
+        let firstInvalid = null;
+
+        const requiredFields = [
+            "companyName",
+            "poNumber",
+            "orderDate",
+            "deliveryDate",
+            "requestedBy",
+            "supplierName",
+            "shipTo",
+            "preparedBy",
+            "approvedBy"
+        ];
+
+        requiredFields.forEach(id => {
+
+            const input = $(id);
+
+            if (!input.value.trim()) {
+                input.classList.add("invalid");
+
+                if (!firstInvalid) {
+                    firstInvalid = input;
+                }
+            }
+        });
+
+        // Validate every item description.
+        const descriptions = document.querySelectorAll(
+            ".item-description"
+        );
+
+        descriptions.forEach(input => {
+
+            if (!input.value.trim()) {
+                input.classList.add("invalid");
+
+                if (!firstInvalid) {
+                    firstInvalid = input;
+                }
+            }
+        });
+
+        if (!validateDates() || !validateNumbers() ||
+            !validateEmails()) {
+
+            const invalidControl = document.querySelector(
+                ":invalid"
+            );
+
+            if (invalidControl && !firstInvalid) {
+                firstInvalid = invalidControl;
+            }
+        }
+
+        if (firstInvalid) {
+            alert(
+                "Please complete all required fields and correct any invalid information before printing."
+            );
+
+            firstInvalid.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+            firstInvalid.focus();
+
+            return false;
+        }
+
+        return true;
+    }
+
+    // Remove red highlights when the user corrects a field.
+    document.addEventListener("input", function (event) {
+
+        if (
+            event.target.matches(
+                "input, textarea, select"
+            ) &&
+            event.target.value.trim() !== ""
+        ) {
+            event.target.classList.remove("invalid");
+        }
+    });
+
+    // ------------------------------------
+    // PRINT / SAVE PDF
+    // ------------------------------------
+
+    $("printBtn").addEventListener("click", function () {
+
+        if (!validateForm()) return;
+
+        calculateTotals();
+
+        window.print();
+    });
+
+    // ------------------------------------
+    // PAPER SIZE
+    // ------------------------------------
+
+    $("paperSize").addEventListener("change", function () {
+
+        let style = $("dynamicPageStyle");
+
+        if (!style) {
+            style = document.createElement("style");
+            style.id = "dynamicPageStyle";
+            document.head.appendChild(style);
+        }
+
+        style.textContent =
+            "@page { size: " + this.value + " portrait; margin: 12mm; }";
+    });
+
+    // ------------------------------------
+    // RESET FORM
+    // ------------------------------------
+
+    $("resetBtn").addEventListener("click", function () {
+
+        const confirmed = confirm(
+            "Are you sure you want to reset the entire Purchase Order Form? All entered information and item rows will be cleared."
+        );
+
+        if (!confirmed) return;
+
+        // Clear all editable fields.
+        const fields = document.querySelectorAll(
+            "#purchaseOrder input, #purchaseOrder textarea"
+        );
+
+        fields.forEach(input => {
+
+            if (
+                input.type === "file" ||
+                input.type === "checkbox" ||
+                input.type === "radio"
+            ) {
+                input.checked = false;
+                input.value = "";
+                return;
+            }
+
+            if (input.type === "number") {
+                input.value = "0";
+            } else {
+                input.value = "";
+            }
+
+            input.classList.remove("invalid");
+            input.setCustomValidity("");
+        });
+
+        // Reset dropdowns.
+        $("purchaseOrder").querySelectorAll("select").forEach(select => {
+            select.selectedIndex = 0;
+        });
+
+        // Restore default currency.
+        $("currency").value = "PKR";
+        $("otherCurrency").value = "";
+        $("otherCurrency").disabled = true;
+
+        // Restore initial PO number.
+        $("poNumber").value = "PO-0001";
+
+        // Restore default payment and shipping selections.
+        $("paymentTerms").value = "Advance Payment";
+        $("paymentMethod").value = "Bank Transfer";
+        $("shippingMethod").value = "Standard Delivery";
+        $("shippingResponsibility").value = "Supplier";
+        $("deliveryTerms").value = "Delivered at Destination";
+        $("priority").value = "Normal";
+
+        // Restore default terms.
+        $("purchaseConditions").value =
+`1. The supplier must provide the goods or services according to the specifications and quantities stated in this purchase order.
+2. All items must be delivered by the agreed delivery date and to the specified delivery location.
+3. Any changes in pricing, quantity, specifications or delivery schedule must receive written approval from the buyer.
+4. Goods may be inspected upon delivery. Damaged, defective or incorrect items may be rejected.
+5. The supplier must provide the applicable invoice and delivery documentation.
+6. Payment will be processed according to the agreed payment terms after satisfactory delivery and verification.
+7. This purchase order is subject to the buyer's approval and applicable business terms.`;
+
+        // Restore one empty product row.
+        itemsBody.innerHTML = `
+            <tr class="item-row">
+                <td class="row-number">1</td>
+                <td>
+                    <input class="description-input item-description"
+                        type="text"
+                        placeholder="Product / service description"
+                        required>
+                </td>
+                <td>
+                    <input class="item-qty" type="number"
+                        min="0" step="0.01" value="1">
+                </td>
+                <td>
+                    <select class="item-unit">
+                        <option value="Each">Each</option>
+                        <option value="Piece">Piece</option>
+                        <option value="Box">Box</option>
+                        <option value="Pack">Pack</option>
+                        <option value="Set">Set</option>
+                        <option value="Kg">Kg</option>
+                        <option value="Gram">Gram</option>
+                        <option value="Liter">Liter</option>
+                        <option value="Meter">Meter</option>
+                        <option value="Foot">Foot</option>
+                        <option value="Hour">Hour</option>
+                        <option value="Day">Day</option>
+                        <option value="Month">Month</option>
+                        <option value="Service">Service</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </td>
+                <td>
+                    <input class="item-price" type="number"
+                        min="0" step="0.01" value="0">
+                </td>
+                <td class="line-total">0.00</td>
+                <td class="no-print" style="text-align:center">
+                    <button type="button" class="row-action remove-row">
+                        Remove
+                    </button>
+                </td>
+            </tr>
+        `;
+
+        // Reset logo and highlights.
+        removeLogo();
+
+        document.querySelectorAll(".invalid").forEach(el => {
+            el.classList.remove("invalid");
+        });
+
+        updateRowNumbers();
+        calculateTotals();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+
+    // ------------------------------------
+    // INITIALIZATION
+    // ------------------------------------
+
+    // Set today's date automatically.
+    const today = new Date();
+    const localDate = new Date(
+        today.getTime() - today.getTimezoneOffset() * 60000
+    ).toISOString().slice(0, 10);
+
+    $("orderDate").value = localDate;
+
+    // Set initial required delivery date to today.
+    $("deliveryDate").value = localDate;
+
+    updateRowNumbers();
+    calculateTotals();
+
+})();
+</script>
+
+</body>
+</html>

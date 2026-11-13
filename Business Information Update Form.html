@@ -1,0 +1,1527 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Information Update Form</title>
+
+<style>
+:root {
+    --navy: #183653;
+    --blue: #285b87;
+    --border: #cbd5df;
+    --text: #273747;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 25px 12px;
+    background: #eef1f5;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+.toolbar {
+    max-width: 950px;
+    margin: 0 auto 16px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+button, .upload-label {
+    border: none;
+    border-radius: 4px;
+    padding: 10px 17px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.print-btn {
+    background: var(--navy);
+    color: white;
+}
+
+.reset-btn {
+    background: #e3e8ed;
+    color: #34495e;
+}
+
+.add-btn {
+    background: #e8f0f7;
+    color: var(--navy);
+    border: 1px solid #b8c9d8;
+    padding: 7px 12px;
+}
+
+.remove-btn {
+    background: #fff0f0;
+    color: #a33131;
+    border: 1px solid #e5bcbc;
+    padding: 5px 9px;
+}
+
+.page-size-control {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.form-container {
+    display: block;
+    max-width: 950px;
+    margin: auto;
+    background: white;
+    padding: 35px 38px;
+    box-shadow: 0 3px 18px rgba(0,0,0,.08);
+    border: 1px solid #e0e5eb;
+}
+
+.company-header {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 25px;
+    align-items: start;
+    padding-bottom: 23px;
+    border-bottom: 2px solid var(--navy);
+}
+
+.logo-section { text-align: center; }
+
+.logo-box {
+    width: 135px;
+    height: 105px;
+    border: 1px dashed #aebbc8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #fafbfd;
+    margin: auto;
+}
+
+.logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    color: #8997a5;
+    font-size: 11px;
+    text-align: center;
+    padding: 8px;
+}
+
+.company-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+.field.full { grid-column: 1 / -1; }
+
+label {
+    font-weight: bold;
+    font-size: 11px;
+    color: #394d60;
+}
+
+input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 8px 9px;
+    font-family: inherit;
+    font-size: 12px;
+    color: #25394c;
+    background: #fff;
+}
+
+input, select { min-height: 33px; }
+
+textarea {
+    min-height: 65px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #4d83b0;
+    box-shadow: 0 0 0 2px rgba(77,131,176,.10);
+}
+
+.document-title {
+    text-align: center;
+    padding: 23px 0 17px;
+}
+
+.document-title h1 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 23px;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+}
+
+.document-title p {
+    color: #667788;
+    font-size: 11px;
+    margin: 7px 0 0;
+}
+
+.document-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 13px;
+    padding: 14px;
+    background: #f5f8fb;
+    border: 1px solid #dce4ec;
+    margin-bottom: 20px;
+}
+
+.section { margin-top: 21px; }
+
+.section-heading {
+    background: var(--navy);
+    color: white;
+    padding: 9px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: 13px;
+    break-after: avoid;
+    page-break-after: avoid;
+}
+
+.section-description {
+    color: #667788;
+    font-size: 11px;
+    margin: -4px 0 12px;
+    line-height: 1.5;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 13px 17px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 13px;
+}
+
+.change-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.change-table th {
+    background: #eaf0f5;
+    color: #263e54;
+    font-size: 10px;
+    text-align: left;
+    padding: 9px 7px;
+    border: 1px solid #cbd5df;
+}
+
+.change-table td {
+    border: 1px solid #cbd5df;
+    padding: 6px;
+    vertical-align: top;
+}
+
+.change-table input,
+.change-table select,
+.change-table textarea {
+    border: 1px solid #d5dce4;
+    font-size: 11px;
+    padding: 7px 5px;
+    min-height: 32px;
+}
+
+.change-table textarea { min-height: 43px; }
+
+.change-table .number-cell {
+    text-align: center;
+    font-weight: bold;
+    color: var(--navy);
+    padding-top: 14px;
+}
+
+.table-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.check-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px 20px;
+}
+
+.check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+    font-size: 12px;
+}
+
+.check-item input {
+    width: 14px;
+    height: 14px;
+    min-height: 14px;
+    margin: 1px 0 0;
+    flex-shrink: 0;
+}
+
+.info-box {
+    background: #f4f7fa;
+    border-left: 3px solid var(--blue);
+    padding: 12px;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #45586a;
+}
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 17px;
+}
+
+.signature-box {
+    min-height: 105px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 9px;
+}
+
+.signature-line {
+    border-bottom: 1px solid #65778a;
+    height: 43px;
+}
+
+.signature-caption {
+    font-size: 10px;
+    color: #4d5e6e;
+}
+
+.footer {
+    border-top: 1px solid #d7dfe7;
+    margin-top: 27px;
+    padding-top: 12px;
+    text-align: center;
+    color: #748292;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.required { color: #bd3636; }
+
+@media(max-width:650px) {
+    body { padding: 10px 5px; }
+
+    .form-container { padding: 20px 14px; }
+
+    .company-header {
+        grid-template-columns: 1fr;
+    }
+
+    .company-fields,
+    .grid-2,
+    .grid-3,
+    .document-meta,
+    .signature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .field.full { grid-column: auto; }
+
+    .toolbar { justify-content: center; }
+
+    .document-title h1 { font-size: 19px; }
+
+    .table-scroll { overflow-x: auto; }
+
+    .change-table { min-width: 650px; }
+
+    .check-grid { grid-template-columns: 1fr; }
+}
+
+/* PRINT SETTINGS */
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+
+    html, body {
+        width: 100%;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+    }
+
+    body {
+        font-size: 11px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print,
+    .toolbar,
+    button,
+    .upload-label {
+        display: none !important;
+    }
+
+    .form-container {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .company-header {
+        grid-template-columns: 125px 1fr;
+        gap: 15px;
+    }
+
+    .logo-box {
+        width: 115px;
+        height: 85px;
+    }
+
+    input, textarea, select {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: 1px solid #b8c1cb;
+        border-radius: 0;
+        font-size: 10px;
+        padding: 5px;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        width: 12px;
+        height: 12px;
+    }
+
+    textarea {
+        resize: none;
+        overflow: visible;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .section {
+        break-inside: auto;
+        page-break-inside: auto;
+    }
+
+    .change-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .change-table thead {
+        display: table-header-group;
+    }
+
+    .change-table tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .change-table th,
+    .change-table td {
+        border: 1px solid #9ba8b5;
+    }
+
+    .signature-box {
+        min-height: 100px;
+    }
+
+    .info-box {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .footer {
+        break-inside: avoid;
+    }
+
+    .table-scroll {
+        overflow: visible;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ACTION BUTTONS -->
+
+<div class="toolbar no-print">
+
+    <label class="page-size-control">
+        Paper Size:
+        <select id="paperSize">
+            <option value="A4">A4 Portrait</option>
+            <option value="Letter">US Letter Portrait</option>
+        </select>
+    </label>
+
+    <button type="button" class="reset-btn" id="resetButton">
+        RESET FORM
+    </button>
+
+    <button type="button" class="print-btn" id="printButton">
+        PRINT FORM
+    </button>
+
+</div>
+
+
+<!-- IMPORTANT: FORM ELEMENT ENABLES RESET AND VALIDATION -->
+
+<form class="form-container" id="businessForm" autocomplete="off">
+
+    <header class="company-header">
+
+        <div class="logo-section">
+
+            <div class="logo-box">
+
+                <div class="logo-placeholder" id="logoPlaceholder">
+                    COMPANY<br>LOGO
+                </div>
+
+                <img id="logoPreview"
+                     alt="Company Logo"
+                     style="display:none">
+
+            </div>
+
+            <label class="upload-label no-print" for="logoUpload">
+                Upload Company Logo
+            </label>
+
+            <input class="no-print"
+                   type="file"
+                   id="logoUpload"
+                   accept=".jpg,.jpeg,.png,.svg,.webp,image/jpeg,image/png,image/svg+xml,image/webp"
+                   hidden>
+
+        </div>
+
+        <div class="company-fields">
+
+            <div class="field full">
+                <label>Company Name <span class="required">*</span></label>
+                <input type="text" id="companyName"
+                       placeholder="Enter registered business name" required>
+            </div>
+
+            <div class="field full">
+                <label>Business Address</label>
+                <input type="text" id="companyAddress"
+                       placeholder="Street, City, State, Postal Code">
+            </div>
+
+            <div class="field">
+                <label>Phone Number</label>
+                <input type="tel" id="companyPhone"
+                       placeholder="Business contact number">
+            </div>
+
+            <div class="field">
+                <label>Email Address</label>
+                <input type="email" id="companyEmail"
+                       placeholder="business@example.com">
+            </div>
+
+            <div class="field">
+                <label>Website</label>
+                <input type="url" id="companyWebsite"
+                       placeholder="https://www.example.com">
+            </div>
+
+            <div class="field">
+                <label>Business Registration Number</label>
+                <input type="text" id="companyRegistration"
+                       placeholder="Registration / License Number">
+            </div>
+
+        </div>
+    </header>
+
+
+    <div class="document-title">
+        <h1>Business Information Update Form</h1>
+        <p>Official request for updating business records and company information</p>
+    </div>
+
+
+    <div class="document-meta">
+
+        <div class="field">
+            <label>Update Request Number <span class="required">*</span></label>
+            <input type="text" id="requestNumber"
+                   placeholder="e.g. BIU-001" required>
+        </div>
+
+        <div class="field">
+            <label>Submission Date <span class="required">*</span></label>
+            <input type="date" id="submissionDate" required>
+        </div>
+
+        <div class="field">
+            <label>Requested Effective Date</label>
+            <input type="date" id="effectiveDate">
+        </div>
+
+    </div>
+
+
+    <!-- 01 BUSINESS IDENTIFICATION -->
+
+    <section class="section">
+
+        <div class="section-heading">01. Business Identification</div>
+
+        <div class="section-description">
+            Provide the information required to identify the business record
+            that needs to be updated.
+        </div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Legal Business Name <span class="required">*</span></label>
+                <input type="text" id="legalName" required
+                       placeholder="Current registered business name">
+            </div>
+
+            <div class="field">
+                <label>Business / Trading Name</label>
+                <input type="text" id="tradingName">
+            </div>
+
+            <div class="field">
+                <label>Business Registration Number</label>
+                <input type="text" id="businessReg">
+            </div>
+
+            <div class="field">
+                <label>Tax Identification Number</label>
+                <input type="text" id="taxNumber">
+            </div>
+
+            <div class="field">
+                <label>Business Type <span class="required">*</span></label>
+                <select id="businessType" required>
+                    <option value="">Select business type</option>
+                    <option>Sole Proprietorship</option>
+                    <option>Partnership</option>
+                    <option>Limited Liability Company (LLC)</option>
+                    <option>Private Limited Company</option>
+                    <option>Public Limited Company</option>
+                    <option>Corporation</option>
+                    <option>Non-Profit Organization</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Industry / Business Category</label>
+                <input type="text" id="industry">
+            </div>
+
+            <div class="field">
+                <label>Current Business Status</label>
+                <select id="businessStatus">
+                    <option value="">Select status</option>
+                    <option>Active</option>
+                    <option>Temporarily Inactive</option>
+                    <option>Suspended</option>
+                    <option>Under Review</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Business Establishment Date</label>
+                <input type="date" id="establishmentDate">
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 02 CONTACT INFORMATION -->
+
+    <section class="section">
+
+        <div class="section-heading">02. Authorized Contact Information</div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Contact Person Full Name <span class="required">*</span></label>
+                <input type="text" id="contactName" required>
+            </div>
+
+            <div class="field">
+                <label>Designation / Job Title</label>
+                <input type="text" id="designation">
+            </div>
+
+            <div class="field">
+                <label>Primary Contact Number <span class="required">*</span></label>
+                <input type="tel" id="contactPhone" required>
+            </div>
+
+            <div class="field">
+                <label>Alternative Contact Number</label>
+                <input type="tel" id="alternatePhone">
+            </div>
+
+            <div class="field">
+                <label>Business Email Address <span class="required">*</span></label>
+                <input type="email" id="businessEmail" required>
+            </div>
+
+            <div class="field">
+                <label>Alternative Email Address</label>
+                <input type="email" id="alternateEmail">
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 03 ADDRESS INFORMATION -->
+
+    <section class="section">
+
+        <div class="section-heading">03. Business Address Information</div>
+
+        <div class="grid-2">
+
+            <div class="field full">
+                <label>Current Registered Business Address</label>
+                <textarea id="currentAddress"
+                          placeholder="Enter existing registered address"></textarea>
+            </div>
+
+            <div class="field full">
+                <label>New / Updated Business Address</label>
+                <textarea id="newAddress"
+                          placeholder="Enter updated business address"></textarea>
+            </div>
+
+            <div class="field">
+                <label>City</label>
+                <input type="text" id="city">
+            </div>
+
+            <div class="field">
+                <label>State / Province / Region</label>
+                <input type="text" id="province">
+            </div>
+
+            <div class="field">
+                <label>Postal / ZIP Code</label>
+                <input type="text" id="postalCode">
+            </div>
+
+            <div class="field">
+                <label>Country</label>
+                <input type="text" id="country">
+            </div>
+
+            <div class="field">
+                <label>Business Address Type</label>
+                <select id="addressType">
+                    <option value="">Select address type</option>
+                    <option>Registered Office</option>
+                    <option>Principal Business Address</option>
+                    <option>Branch Office</option>
+                    <option>Mailing Address</option>
+                    <option>Billing Address</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Address Change Required?</label>
+                <select id="addressChange">
+                    <option value="">Select</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 04 INFORMATION CHANGES -->
+
+    <section class="section">
+
+        <div class="section-heading">04. Information Changes Requested</div>
+
+        <div class="section-description">
+            List each requested change, including the existing information
+            and the replacement information.
+        </div>
+
+        <div class="table-scroll">
+
+            <table class="change-table" id="changeTable">
+
+                <thead>
+                    <tr>
+                        <th style="width:5%">No.</th>
+                        <th style="width:20%">Information Category</th>
+                        <th style="width:27%">Existing Information</th>
+                        <th style="width:27%">Updated Information</th>
+                        <th style="width:16%">Reason</th>
+                        <th class="no-print" style="width:5%">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="changeBody"></tbody>
+
+            </table>
+
+        </div>
+
+        <div class="table-actions no-print">
+            <button type="button" class="add-btn" id="addChangeButton">
+                + ADD CHANGE
+            </button>
+        </div>
+
+    </section>
+
+
+    <!-- 05 OWNERSHIP -->
+
+    <section class="section">
+
+        <div class="section-heading">05. Ownership & Management Details</div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Business Owner / Principal Name</label>
+                <input type="text" id="ownerName">
+            </div>
+
+            <div class="field">
+                <label>Ownership Change</label>
+                <select id="ownershipChange">
+                    <option value="">Select</option>
+                    <option>No Change</option>
+                    <option>New Owner</option>
+                    <option>Ownership Transfer</option>
+                    <option>Change in Ownership Percentage</option>
+                    <option>Additional Owner / Partner</option>
+                    <option>Removal of Owner / Partner</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Previous Owner / Authorized Person</label>
+                <input type="text" id="previousOwner">
+            </div>
+
+            <div class="field">
+                <label>New Owner / Authorized Person</label>
+                <input type="text" id="newOwner">
+            </div>
+
+            <div class="field">
+                <label>Authorized Representative</label>
+                <input type="text" id="representative">
+            </div>
+
+            <div class="field">
+                <label>Representative's Designation</label>
+                <input type="text" id="representativeTitle">
+            </div>
+
+        </div>
+
+        <div class="field" style="margin-top:13px">
+            <label>Additional Ownership / Management Details</label>
+            <textarea id="ownershipNotes"></textarea>
+        </div>
+
+    </section>
+
+
+    <!-- 06 ADDITIONAL INFORMATION -->
+
+    <section class="section">
+
+        <div class="section-heading">06. Additional Business Information</div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Business Website / Online Presence</label>
+                <input type="url" id="updatedWebsite"
+                       placeholder="https://">
+            </div>
+
+            <div class="field">
+                <label>Business Social Media / Online Profile</label>
+                <input type="text" id="socialProfile">
+            </div>
+
+            <div class="field">
+                <label>Updated Business Operating Hours</label>
+                <input type="text" id="operatingHours"
+                       placeholder="Monday-Friday, 9 AM-5 PM">
+            </div>
+
+            <div class="field">
+                <label>Number of Business Locations</label>
+                <input type="number" id="locationCount"
+                       min="0" step="1">
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 07 SUPPORTING DOCUMENTS -->
+
+    <section class="section">
+
+        <div class="section-heading">07. Supporting Documents Checklist</div>
+
+        <p class="section-description">
+            Select the documents attached to support the requested changes.
+        </p>
+
+        <div class="check-grid">
+
+            <label class="check-item">
+                <input type="checkbox" id="docRegistration">
+                Business Registration Certificate
+            </label>
+
+            <label class="check-item">
+                <input type="checkbox" id="docTax">
+                Tax Identification / Tax Registration Document
+            </label>
+
+            <label class="check-item">
+                <input type="checkbox" id="docAddress">
+                Proof of Updated Business Address
+            </label>
+
+            <label class="check-item">
+                <input type="checkbox" id="docIdentity">
+                Owner / Authorized Representative Identification
+            </label>
+
+            <label class="check-item">
+                <input type="checkbox" id="docOwnership">
+                Ownership / Partnership Documentation
+            </label>
+
+            <label class="check-item">
+                <input type="checkbox" id="docAuthorization">
+                Authorization Letter / Resolution
+            </label>
+
+            <label class="check-item">
+                <input type="checkbox" id="docLicense">
+                Business License / Permit
+            </label>
+
+            <label class="check-item">
+                <input type="checkbox" id="docOther">
+                Other Supporting Documents
+            </label>
+
+        </div>
+
+        <div class="field" style="margin-top:15px">
+            <label>Other Documents / Attachment References</label>
+            <textarea id="otherDocuments"></textarea>
+        </div>
+
+    </section>
+
+
+    <!-- 08 REASON -->
+
+    <section class="section">
+
+        <div class="section-heading">08. Reason for Information Update</div>
+
+        <div class="field">
+            <label>Primary Reason <span class="required">*</span></label>
+
+            <select id="updateReason" required>
+                <option value="">Select reason</option>
+                <option>Correction of Existing Information</option>
+                <option>Change of Business Address</option>
+                <option>Change of Contact Information</option>
+                <option>Change of Business Name</option>
+                <option>Change of Ownership</option>
+                <option>Change of Business Structure</option>
+                <option>Business Expansion</option>
+                <option>Regulatory / Compliance Requirement</option>
+                <option>Administrative Update</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field" style="margin-top:13px">
+            <label>Detailed Explanation <span class="required">*</span></label>
+            <textarea id="reasonDetails" required
+                      placeholder="Explain why the business information needs to be updated"></textarea>
+        </div>
+
+    </section>
+
+
+    <!-- 09 DECLARATION -->
+
+    <section class="section">
+
+        <div class="section-heading">09. Declaration & Authorization</div>
+
+        <div class="info-box">
+            I hereby declare that the information provided in this Business
+            Information Update Form is true, accurate and complete to the
+            best of my knowledge. I authorize the relevant business
+            administration or record-keeping department to review and update
+            the applicable business records based on the information and
+            supporting documents supplied.
+
+            I understand that additional verification or documentation may
+            be requested before the changes are approved.
+        </div>
+
+        <div style="margin-top:15px">
+
+            <label class="check-item">
+                <input type="checkbox" id="declaration" required>
+                I confirm that the information provided is accurate and
+                I am authorized to request these changes.
+                <span class="required">*</span>
+            </label>
+
+        </div>
+
+        <div class="signature-grid">
+
+            <div class="signature-box">
+
+                <div class="signature-line"></div>
+
+                <div class="signature-caption">
+                    Authorized Person's Signature
+                </div>
+
+                <div class="field">
+                    <label>Full Name</label>
+                    <input type="text" id="signerName">
+                </div>
+
+                <div class="field">
+                    <label>Designation</label>
+                    <input type="text" id="signerDesignation">
+                </div>
+
+                <div class="field">
+                    <label>Date of Signature</label>
+                    <input type="date" id="signerDate">
+                </div>
+
+            </div>
+
+            <div class="signature-box">
+
+                <div class="signature-line"></div>
+
+                <div class="signature-caption">
+                    Company Representative / Witness Signature
+                </div>
+
+                <div class="field">
+                    <label>Full Name</label>
+                    <input type="text" id="witnessName">
+                </div>
+
+                <div class="field">
+                    <label>Designation</label>
+                    <input type="text" id="witnessDesignation">
+                </div>
+
+                <div class="field">
+                    <label>Date</label>
+                    <input type="date" id="witnessDate">
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- 10 OFFICE USE -->
+
+    <section class="section">
+
+        <div class="section-heading">10. Office Use Only</div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Request Received By</label>
+                <input type="text" id="receivedBy">
+            </div>
+
+            <div class="field">
+                <label>Date Received</label>
+                <input type="date" id="receivedDate">
+            </div>
+
+            <div class="field">
+                <label>Verification Status</label>
+                <select id="verificationStatus">
+                    <option value="">Select status</option>
+                    <option>Pending</option>
+                    <option>Under Review</option>
+                    <option>Verified</option>
+                    <option>Documents Required</option>
+                    <option>Rejected</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Approval Status</label>
+                <select id="approvalStatus">
+                    <option value="">Select status</option>
+                    <option>Pending</option>
+                    <option>Approved</option>
+                    <option>Rejected</option>
+                    <option>On Hold</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Reviewed By</label>
+                <input type="text" id="reviewedBy">
+            </div>
+
+            <div class="field">
+                <label>Approval Date</label>
+                <input type="date" id="approvalDate">
+            </div>
+
+            <div class="field full">
+                <label>Internal Remarks / Verification Notes</label>
+                <textarea id="internalNotes"
+                          placeholder="For administrative use only"></textarea>
+            </div>
+
+        </div>
+
+        <div class="signature-grid">
+
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <div class="signature-caption">Reviewed By - Signature</div>
+            </div>
+
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <div class="signature-caption">Authorized Approval - Signature</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <footer class="footer">
+        <strong>BUSINESS INFORMATION UPDATE FORM</strong><br>
+        All information provided should be reviewed and verified before
+        updating official business records.<br>
+        Confidential Business Information - For Authorized Use Only
+    </footer>
+
+</form>
+
+
+<script>
+"use strict";
+
+/* ========================================
+   ELEMENT REFERENCES
+======================================== */
+
+const businessForm = document.getElementById("businessForm");
+const logoUpload = document.getElementById("logoUpload");
+const logoPreview = document.getElementById("logoPreview");
+const logoPlaceholder = document.getElementById("logoPlaceholder");
+const changeBody = document.getElementById("changeBody");
+const paperSize = document.getElementById("paperSize");
+
+let logoObjectURL = null;
+
+
+/* ========================================
+   LOGO UPLOAD
+======================================== */
+
+logoUpload.addEventListener("change", function() {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP logo.");
+        this.value = "";
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert("Logo size must be less than 5 MB.");
+        this.value = "";
+        return;
+    }
+
+    if (logoObjectURL) {
+        URL.revokeObjectURL(logoObjectURL);
+    }
+
+    logoObjectURL = URL.createObjectURL(file);
+
+    logoPreview.onload = function() {
+        logoPreview.style.display = "block";
+        logoPlaceholder.style.display = "none";
+    };
+
+    logoPreview.onerror = function() {
+        alert("Unable to display the selected logo.");
+        logoPreview.style.display = "none";
+        logoPlaceholder.style.display = "block";
+    };
+
+    logoPreview.src = logoObjectURL;
+
+});
+
+
+/* ========================================
+   CHANGE TABLE
+======================================== */
+
+function createChangeRow() {
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="number-cell"></td>
+
+        <td>
+            <select aria-label="Information category">
+                <option value="">Select</option>
+                <option>Business Name</option>
+                <option>Business Address</option>
+                <option>Contact Person</option>
+                <option>Phone Number</option>
+                <option>Email Address</option>
+                <option>Website</option>
+                <option>Business Type</option>
+                <option>Registration Details</option>
+                <option>Tax Information</option>
+                <option>Ownership Details</option>
+                <option>Other</option>
+            </select>
+        </td>
+
+        <td>
+            <textarea aria-label="Existing information"
+                      placeholder="Current details"></textarea>
+        </td>
+
+        <td>
+            <textarea aria-label="Updated information"
+                      placeholder="New details"></textarea>
+        </td>
+
+        <td>
+            <textarea aria-label="Reason for change"
+                      placeholder="Reason"></textarea>
+        </td>
+
+        <td class="no-print">
+            <button type="button" class="remove-btn">
+                X
+            </button>
+        </td>
+    `;
+
+    row.querySelector(".remove-btn").addEventListener("click", function() {
+
+        if (changeBody.rows.length <= 1) {
+            alert("At least one change entry must remain.");
+            return;
+        }
+
+        row.remove();
+        updateRowNumbers();
+
+    });
+
+    return row;
+}
+
+
+function addChangeRow() {
+
+    changeBody.appendChild(createChangeRow());
+    updateRowNumbers();
+
+}
+
+
+function updateRowNumbers() {
+
+    Array.from(changeBody.rows).forEach(function(row, index) {
+        row.querySelector(".number-cell").textContent = index + 1;
+    });
+
+}
+
+
+/* ========================================
+   PAPER SIZE
+======================================== */
+
+function setPaperSize(size) {
+
+    let style = document.getElementById("dynamicPaperStyle");
+
+    if (!style) {
+        style = document.createElement("style");
+        style.id = "dynamicPaperStyle";
+        document.head.appendChild(style);
+    }
+
+    const selectedSize = size === "Letter"
+        ? "Letter portrait"
+        : "A4 portrait";
+
+    style.textContent = `
+        @page {
+            size: ${selectedSize};
+            margin: 12mm;
+        }
+    `;
+
+}
+
+paperSize.addEventListener("change", function() {
+    setPaperSize(this.value);
+});
+
+
+/* ========================================
+   PRINT BUTTON - FIXED
+======================================== */
+
+function printForm() {
+
+    // Validate all mandatory fields.
+    if (!businessForm.checkValidity()) {
+
+        businessForm.reportValidity();
+
+        return;
+    }
+
+    // Apply selected page size.
+    setPaperSize(paperSize.value);
+
+    // Directly open the browser's native print dialog.
+    window.print();
+
+}
+
+
+/* ========================================
+   RESET BUTTON - FIXED
+======================================== */
+
+function resetForm() {
+
+    const confirmed = window.confirm(
+        "Are you sure you want to reset the entire form? All entered information and uploaded logo will be cleared."
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    // Reset all standard form fields.
+    businessForm.reset();
+
+    // Remove all added change rows.
+    changeBody.innerHTML = "";
+
+    // Restore one empty row.
+    changeBody.appendChild(createChangeRow());
+
+    updateRowNumbers();
+
+    // Clear logo preview.
+    logoPreview.removeAttribute("src");
+    logoPreview.style.display = "none";
+
+    logoPlaceholder.style.display = "block";
+
+    // Clear uploaded file.
+    logoUpload.value = "";
+
+    if (logoObjectURL) {
+        URL.revokeObjectURL(logoObjectURL);
+        logoObjectURL = null;
+    }
+
+    // Restore A4 paper size.
+    paperSize.value = "A4";
+    setPaperSize("A4");
+
+    // Set today's date again.
+    setTodayDate();
+
+    // Return to top.
+    window.scrollTo(0, 0);
+
+}
+
+
+/* ========================================
+   TODAY'S DATE
+======================================== */
+
+function setTodayDate() {
+
+    const today = new Date();
+
+    const localDate = new Date(
+        today.getTime() - today.getTimezoneOffset() * 60000
+    ).toISOString().slice(0, 10);
+
+    document.getElementById("submissionDate").value = localDate;
+
+}
+
+
+/* ========================================
+   BUTTON EVENT LISTENERS
+======================================== */
+
+document.getElementById("printButton").addEventListener(
+    "click",
+    printForm
+);
+
+document.getElementById("resetButton").addEventListener(
+    "click",
+    resetForm
+);
+
+document.getElementById("addChangeButton").addEventListener(
+    "click",
+    addChangeRow
+);
+
+
+/* Prevent accidental form submission. */
+
+businessForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+});
+
+
+/* ========================================
+   INITIALIZE FORM
+======================================== */
+
+function initializeForm() {
+
+    setTodayDate();
+
+    changeBody.appendChild(createChangeRow());
+
+    updateRowNumbers();
+
+    setPaperSize("A4");
+
+}
+
+initializeForm();
+
+</script>
+
+</body>
+</html>

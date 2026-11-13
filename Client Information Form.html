@@ -1,0 +1,1124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Information Form</title>
+
+<style>
+:root {
+    --navy: #17365d;
+    --blue: #2874a6;
+    --light: #eaf2f8;
+    --border: #cbd5e1;
+    --text: #263445;
+    --muted: #64748b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 24px;
+    background: #eef2f6;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+.toolbar {
+    max-width: 1050px;
+    margin: 0 auto 16px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+button, .upload-label {
+    border: none;
+    border-radius: 4px;
+    padding: 10px 17px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    color: white;
+    background: var(--navy);
+}
+
+button:hover, .upload-label:hover {
+    opacity: .88;
+}
+
+.btn-print {
+    background: #176b45;
+}
+
+.btn-reset {
+    background: #64748b;
+}
+
+.btn-add {
+    background: var(--blue);
+    padding: 8px 13px;
+}
+
+.btn-remove {
+    background: #b42318;
+    padding: 6px 10px;
+}
+
+.page-setting {
+    padding: 9px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: white;
+}
+
+.form-container {
+    max-width: 1050px;
+    margin: auto;
+    padding: 32px;
+    background: white;
+    border: 1px solid #dce3eb;
+    box-shadow: 0 4px 20px rgba(0,0,0,.07);
+}
+
+.company-header {
+    display: grid;
+    grid-template-columns: 175px 1fr;
+    gap: 25px;
+    padding-bottom: 22px;
+    border-bottom: 3px solid var(--navy);
+}
+
+.logo-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 135px;
+    border: 1px dashed #9caec1;
+    background: #f8fafc;
+    padding: 12px;
+    text-align: center;
+}
+
+.logo-area img {
+    max-width: 145px;
+    max-height: 100px;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    color: #8795a6;
+    font-size: 12px;
+}
+
+.company-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+    align-content: center;
+}
+
+.company-fields .wide {
+    grid-column: 1 / -1;
+}
+
+.document-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 23px 0 16px;
+}
+
+.document-heading h1 {
+    color: var(--navy);
+    font-size: 25px;
+    margin: 0;
+    letter-spacing: .5px;
+}
+
+.document-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    min-width: 290px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #43536a;
+}
+
+input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    min-height: 34px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 7px 9px;
+    color: #1e293b;
+    font: inherit;
+    background: white;
+}
+
+textarea {
+    min-height: 75px;
+    resize: vertical;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid #bfdbfe;
+    border-color: var(--blue);
+}
+
+.section {
+    margin-top: 20px;
+}
+
+.section-heading {
+    background: var(--navy);
+    color: white;
+    padding: 10px 13px;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .4px;
+    margin-bottom: 13px;
+}
+
+.grid-2, .grid-3, .grid-4 {
+    display: grid;
+    gap: 13px 16px;
+    margin-bottom: 13px;
+}
+
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+.full {
+    grid-column: 1 / -1;
+}
+
+.inline-options {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    min-height: 34px;
+}
+
+.inline-options label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.inline-options input {
+    width: auto;
+    min-height: auto;
+    accent-color: var(--navy);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+th {
+    background: #e8eef5;
+    color: var(--navy);
+    font-weight: 700;
+    text-align: left;
+    font-size: 11px;
+}
+
+th, td {
+    border: 1px solid var(--border);
+    padding: 7px;
+    vertical-align: middle;
+}
+
+td input, td select {
+    border: none;
+    min-height: 31px;
+    padding: 5px;
+}
+
+.table-actions {
+    margin: 8px 0;
+}
+
+.notice {
+    padding: 12px;
+    background: #f4f7fa;
+    border-left: 3px solid var(--blue);
+    line-height: 1.6;
+    font-size: 11px;
+}
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+    margin-top: 20px;
+}
+
+.signature-box {
+    border-bottom: 1px solid #64748b;
+    height: 55px;
+}
+
+.signature-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 7px;
+}
+
+.footer {
+    border-top: 1px solid var(--border);
+    margin-top: 25px;
+    padding-top: 12px;
+    color: var(--muted);
+    font-size: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.required {
+    color: #b42318;
+}
+
+.error-message {
+    display: none;
+    color: #b42318;
+    font-size: 12px;
+    margin: 10px 0;
+}
+
+@media(max-width:700px) {
+    body {
+        padding: 10px;
+    }
+
+    .form-container {
+        padding: 17px;
+    }
+
+    .company-header {
+        grid-template-columns: 1fr;
+    }
+
+    .company-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .document-heading {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .document-meta {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+    }
+
+    .signature-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    .toolbar {
+        justify-content: flex-start;
+    }
+
+    .footer {
+        flex-direction: column;
+    }
+}
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        font-size: 10pt;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    input, textarea, select {
+        color: #000;
+        background: transparent;
+        box-shadow: none;
+        border-color: #aab4c0;
+        font-size: 9pt;
+    }
+
+    input[type="checkbox"], input[type="radio"] {
+        width: auto;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .signature-grid {
+        break-inside: avoid;
+    }
+
+    .company-header {
+        break-inside: avoid;
+    }
+
+    button, .upload-label {
+        display: none !important;
+    }
+
+    textarea {
+        resize: none;
+        overflow: visible;
+    }
+
+    .section {
+        break-inside: auto;
+    }
+
+    .document-heading {
+        break-after: avoid;
+    }
+
+    .table-wrapper {
+        overflow: visible;
+    }
+}
+
+body.letter @page {
+    size: Letter portrait;
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+    <select id="paperSize" class="page-setting" aria-label="Paper size">
+        <option value="A4">A4 Paper</option>
+        <option value="Letter">US Letter</option>
+    </select>
+    <button class="btn-reset" type="button" onclick="resetForm()">Reset Form</button>
+    <button class="btn-print" type="button" onclick="printForm()">PRINT FORM / SAVE PDF</button>
+</div>
+
+<form id="clientForm" class="form-container" novalidate>
+
+    <!-- COMPANY HEADER -->
+
+    <header class="company-header">
+
+        <div class="logo-area">
+            <div id="logoPlaceholder" class="logo-placeholder">
+                COMPANY LOGO
+            </div>
+            <img id="logoPreview" alt="Company Logo" hidden>
+            <label class="upload-label no-print" for="logoUpload">
+                Upload Company Logo
+            </label>
+            <input class="no-print" type="file" id="logoUpload"
+                   accept=".jpg,.jpeg,.png,.svg,.webp"
+                   hidden>
+        </div>
+
+        <div class="company-fields">
+
+            <div class="field wide">
+                <label>Company Name <span class="required">*</span></label>
+                <input type="text" id="companyName" placeholder="Enter company name" required>
+            </div>
+
+            <div class="field wide">
+                <label>Business Address</label>
+                <input type="text" id="companyAddress" placeholder="Business address">
+            </div>
+
+            <div class="field">
+                <label>Phone Number</label>
+                <input type="tel" id="companyPhone" placeholder="+1 000 000 0000">
+            </div>
+
+            <div class="field">
+                <label>Email Address</label>
+                <input type="email" id="companyEmail" placeholder="company@example.com">
+            </div>
+
+            <div class="field">
+                <label>Website</label>
+                <input type="url" id="companyWebsite" placeholder="www.company.com">
+            </div>
+
+            <div class="field">
+                <label>Business Registration Number</label>
+                <input type="text" id="companyReg" placeholder="Registration number">
+            </div>
+
+        </div>
+    </header>
+
+    <!-- DOCUMENT HEADING -->
+
+    <div class="document-heading">
+        <h1>CLIENT INFORMATION FORM</h1>
+
+        <div class="document-meta">
+            <div class="field">
+                <label>Client ID</label>
+                <input type="text" id="clientId" placeholder="CL-001">
+            </div>
+            <div class="field">
+                <label>Registration Date <span class="required">*</span></label>
+                <input type="date" id="registrationDate" required>
+            </div>
+        </div>
+    </div>
+
+    <p class="error-message" id="errorMessage">
+        Please complete all required fields and correct any invalid information.
+    </p>
+
+    <!-- SECTION 1 -->
+
+    <section class="section">
+        <div class="section-heading">01. CLIENT BASIC INFORMATION</div>
+
+        <div class="grid-2">
+            <div class="field">
+                <label>Client Type <span class="required">*</span></label>
+                <select id="clientType" required>
+                    <option value="">Select Client Type</option>
+                    <option>Individual</option>
+                    <option>Business / Company</option>
+                    <option>Organization</option>
+                    <option>Government Entity</option>
+                    <option>Non-Profit Organization</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Client Status</label>
+                <select id="clientStatus">
+                    <option>New Client</option>
+                    <option>Active Client</option>
+                    <option>Inactive Client</option>
+                    <option>Former Client</option>
+                    <option>Prospective Client</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Full Name / Authorized Contact <span class="required">*</span></label>
+                <input type="text" id="clientName" required placeholder="Enter full name">
+            </div>
+
+            <div class="field">
+                <label>Job Title / Position</label>
+                <input type="text" id="jobTitle" placeholder="Position or designation">
+            </div>
+
+            <div class="field">
+                <label>Company / Organization Name</label>
+                <input type="text" id="clientCompany" placeholder="Business name (if applicable)">
+            </div>
+
+            <div class="field">
+                <label>Industry / Business Type</label>
+                <input type="text" id="industry" placeholder="e.g. Retail, Healthcare">
+            </div>
+
+            <div class="field">
+                <label>Tax / Registration Number</label>
+                <input type="text" id="taxNumber">
+            </div>
+
+            <div class="field">
+                <label>Preferred Language</label>
+                <select id="language">
+                    <option>English</option>
+                    <option>Spanish</option>
+                    <option>French</option>
+                    <option>Arabic</option>
+                    <option>Urdu</option>
+                    <option>Other</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2 -->
+
+    <section class="section">
+        <div class="section-heading">02. CONTACT INFORMATION</div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Primary Phone Number <span class="required">*</span></label>
+                <input type="tel" id="clientPhone" required placeholder="Enter phone number">
+            </div>
+
+            <div class="field">
+                <label>Alternative Phone Number</label>
+                <input type="tel" id="altPhone" placeholder="Alternative contact">
+            </div>
+
+            <div class="field">
+                <label>Email Address <span class="required">*</span></label>
+                <input type="email" id="clientEmail" required placeholder="client@example.com">
+            </div>
+
+            <div class="field">
+                <label>Alternative Email Address</label>
+                <input type="email" id="altEmail" placeholder="Alternative email">
+            </div>
+
+            <div class="field full">
+                <label>Street Address</label>
+                <input type="text" id="streetAddress" placeholder="Street, building, apartment">
+            </div>
+
+            <div class="field">
+                <label>City</label>
+                <input type="text" id="city">
+            </div>
+
+            <div class="field">
+                <label>State / Province</label>
+                <input type="text" id="state">
+            </div>
+
+            <div class="field">
+                <label>Postal / ZIP Code</label>
+                <input type="text" id="postalCode">
+            </div>
+
+            <div class="field">
+                <label>Country</label>
+                <input type="text" id="country">
+            </div>
+
+            <div class="field full">
+                <label>Billing Address (if different)</label>
+                <textarea id="billingAddress" placeholder="Enter billing address"></textarea>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 3 -->
+
+    <section class="section">
+        <div class="section-heading">03. SERVICE / BUSINESS REQUIREMENTS</div>
+
+        <div class="grid-2">
+            <div class="field">
+                <label>How Did You Hear About Us?</label>
+                <select id="referralSource">
+                    <option value="">Select Source</option>
+                    <option>Google Search</option>
+                    <option>Social Media</option>
+                    <option>Website</option>
+                    <option>Advertisement</option>
+                    <option>Referral</option>
+                    <option>Existing Client</option>
+                    <option>Walk-In</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Preferred Contact Method</label>
+                <select id="contactMethod">
+                    <option>Email</option>
+                    <option>Phone Call</option>
+                    <option>SMS / Text Message</option>
+                    <option>WhatsApp</option>
+                    <option>In-Person Meeting</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Preferred Contact Time</label>
+                <select id="contactTime">
+                    <option>Any Time</option>
+                    <option>Morning</option>
+                    <option>Afternoon</option>
+                    <option>Evening</option>
+                    <option>Business Hours Only</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Expected Start Date</label>
+                <input type="date" id="startDate">
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Services / Products Interested In</label>
+            <div class="table-wrapper">
+                <table id="serviceTable">
+                    <thead>
+                        <tr>
+                            <th style="width:7%">#</th>
+                            <th style="width:42%">Service / Product</th>
+                            <th style="width:36%">Description / Requirements</th>
+                            <th style="width:15%" class="no-print">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="serviceBody">
+                        <tr>
+                            <td class="row-number">1</td>
+                            <td><input type="text" aria-label="Service or product"></td>
+                            <td><input type="text" aria-label="Service requirements"></td>
+                            <td class="no-print">
+                                <button type="button" class="btn-remove" onclick="removeRow(this)">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-actions no-print">
+                <button type="button" class="btn-add" onclick="addServiceRow()">+ Add Service</button>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Project / Service Requirements and Objectives</label>
+            <textarea id="requirements" placeholder="Describe the client's needs, expectations, goals and specific requirements..."></textarea>
+        </div>
+    </section>
+
+    <!-- SECTION 4 -->
+
+    <section class="section">
+        <div class="section-heading">04. EMERGENCY / ALTERNATIVE CONTACT (OPTIONAL)</div>
+
+        <div class="grid-2">
+            <div class="field">
+                <label>Contact Person Name</label>
+                <input type="text" id="emergencyName">
+            </div>
+
+            <div class="field">
+                <label>Relationship</label>
+                <select id="relationship">
+                    <option value="">Select Relationship</option>
+                    <option>Spouse</option>
+                    <option>Parent</option>
+                    <option>Sibling</option>
+                    <option>Relative</option>
+                    <option>Business Associate</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Contact Phone Number</label>
+                <input type="tel" id="emergencyPhone">
+            </div>
+
+            <div class="field">
+                <label>Contact Email</label>
+                <input type="email" id="emergencyEmail">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5 -->
+
+    <section class="section">
+        <div class="section-heading">05. COMMUNICATION PREFERENCES</div>
+
+        <div class="field">
+            <label>Preferred Communication Channels</label>
+            <div class="inline-options">
+                <label><input type="checkbox" name="communication" value="Email"> Email</label>
+                <label><input type="checkbox" name="communication" value="Phone"> Phone</label>
+                <label><input type="checkbox" name="communication" value="SMS"> SMS</label>
+                <label><input type="checkbox" name="communication" value="WhatsApp"> WhatsApp</label>
+            </div>
+        </div>
+
+        <div class="field" style="margin-top:14px">
+            <label>Additional Communication Preferences</label>
+            <textarea id="communicationNotes" placeholder="Any specific communication instructions..."></textarea>
+        </div>
+    </section>
+
+    <!-- SECTION 6 -->
+
+    <section class="section">
+        <div class="section-heading">06. CLIENT NOTES & INTERNAL RECORDS</div>
+
+        <div class="grid-2">
+            <div class="field">
+                <label>Account Manager / Assigned Staff</label>
+                <input type="text" id="accountManager">
+            </div>
+
+            <div class="field">
+                <label>Follow-Up Date</label>
+                <input type="date" id="followUpDate">
+            </div>
+
+            <div class="field full">
+                <label>Internal Notes</label>
+                <textarea id="internalNotes" placeholder="Internal remarks, follow-up details and additional information..."></textarea>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7 -->
+
+    <section class="section">
+        <div class="section-heading">07. CLIENT CONSENT & AUTHORIZATION</div>
+
+        <div class="notice">
+            I confirm that the information provided in this form is accurate and complete
+            to the best of my knowledge. I understand that the information may be used
+            by the company for client communication, service coordination, account
+            management and related business purposes, subject to applicable privacy laws.
+        </div>
+
+        <div class="field" style="margin-top:14px">
+            <div class="inline-options">
+                <label>
+                    <input type="checkbox" id="consent" required>
+                    I confirm that I have read and agree to the above declaration.
+                    <span class="required">*</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="field" style="margin-top:12px">
+            <div class="inline-options">
+                <label>
+                    <input type="checkbox" id="marketingConsent">
+                    I agree to receive optional promotional and marketing communications.
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 8 -->
+
+    <section class="section">
+        <div class="section-heading">08. SIGNATURE & ACKNOWLEDGMENT</div>
+
+        <div class="grid-2">
+            <div class="field">
+                <label>Client / Authorized Representative Name</label>
+                <input type="text" id="signatureName">
+            </div>
+
+            <div class="field">
+                <label>Date of Signature</label>
+                <input type="date" id="signatureDate">
+            </div>
+        </div>
+
+        <div class="signature-grid">
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">Client / Authorized Representative Signature</div>
+            </div>
+
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">Company Representative Signature</div>
+            </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:25px">
+            <div class="field">
+                <label>Received / Prepared By</label>
+                <input type="text" id="preparedBy">
+            </div>
+
+            <div class="field">
+                <label>Approval Date</label>
+                <input type="date" id="approvalDate">
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <span>CLIENT INFORMATION FORM | CONFIDENTIAL CLIENT RECORD</span>
+        <span id="footerCompany">Company Copy</span>
+    </footer>
+
+</form>
+
+<script>
+
+// LOGO UPLOAD
+
+const logoUpload = document.getElementById("logoUpload");
+const logoPreview = document.getElementById("logoPreview");
+const logoPlaceholder = document.getElementById("logoPlaceholder");
+
+logoUpload.addEventListener("change", function() {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    const allowed = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowed.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP image.");
+        this.value = "";
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert("Logo file must be smaller than 5 MB.");
+        this.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        logoPreview.src = event.target.result;
+        logoPreview.hidden = false;
+        logoPlaceholder.hidden = true;
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+// PAPER SIZE
+
+document.getElementById("paperSize").addEventListener("change", function() {
+    const size = this.value;
+    const style = document.getElementById("dynamicPageStyle");
+
+    if (!style) {
+        const newStyle = document.createElement("style");
+        newStyle.id = "dynamicPageStyle";
+        document.head.appendChild(newStyle);
+    }
+
+    document.getElementById("dynamicPageStyle").textContent =
+        "@page { size: " + size + " portrait; margin: 12mm; }";
+});
+
+// PRINT
+
+function printForm() {
+
+    const form = document.getElementById("clientForm");
+
+    if (!form.reportValidity()) {
+        document.getElementById("errorMessage").style.display = "block";
+        return;
+    }
+
+    document.getElementById("errorMessage").style.display = "none";
+
+    const company = document.getElementById("companyName").value.trim();
+
+    document.getElementById("footerCompany").textContent =
+        company ? company + " | Company Copy" : "Company Copy";
+
+    window.print();
+}
+
+// ADD SERVICE ROW
+
+function addServiceRow() {
+
+    const tbody = document.getElementById("serviceBody");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="row-number"></td>
+        <td><input type="text" aria-label="Service or product"></td>
+        <td><input type="text" aria-label="Service requirements"></td>
+        <td class="no-print">
+            <button type="button" class="btn-remove" onclick="removeRow(this)">Remove</button>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+    updateRowNumbers();
+}
+
+// REMOVE SERVICE ROW
+
+function removeRow(button) {
+
+    const tbody = document.getElementById("serviceBody");
+
+    if (tbody.rows.length <= 1) {
+        alert("At least one service row must remain.");
+        return;
+    }
+
+    button.closest("tr").remove();
+    updateRowNumbers();
+}
+
+// AUTOMATIC ROW NUMBERS
+
+function updateRowNumbers() {
+
+    document.querySelectorAll("#serviceBody tr").forEach((row, index) => {
+        row.querySelector(".row-number").textContent = index + 1;
+    });
+
+}
+
+// RESET FORM
+
+function resetForm() {
+
+    if (!confirm("Are you sure you want to clear all entered information?")) {
+        return;
+    }
+
+    document.getElementById("clientForm").reset();
+
+    logoPreview.src = "";
+    logoPreview.hidden = true;
+    logoPlaceholder.hidden = false;
+
+    const tbody = document.getElementById("serviceBody");
+
+    tbody.innerHTML = `
+        <tr>
+            <td class="row-number">1</td>
+            <td><input type="text" aria-label="Service or product"></td>
+            <td><input type="text" aria-label="Service requirements"></td>
+            <td class="no-print">
+                <button type="button" class="btn-remove" onclick="removeRow(this)">Remove</button>
+            </td>
+        </tr>
+    `;
+
+    document.getElementById("errorMessage").style.display = "none";
+
+    document.getElementById("footerCompany").textContent = "Company Copy";
+
+}
+
+// DEFAULT REGISTRATION DATE
+
+document.getElementById("registrationDate").value =
+    new Date().toISOString().split("T")[0];
+
+// DATE VALIDATION
+
+document.getElementById("startDate").addEventListener("change", function() {
+
+    const registrationDate =
+        document.getElementById("registrationDate").value;
+
+    if (registrationDate && this.value && this.value < registrationDate) {
+        alert("Expected start date cannot be earlier than registration date.");
+        this.value = "";
+    }
+
+});
+
+document.getElementById("followUpDate").addEventListener("change", function() {
+
+    const registrationDate =
+        document.getElementById("registrationDate").value;
+
+    if (registrationDate && this.value && this.value < registrationDate) {
+        alert("Follow-up date cannot be earlier than registration date.");
+        this.value = "";
+    }
+
+});
+
+// COMPANY FOOTER
+
+document.getElementById("companyName").addEventListener("input", function() {
+    document.getElementById("footerCompany").textContent =
+        this.value.trim() ? this.value + " | Company Copy" : "Company Copy";
+});
+
+// VALIDATION MESSAGE
+
+document.getElementById("clientForm").addEventListener("invalid", function() {
+    document.getElementById("errorMessage").style.display = "block";
+}, true);
+
+</script>
+
+</body>
+</html>

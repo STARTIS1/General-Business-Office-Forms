@@ -1,0 +1,1792 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work Order Form</title>
+
+<style>
+:root {
+    --navy: #183451;
+    --blue: #285b85;
+    --light: #eaf1f7;
+    --border: #cbd5df;
+    --text: #263445;
+    --muted: #64748b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 14px;
+    background: #edf1f5;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+.form-container {
+    max-width: 900px;
+    width: 100%;
+    margin: auto;
+    padding: 30px 34px;
+    background: white;
+    border: 1px solid #d7dee6;
+    box-shadow: 0 4px 18px rgba(25,45,65,.09);
+}
+
+.toolbar {
+    max-width: 900px;
+    margin: 0 auto 14px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+button {
+    border: none;
+    padding: 10px 17px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.print-btn {
+    background: var(--navy);
+    color: white;
+}
+
+.reset-btn {
+    background: #e5eaf0;
+    color: #334155;
+}
+
+.add-btn {
+    background: #eaf1f7;
+    color: var(--navy);
+    border: 1px solid #c5d4e2;
+    padding: 7px 12px;
+}
+
+.remove-btn {
+    background: #fff0f0;
+    color: #b42318;
+    padding: 6px 9px;
+}
+
+button:hover {
+    opacity: .85;
+}
+
+.document-header {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 25px;
+    padding-bottom: 19px;
+    border-bottom: 2px solid var(--navy);
+    align-items: start;
+}
+
+.logo-column {
+    text-align: center;
+}
+
+.logo-box {
+    height: 105px;
+    width: 140px;
+    border: 1px dashed #aebdcb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #fafcfe;
+}
+
+.logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    color: #91a0af;
+    font-size: 11px;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.logo-upload {
+    margin-top: 8px;
+    font-size: 10px;
+}
+
+.company-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 12px;
+}
+
+.company-fields .wide {
+    grid-column: span 2;
+}
+
+.company-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--navy);
+}
+
+.document-title {
+    text-align: center;
+    padding: 19px 0 15px;
+}
+
+.document-title h1 {
+    font-size: 23px;
+    color: var(--navy);
+    margin: 0 0 5px;
+    letter-spacing: 1px;
+}
+
+.document-title p {
+    color: var(--muted);
+    margin: 0;
+    font-size: 10px;
+    letter-spacing: .5px;
+}
+
+.section {
+    margin-top: 17px;
+}
+
+.section-heading {
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+    background: var(--navy);
+    padding: 8px 10px;
+    margin: 0 0 11px;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 11px 15px;
+}
+
+.field-grid.three {
+    grid-template-columns: repeat(3, minmax(0,1fr));
+}
+
+.field {
+    min-width: 0;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    display: block;
+    color: #475569;
+    font-weight: bold;
+    font-size: 10px;
+    margin-bottom: 5px;
+}
+
+.required::after {
+    content: " *";
+    color: #c0392b;
+}
+
+input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    min-height: 31px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 7px 8px;
+    font-family: inherit;
+    font-size: 11px;
+    color: #263445;
+    background: white;
+}
+
+textarea {
+    min-height: 65px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #3975a8;
+    box-shadow: 0 0 0 2px rgba(57,117,168,.10);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    width: auto;
+    min-height: auto;
+    accent-color: var(--navy);
+}
+
+.choice-group {
+    display: flex;
+    gap: 17px;
+    flex-wrap: wrap;
+    padding: 6px 0;
+}
+
+.choice-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+    font-weight: normal;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th {
+    background: #eaf0f6;
+    color: var(--navy);
+    text-align: left;
+    font-size: 10px;
+    padding: 8px 5px;
+    border: 1px solid #cbd5df;
+}
+
+td {
+    border: 1px solid #d5dde5;
+    padding: 5px;
+    vertical-align: middle;
+}
+
+td input, td select {
+    border: none;
+    background: transparent;
+    min-height: 27px;
+    padding: 5px 3px;
+}
+
+td input:focus, td select:focus {
+    background: #f4f8fc;
+    box-shadow: none;
+}
+
+.number-cell {
+    text-align: center;
+    color: #64748b;
+    font-weight: bold;
+}
+
+.amount-cell {
+    text-align: right;
+    font-weight: bold;
+    white-space: nowrap;
+    padding-right: 7px;
+}
+
+.table-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.table-scroll {
+    width: 100%;
+}
+
+.totals {
+    width: 310px;
+    max-width: 100%;
+    margin: 12px 0 0 auto;
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    background: #fbfcfd;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 5px 0;
+    font-size: 11px;
+}
+
+.total-row input {
+    width: 100px;
+    min-height: 25px;
+    text-align: right;
+}
+
+.total-final {
+    border-top: 1px solid var(--navy);
+    margin-top: 6px;
+    padding-top: 10px;
+    font-weight: bold;
+    color: var(--navy);
+    font-size: 14px;
+}
+
+.total-final span:last-child {
+    white-space: nowrap;
+}
+
+.note-box {
+    background: #f7f9fb;
+    border: 1px solid #dbe2e9;
+    padding: 11px;
+    font-size: 10px;
+    line-height: 1.6;
+    color: #526174;
+}
+
+.signatures {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 22px;
+    margin-top: 28px;
+}
+
+.signature-box {
+    min-width: 0;
+}
+
+.signature-line {
+    height: 44px;
+    border-bottom: 1px solid #526174;
+}
+
+.signature-box label {
+    margin-top: 7px;
+    color: var(--navy);
+}
+
+.signature-box input {
+    border: none;
+    border-bottom: 1px solid #d4dce4;
+    border-radius: 0;
+    padding-left: 0;
+}
+
+.signature-box .date-label {
+    margin-top: 11px;
+}
+
+.footer {
+    border-top: 1px solid #d7dfe7;
+    margin-top: 24px;
+    padding-top: 9px;
+    text-align: center;
+    font-size: 9px;
+    color: #8491a0;
+}
+
+.error-message {
+    display: none;
+    color: #b42318;
+    background: #fff1f0;
+    border: 1px solid #f3c3bf;
+    padding: 10px;
+    margin-bottom: 12px;
+    font-size: 11px;
+}
+
+@media(max-width:650px) {
+    body {
+        padding: 10px 5px;
+    }
+
+    .form-container {
+        padding: 18px 12px;
+    }
+
+    .document-header {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+
+    .company-fields {
+        width: 100%;
+    }
+
+    .field-grid.three {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .signatures {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+    }
+
+    .table-scroll table {
+        min-width: 610px;
+    }
+
+    .document-title h1 {
+        font-size: 20px;
+    }
+}
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        font-size: 10px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .toolbar,
+    .no-print,
+    .table-actions,
+    .remove-column,
+    .error-message {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .document-header {
+        grid-template-columns: 125px 1fr;
+    }
+
+    .logo-box {
+        width: 120px;
+        height: 85px;
+    }
+
+    input, textarea, select {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border-color: #cbd5df;
+        border-radius: 0;
+        font-size: 10px;
+        padding: 4px;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: transparent !important;
+    }
+
+    select {
+        appearance: none;
+        -webkit-appearance: none;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .section {
+        break-inside: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    td, th {
+        padding: 5px 4px;
+    }
+
+    .signatures {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .footer {
+        color: #64748b;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+    <button type="button" class="reset-btn" onclick="resetForm()">
+        RESET FORM
+    </button>
+    <button type="button" class="print-btn" onclick="printForm()">
+        PRINT FORM / SAVE AS PDF
+    </button>
+</div>
+
+<div class="form-container">
+
+<form id="workOrderForm" onsubmit="return false;">
+
+<div id="errorMessage" class="error-message" role="alert"></div>
+
+<!-- COMPANY HEADER -->
+
+<header class="document-header">
+
+    <div class="logo-column">
+        <div class="logo-box" id="logoBox">
+            <span class="logo-placeholder">COMPANY<br>LOGO</span>
+        </div>
+
+        <input type="file"
+               id="logoUpload"
+               accept=".jpg,.jpeg,.png,.svg,.webp"
+               hidden
+               class="no-print">
+
+        <button type="button"
+                class="add-btn logo-upload no-print"
+                onclick="document.getElementById('logoUpload').click()">
+            UPLOAD LOGO
+        </button>
+    </div>
+
+    <div class="company-fields">
+
+        <div class="field wide">
+            <label class="required">Company Name</label>
+            <input type="text" id="companyName"
+                   class="company-name"
+                   placeholder="Enter Company Name" required>
+        </div>
+
+        <div class="field wide">
+            <label>Business Address</label>
+            <input type="text" id="companyAddress"
+                   placeholder="Street Address, City, Country">
+        </div>
+
+        <div class="field">
+            <label>Phone Number</label>
+            <input type="tel" id="companyPhone"
+                   placeholder="+1 000 000 0000">
+        </div>
+
+        <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="companyEmail"
+                   placeholder="company@example.com">
+        </div>
+
+        <div class="field">
+            <label>Website</label>
+            <input type="text" id="companyWebsite"
+                   placeholder="www.example.com">
+        </div>
+
+        <div class="field">
+            <label>Business Registration Number</label>
+            <input type="text" id="registrationNumber"
+                   placeholder="Registration Number">
+        </div>
+
+    </div>
+</header>
+
+<!-- DOCUMENT TITLE -->
+
+<div class="document-title">
+    <h1>WORK ORDER FORM</h1>
+    <p>WORK AUTHORIZATION & SERVICE EXECUTION RECORD</p>
+</div>
+
+<!-- WORK ORDER INFORMATION -->
+
+<section class="section">
+    <h2 class="section-heading">01. Work Order Information</h2>
+
+    <div class="field-grid three">
+
+        <div class="field">
+            <label class="required">Work Order Number</label>
+            <input type="text" id="workOrderNo"
+                   placeholder="WO-0001" required>
+        </div>
+
+        <div class="field">
+            <label class="required">Issue Date</label>
+            <input type="date" id="issueDate" required>
+        </div>
+
+        <div class="field">
+            <label>Expected Start Date</label>
+            <input type="date" id="startDate">
+        </div>
+
+        <div class="field">
+            <label>Expected Completion Date</label>
+            <input type="date" id="completionDate">
+        </div>
+
+        <div class="field">
+            <label>Reference / Request Number</label>
+            <input type="text" id="referenceNo"
+                   placeholder="Reference Number">
+        </div>
+
+        <div class="field">
+            <label>Department</label>
+            <input type="text" id="department"
+                   placeholder="Department">
+        </div>
+
+        <div class="field">
+            <label class="required">Work Order Type</label>
+            <select id="workType" required>
+                <option value="">Select Type</option>
+                <option>Maintenance</option>
+                <option>Repair</option>
+                <option>Installation</option>
+                <option>Construction</option>
+                <option>Inspection</option>
+                <option>General Service</option>
+                <option>Replacement</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Priority Level</label>
+            <select id="priority">
+                <option>Normal</option>
+                <option>Low</option>
+                <option>High</option>
+                <option>Urgent</option>
+                <option>Emergency</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Work Order Status</label>
+            <select id="workStatus">
+                <option>Draft</option>
+                <option>Pending Approval</option>
+                <option>Approved</option>
+                <option>In Progress</option>
+                <option>On Hold</option>
+                <option>Completed</option>
+                <option>Cancelled</option>
+            </select>
+        </div>
+
+    </div>
+</section>
+
+<!-- CUSTOMER INFORMATION -->
+
+<section class="section">
+    <h2 class="section-heading">02. Customer / Client Information</h2>
+
+    <div class="field-grid">
+
+        <div class="field">
+            <label class="required">Customer / Client Name</label>
+            <input type="text" id="clientName"
+                   placeholder="Enter Customer Name" required>
+        </div>
+
+        <div class="field">
+            <label>Contact Person</label>
+            <input type="text" id="contactPerson"
+                   placeholder="Contact Person Name">
+        </div>
+
+        <div class="field">
+            <label class="required">Phone Number</label>
+            <input type="tel" id="clientPhone"
+                   placeholder="Phone Number" required>
+        </div>
+
+        <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="clientEmail"
+                   placeholder="client@example.com">
+        </div>
+
+        <div class="field full">
+            <label>Billing Address</label>
+            <input type="text" id="billingAddress"
+                   placeholder="Customer Billing Address">
+        </div>
+
+    </div>
+</section>
+
+<!-- JOB LOCATION -->
+
+<section class="section">
+    <h2 class="section-heading">03. Work Location / Site Information</h2>
+
+    <div class="field-grid">
+
+        <div class="field full">
+            <label class="required">Work Site Address</label>
+            <input type="text" id="siteAddress"
+                   placeholder="Complete Work Location Address"
+                   required>
+        </div>
+
+        <div class="field">
+            <label>Building / Property Name</label>
+            <input type="text" id="propertyName"
+                   placeholder="Building or Property">
+        </div>
+
+        <div class="field">
+            <label>Site Contact Person</label>
+            <input type="text" id="siteContact"
+                   placeholder="On-Site Contact">
+        </div>
+
+        <div class="field">
+            <label>Site Contact Number</label>
+            <input type="tel" id="sitePhone"
+                   placeholder="Site Contact Number">
+        </div>
+
+        <div class="field">
+            <label>Access / Site Instructions</label>
+            <input type="text" id="siteInstructions"
+                   placeholder="Access Details">
+        </div>
+
+    </div>
+</section>
+
+<!-- WORK DESCRIPTION -->
+
+<section class="section">
+    <h2 class="section-heading">04. Work Description & Scope</h2>
+
+    <div class="field-grid">
+
+        <div class="field full">
+            <label class="required">Work Title / Job Description</label>
+            <input type="text" id="workTitle"
+                   placeholder="Brief Description of Work"
+                   required>
+        </div>
+
+        <div class="field full">
+            <label class="required">Scope of Work / Tasks to Be Performed</label>
+            <textarea id="scopeOfWork"
+                      placeholder="Describe the work, services, tasks and expected deliverables..."
+                      required></textarea>
+        </div>
+
+        <div class="field full">
+            <label>Special Instructions / Technical Requirements</label>
+            <textarea id="technicalRequirements"
+                      placeholder="Enter technical specifications, safety requirements or special instructions..."></textarea>
+        </div>
+
+        <div class="field">
+            <label>Assigned Team / Contractor</label>
+            <input type="text" id="assignedTeam"
+                   placeholder="Team or Contractor Name">
+        </div>
+
+        <div class="field">
+            <label>Responsible Supervisor</label>
+            <input type="text" id="supervisor"
+                   placeholder="Supervisor Name">
+        </div>
+
+    </div>
+</section>
+
+<!-- SCHEDULE -->
+
+<section class="section">
+    <h2 class="section-heading">05. Work Schedule</h2>
+
+    <div class="field-grid three">
+
+        <div class="field">
+            <label>Scheduled Start Time</label>
+            <input type="time" id="startTime">
+        </div>
+
+        <div class="field">
+            <label>Scheduled End Time</label>
+            <input type="time" id="endTime">
+        </div>
+
+        <div class="field">
+            <label>Estimated Working Days</label>
+            <input type="number" id="workingDays"
+                   min="0" step="1" placeholder="0">
+        </div>
+
+        <div class="field full">
+            <label>Work Schedule / Additional Timing Details</label>
+            <textarea id="scheduleNotes"
+                      placeholder="Working hours, access schedule, shutdown periods, etc."></textarea>
+        </div>
+
+    </div>
+</section>
+
+<!-- MATERIALS -->
+
+<section class="section">
+    <h2 class="section-heading">06. Materials / Parts Required</h2>
+
+    <div class="table-scroll">
+        <table id="materialsTable">
+            <thead>
+                <tr>
+                    <th style="width:5%">#</th>
+                    <th style="width:30%">Material / Part Description</th>
+                    <th style="width:13%">Quantity</th>
+                    <th style="width:14%">Unit</th>
+                    <th style="width:17%">Unit Cost</th>
+                    <th style="width:17%">Total Cost</th>
+                    <th class="remove-column no-print" style="width:6%">Action</th>
+                </tr>
+            </thead>
+            <tbody id="materialsBody">
+                <tr>
+                    <td class="number-cell">1</td>
+                    <td><input type="text" class="material-name"
+                               placeholder="Material name"></td>
+                    <td><input type="number" class="material-qty"
+                               min="0" step="any" value="0"></td>
+                    <td>
+                        <select class="material-unit">
+                            <option>Each</option>
+                            <option>Piece</option>
+                            <option>Set</option>
+                            <option>Box</option>
+                            <option>Kg</option>
+                            <option>Liter</option>
+                            <option>Meter</option>
+                            <option>Square Meter</option>
+                            <option>Hour</option>
+                            <option>Other</option>
+                        </select>
+                    </td>
+                    <td><input type="number" class="material-rate"
+                               min="0" step="0.01" value="0"></td>
+                    <td class="amount-cell material-total">0.00</td>
+                    <td class="remove-column no-print">
+                        <button type="button" class="remove-btn"
+                                onclick="removeRow(this)">X</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-actions no-print">
+        <button type="button" class="add-btn"
+                onclick="addMaterialRow()">+ ADD MATERIAL</button>
+    </div>
+</section>
+
+<!-- LABOR -->
+
+<section class="section">
+    <h2 class="section-heading">07. Labor / Workforce Details</h2>
+
+    <div class="table-scroll">
+        <table id="laborTable">
+            <thead>
+                <tr>
+                    <th style="width:5%">#</th>
+                    <th style="width:31%">Worker / Labor Category</th>
+                    <th style="width:16%">Workers</th>
+                    <th style="width:16%">Hours</th>
+                    <th style="width:16%">Hourly Rate</th>
+                    <th style="width:16%">Total Cost</th>
+                    <th class="remove-column no-print" style="width:6%">Action</th>
+                </tr>
+            </thead>
+            <tbody id="laborBody">
+                <tr>
+                    <td class="number-cell">1</td>
+                    <td><input type="text" class="labor-name"
+                               placeholder="Worker / Labor Type"></td>
+                    <td><input type="number" class="labor-workers"
+                               min="0" step="1" value="0"></td>
+                    <td><input type="number" class="labor-hours"
+                               min="0" step="any" value="0"></td>
+                    <td><input type="number" class="labor-rate"
+                               min="0" step="0.01" value="0"></td>
+                    <td class="amount-cell labor-total">0.00</td>
+                    <td class="remove-column no-print">
+                        <button type="button" class="remove-btn"
+                                onclick="removeRow(this)">X</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-actions no-print">
+        <button type="button" class="add-btn"
+                onclick="addLaborRow()">+ ADD LABOR</button>
+    </div>
+</section>
+
+<!-- COST SUMMARY -->
+
+<section class="section">
+    <h2 class="section-heading">08. Work Order Cost Summary</h2>
+
+    <div class="field-grid">
+        <div class="field">
+            <label>Currency</label>
+            <select id="currency" onchange="calculateTotals()">
+                <option value="USD">USD - US Dollar</option>
+                <option value="PKR">PKR - Pakistani Rupee</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="AED">AED - UAE Dirham</option>
+                <option value="SAR">SAR - Saudi Riyal</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="AUD">AUD - Australian Dollar</option>
+                <option value="INR">INR - Indian Rupee</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="totals">
+
+        <div class="total-row">
+            <span>Materials Subtotal</span>
+            <strong id="materialsSubtotal">0.00</strong>
+        </div>
+
+        <div class="total-row">
+            <span>Labor Subtotal</span>
+            <strong id="laborSubtotal">0.00</strong>
+        </div>
+
+        <div class="total-row">
+            <span>Additional Charges</span>
+            <input type="number" id="additionalCharges"
+                   min="0" step="0.01" value="0">
+        </div>
+
+        <div class="total-row">
+            <span>Discount</span>
+            <input type="number" id="discount"
+                   min="0" step="0.01" value="0">
+        </div>
+
+        <div class="total-row">
+            <span>Tax Rate (%)</span>
+            <input type="number" id="taxRate"
+                   min="0" max="100" step="0.01" value="0">
+        </div>
+
+        <div class="total-row">
+            <span>Tax Amount</span>
+            <strong id="taxAmount">0.00</strong>
+        </div>
+
+        <div class="total-row">
+            <span>Subtotal Before Tax</span>
+            <strong id="beforeTax">0.00</strong>
+        </div>
+
+        <div class="total-row total-final">
+            <span>ESTIMATED TOTAL</span>
+            <span id="grandTotal">0.00</span>
+        </div>
+
+    </div>
+
+    <div class="field" style="margin-top:13px">
+        <label>Cost Estimate Notes</label>
+        <textarea id="costNotes"
+                  placeholder="Enter cost assumptions, exclusions or pricing notes..."></textarea>
+    </div>
+</section>
+
+<!-- EQUIPMENT -->
+
+<section class="section">
+    <h2 class="section-heading">09. Equipment / Tools Required</h2>
+
+    <div class="field-grid">
+
+        <div class="field full">
+            <label>Equipment and Tools</label>
+            <textarea id="equipment"
+                      placeholder="List machinery, tools, equipment and other resources required..."></textarea>
+        </div>
+
+        <div class="field">
+            <label>Equipment Provided By</label>
+            <select id="equipmentProvider">
+                <option>Company</option>
+                <option>Customer / Client</option>
+                <option>Contractor</option>
+                <option>Third Party Supplier</option>
+                <option>Shared Responsibility</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Equipment Availability</label>
+            <select id="equipmentAvailability">
+                <option>Available</option>
+                <option>Pending</option>
+                <option>Not Available</option>
+                <option>Not Applicable</option>
+            </select>
+        </div>
+
+    </div>
+</section>
+
+<!-- SAFETY -->
+
+<section class="section">
+    <h2 class="section-heading">10. Safety & Site Requirements</h2>
+
+    <div class="field">
+        <label>Required Safety Measures</label>
+
+        <div class="choice-group">
+            <label><input type="checkbox" name="safety" value="PPE Required"> PPE Required</label>
+            <label><input type="checkbox" name="safety" value="Safety Inspection"> Safety Inspection</label>
+            <label><input type="checkbox" name="safety" value="Work Permit"> Work Permit</label>
+            <label><input type="checkbox" name="safety" value="Site Isolation"> Site Isolation</label>
+            <label><input type="checkbox" name="safety" value="Hazard Assessment"> Hazard Assessment</label>
+            <label><input type="checkbox" name="safety" value="None"> None</label>
+        </div>
+    </div>
+
+    <div class="field" style="margin-top:10px">
+        <label>Hazards / Safety Instructions</label>
+        <textarea id="safetyNotes"
+                  placeholder="Describe potential hazards, precautions and required safety instructions..."></textarea>
+    </div>
+</section>
+
+<!-- COMPLETION -->
+
+<section class="section">
+    <h2 class="section-heading">11. Work Completion & Inspection</h2>
+
+    <div class="field-grid">
+
+        <div class="field">
+            <label>Actual Start Date</label>
+            <input type="date" id="actualStart">
+        </div>
+
+        <div class="field">
+            <label>Actual Completion Date</label>
+            <input type="date" id="actualCompletion">
+        </div>
+
+        <div class="field">
+            <label>Completion Status</label>
+            <select id="completionStatus">
+                <option>Not Started</option>
+                <option>In Progress</option>
+                <option>Partially Completed</option>
+                <option>Completed</option>
+                <option>Requires Rework</option>
+                <option>On Hold</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Inspection Result</label>
+            <select id="inspectionResult">
+                <option>Pending Inspection</option>
+                <option>Passed</option>
+                <option>Failed</option>
+                <option>Conditional Approval</option>
+                <option>Not Required</option>
+            </select>
+        </div>
+
+        <div class="field full">
+            <label>Work Performed / Completion Details</label>
+            <textarea id="completionDetails"
+                      placeholder="Describe work completed, outstanding tasks and inspection findings..."></textarea>
+        </div>
+
+        <div class="field full">
+            <label>Outstanding Issues / Recommendations</label>
+            <textarea id="outstandingIssues"
+                      placeholder="List pending work, defects or recommended follow-up actions..."></textarea>
+        </div>
+
+    </div>
+</section>
+
+<!-- TERMS -->
+
+<section class="section">
+    <h2 class="section-heading">12. Terms & Work Authorization</h2>
+
+    <div class="note-box">
+        1. Work must be performed according to the approved scope and specifications.
+
+        <br>2. Any additional work or changes to the original scope must receive written authorization.
+
+        <br>3. Materials and equipment must be handled responsibly and in accordance with applicable safety requirements.
+
+        <br>4. Any delays, unexpected conditions or additional costs must be communicated to the responsible party.
+
+        <br>5. Work completion is subject to inspection and acceptance by the authorized representative.
+
+        <br>6. The estimated costs shown in this document are subject to the agreed scope and applicable changes.
+    </div>
+
+    <div class="field" style="margin-top:12px">
+        <label>Additional Terms / Special Conditions</label>
+        <textarea id="additionalTerms"
+                  placeholder="Enter any additional terms, conditions or agreements..."></textarea>
+    </div>
+
+    <div class="field" style="margin-top:10px">
+        <div class="choice-group">
+            <label>
+                <input type="checkbox" id="authorizationAccepted" required>
+                I confirm that the work described above is authorized, subject to the stated terms.
+            </label>
+        </div>
+    </div>
+</section>
+
+<!-- APPROVAL -->
+
+<section class="section">
+    <h2 class="section-heading">13. Authorization & Signatures</h2>
+
+    <div class="field-grid three">
+
+        <div class="field">
+            <label>Prepared By</label>
+            <input type="text" id="preparedBy"
+                   placeholder="Name">
+        </div>
+
+        <div class="field">
+            <label>Reviewed By</label>
+            <input type="text" id="reviewedBy"
+                   placeholder="Name">
+        </div>
+
+        <div class="field">
+            <label>Approved By</label>
+            <input type="text" id="approvedBy"
+                   placeholder="Name">
+        </div>
+
+    </div>
+
+    <div class="signatures">
+
+        <div class="signature-box">
+            <div class="signature-line"></div>
+            <label>Prepared By Signature</label>
+            <input type="text" id="preparedSignature"
+                   placeholder="Printed Name">
+            <label class="date-label">Date</label>
+            <input type="date" id="preparedDate">
+        </div>
+
+        <div class="signature-box">
+            <div class="signature-line"></div>
+            <label>Authorized Approval Signature</label>
+            <input type="text" id="approvalSignature"
+                   placeholder="Printed Name">
+            <label class="date-label">Date</label>
+            <input type="date" id="approvalDate">
+        </div>
+
+        <div class="signature-box">
+            <div class="signature-line"></div>
+            <label>Customer / Client Acceptance</label>
+            <input type="text" id="clientSignature"
+                   placeholder="Printed Name">
+            <label class="date-label">Date</label>
+            <input type="date" id="clientDate">
+        </div>
+
+    </div>
+</section>
+
+<footer class="footer">
+    WORK ORDER FORM | Keep a copy for your business records.
+</footer>
+
+</form>
+</div>
+
+<script>
+
+// ==========================================
+// LOGO UPLOAD AND PREVIEW
+// ==========================================
+
+document.getElementById("logoUpload").addEventListener("change", function(e) {
+
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const allowed = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowed.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP image.");
+        this.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+
+        const box = document.getElementById("logoBox");
+
+        box.innerHTML = "";
+
+        const img = document.createElement("img");
+
+        img.src = event.target.result;
+        img.alt = "Company Logo";
+
+        box.appendChild(img);
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+
+// ==========================================
+// SAFE NUMBER HELPER
+// ==========================================
+
+function getNumber(element) {
+
+    const value = parseFloat(element.value);
+
+    return Number.isFinite(value) && value > 0 ? value : 0;
+}
+
+
+// ==========================================
+// CURRENCY FORMATTING
+// ==========================================
+
+function formatMoney(value) {
+
+    const currency = document.getElementById("currency").value;
+
+    const decimals = currency === "PKR" || currency === "INR" ? 2 : 2;
+
+    return new Intl.NumberFormat("en-US", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+    }).format(value);
+}
+
+
+// ==========================================
+// ADD MATERIAL ROW
+// ==========================================
+
+function addMaterialRow() {
+
+    const body = document.getElementById("materialsBody");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="number-cell"></td>
+
+        <td>
+            <input type="text" class="material-name"
+                   placeholder="Material name">
+        </td>
+
+        <td>
+            <input type="number" class="material-qty"
+                   min="0" step="any" value="0">
+        </td>
+
+        <td>
+            <select class="material-unit">
+                <option>Each</option>
+                <option>Piece</option>
+                <option>Set</option>
+                <option>Box</option>
+                <option>Kg</option>
+                <option>Liter</option>
+                <option>Meter</option>
+                <option>Square Meter</option>
+                <option>Hour</option>
+                <option>Other</option>
+            </select>
+        </td>
+
+        <td>
+            <input type="number" class="material-rate"
+                   min="0" step="0.01" value="0">
+        </td>
+
+        <td class="amount-cell material-total">0.00</td>
+
+        <td class="remove-column no-print">
+            <button type="button" class="remove-btn"
+                    onclick="removeRow(this)">X</button>
+        </td>
+    `;
+
+    body.appendChild(row);
+
+    updateCalculations();
+}
+
+
+// ==========================================
+// ADD LABOR ROW
+// ==========================================
+
+function addLaborRow() {
+
+    const body = document.getElementById("laborBody");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="number-cell"></td>
+
+        <td>
+            <input type="text" class="labor-name"
+                   placeholder="Worker / Labor Type">
+        </td>
+
+        <td>
+            <input type="number" class="labor-workers"
+                   min="0" step="1" value="0">
+        </td>
+
+        <td>
+            <input type="number" class="labor-hours"
+                   min="0" step="any" value="0">
+        </td>
+
+        <td>
+            <input type="number" class="labor-rate"
+                   min="0" step="0.01" value="0">
+        </td>
+
+        <td class="amount-cell labor-total">0.00</td>
+
+        <td class="remove-column no-print">
+            <button type="button" class="remove-btn"
+                    onclick="removeRow(this)">X</button>
+        </td>
+    `;
+
+    body.appendChild(row);
+
+    updateCalculations();
+}
+
+
+// ==========================================
+// REMOVE TABLE ROW
+// ==========================================
+
+function removeRow(button) {
+
+    const row = button.closest("tr");
+
+    const tbody = row.parentElement;
+
+    if (tbody.children.length <= 1) {
+        alert("At least one row must remain.");
+        return;
+    }
+
+    row.remove();
+
+    updateCalculations();
+}
+
+
+// ==========================================
+// AUTOMATIC ROW NUMBERING
+// ==========================================
+
+function numberRows() {
+
+    ["materialsBody", "laborBody"].forEach(id => {
+
+        const rows = document.getElementById(id).rows;
+
+        Array.from(rows).forEach((row, index) => {
+
+            row.cells[0].textContent = index + 1;
+
+        });
+
+    });
+
+}
+
+
+// ==========================================
+// MATERIAL AND LABOR CALCULATIONS
+// ==========================================
+
+function calculateTotals() {
+
+    let materialsTotal = 0;
+    let laborTotal = 0;
+
+    // Materials
+
+    document.querySelectorAll("#materialsBody tr").forEach(row => {
+
+        const qty = getNumber(row.querySelector(".material-qty"));
+        const rate = getNumber(row.querySelector(".material-rate"));
+
+        const total = qty * rate;
+
+        row.querySelector(".material-total").textContent =
+            formatMoney(total);
+
+        materialsTotal += total;
+
+    });
+
+    // Labor
+
+    document.querySelectorAll("#laborBody tr").forEach(row => {
+
+        const workers = getNumber(row.querySelector(".labor-workers"));
+        const hours = getNumber(row.querySelector(".labor-hours"));
+        const rate = getNumber(row.querySelector(".labor-rate"));
+
+        const total = workers * hours * rate;
+
+        row.querySelector(".labor-total").textContent =
+            formatMoney(total);
+
+        laborTotal += total;
+
+    });
+
+    // Cost Summary
+
+    const additional = getNumber(
+        document.getElementById("additionalCharges")
+    );
+
+    const discount = getNumber(
+        document.getElementById("discount")
+    );
+
+    const taxRate = Math.min(
+        100,
+        getNumber(document.getElementById("taxRate"))
+    );
+
+    const beforeTax = Math.max(
+        0,
+        materialsTotal + laborTotal + additional - discount
+    );
+
+    const tax = beforeTax * taxRate / 100;
+
+    const grandTotal = beforeTax + tax;
+
+    document.getElementById("materialsSubtotal").textContent =
+        formatMoney(materialsTotal);
+
+    document.getElementById("laborSubtotal").textContent =
+        formatMoney(laborTotal);
+
+    document.getElementById("beforeTax").textContent =
+        formatMoney(beforeTax);
+
+    document.getElementById("taxAmount").textContent =
+        formatMoney(tax);
+
+    document.getElementById("grandTotal").textContent =
+        formatMoney(grandTotal);
+
+    numberRows();
+
+}
+
+
+// ==========================================
+// INPUT LISTENERS
+// ==========================================
+
+document.addEventListener("input", function(e) {
+
+    if (
+        e.target.closest("#materialsTable") ||
+        e.target.closest("#laborTable") ||
+        [
+            "additionalCharges",
+            "discount",
+            "taxRate"
+        ].includes(e.target.id)
+    ) {
+
+        // Prevent negative values in cost fields.
+        if (e.target.type === "number") {
+
+            if (e.target.value !== "" &&
+                parseFloat(e.target.value) < 0) {
+
+                e.target.value = 0;
+            }
+
+            if (e.target.id === "taxRate" &&
+                parseFloat(e.target.value) > 100) {
+
+                e.target.value = 100;
+            }
+        }
+
+        calculateTotals();
+    }
+
+});
+
+document.getElementById("currency").addEventListener(
+    "change",
+    calculateTotals
+);
+
+
+// ==========================================
+// DATE VALIDATION
+// ==========================================
+
+function validateDates() {
+
+    const pairs = [
+        ["issueDate", "startDate", "Expected start date cannot be before issue date."],
+        ["startDate", "completionDate", "Expected completion date cannot be before start date."],
+        ["actualStart", "actualCompletion", "Actual completion date cannot be before actual start date."]
+    ];
+
+    for (const [firstId, secondId, message] of pairs) {
+
+        const first = document.getElementById(firstId).value;
+        const second = document.getElementById(secondId).value;
+
+        if (first && second && second < first) {
+
+            alert(message);
+
+            document.getElementById(secondId).focus();
+
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+// ==========================================
+// PRINT FORM / SAVE AS PDF
+// ==========================================
+
+function printForm() {
+
+    const form = document.getElementById("workOrderForm");
+
+    // Validate required fields.
+    if (!form.reportValidity()) {
+        return;
+    }
+
+    // Validate email fields.
+    const emailFields = [
+        document.getElementById("companyEmail"),
+        document.getElementById("clientEmail")
+    ];
+
+    for (const field of emailFields) {
+
+        if (field.value && !field.checkValidity()) {
+
+            field.reportValidity();
+            return;
+        }
+    }
+
+    if (!validateDates()) {
+        return;
+    }
+
+    calculateTotals();
+
+    // Open the browser print dialog.
+    // Select "Save as PDF" in the destination options.
+
+    window.print();
+}
+
+
+// ==========================================
+// RESET FORM
+// ==========================================
+
+function resetForm() {
+
+    const confirmed = confirm(
+        "Are you sure you want to reset the entire Work Order Form? All entered information will be cleared."
+    );
+
+    if (!confirmed) return;
+
+    document.getElementById("workOrderForm").reset();
+
+    // Restore original logo placeholder.
+    document.getElementById("logoBox").innerHTML =
+        '<span class="logo-placeholder">COMPANY<br>LOGO</span>';
+
+    document.getElementById("logoUpload").value = "";
+
+    // Restore one default material row.
+    document.getElementById("materialsBody").innerHTML = `
+        <tr>
+            <td class="number-cell">1</td>
+            <td><input type="text" class="material-name" placeholder="Material name"></td>
+            <td><input type="number" class="material-qty" min="0" step="any" value="0"></td>
+            <td>
+                <select class="material-unit">
+                    <option>Each</option>
+                    <option>Piece</option>
+                    <option>Set</option>
+                    <option>Box</option>
+                    <option>Kg</option>
+                    <option>Liter</option>
+                    <option>Meter</option>
+                    <option>Square Meter</option>
+                    <option>Hour</option>
+                    <option>Other</option>
+                </select>
+            </td>
+            <td><input type="number" class="material-rate" min="0" step="0.01" value="0"></td>
+            <td class="amount-cell material-total">0.00</td>
+            <td class="remove-column no-print">
+                <button type="button" class="remove-btn" onclick="removeRow(this)">X</button>
+            </td>
+        </tr>
+    `;
+
+    // Restore one default labor row.
+    document.getElementById("laborBody").innerHTML = `
+        <tr>
+            <td class="number-cell">1</td>
+            <td><input type="text" class="labor-name" placeholder="Worker / Labor Type"></td>
+            <td><input type="number" class="labor-workers" min="0" step="1" value="0"></td>
+            <td><input type="number" class="labor-hours" min="0" step="any" value="0"></td>
+            <td><input type="number" class="labor-rate" min="0" step="0.01" value="0"></td>
+            <td class="amount-cell labor-total">0.00</td>
+            <td class="remove-column no-print">
+                <button type="button" class="remove-btn" onclick="removeRow(this)">X</button>
+            </td>
+        </tr>
+    `;
+
+    document.getElementById("errorMessage").style.display = "none";
+
+    calculateTotals();
+
+}
+
+
+// ==========================================
+// INITIALIZATION
+// ==========================================
+
+(function initializeForm() {
+
+    // Set current date automatically.
+    const today = new Date();
+
+    const localDate = new Date(
+        today.getTime() - today.getTimezoneOffset() * 60000
+    ).toISOString().split("T")[0];
+
+    document.getElementById("issueDate").value = localDate;
+
+    calculateTotals();
+
+})();
+
+</script>
+
+</body>
+</html>

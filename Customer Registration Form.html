@@ -1,0 +1,1614 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Registration Form</title>
+
+<style>
+:root {
+    --navy: #17365d;
+    --blue: #285b91;
+    --light: #edf3f9;
+    --border: #cbd5e1;
+    --text: #263445;
+    --muted: #64748b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px;
+    background: #eef1f5;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+    font-size: 13px;
+}
+
+.form-container {
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 30px 36px;
+    background: #fff;
+    border: 1px solid #d9e0e8;
+    box-shadow: 0 5px 22px rgba(0,0,0,.07);
+}
+
+.toolbar {
+    max-width: 950px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+button {
+    border: none;
+    border-radius: 4px;
+    padding: 10px 17px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: .2s;
+}
+
+button:hover {
+    opacity: .85;
+}
+
+.print-btn {
+    background: var(--navy);
+    color: white;
+}
+
+.reset-btn {
+    background: #e7ebf0;
+    color: #263445;
+}
+
+.add-btn {
+    background: #e8f0fa;
+    color: var(--navy);
+    border: 1px solid #b8cbe0;
+    padding: 7px 12px;
+}
+
+.remove-btn {
+    background: #fff0f0;
+    color: #b42318;
+    padding: 6px 10px;
+}
+
+select,
+input,
+textarea {
+    font: inherit;
+}
+
+.print-setting {
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: white;
+}
+
+/* HEADER */
+
+.company-header {
+    display: grid;
+    grid-template-columns: 155px 1fr;
+    gap: 25px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid var(--navy);
+    align-items: center;
+}
+
+.logo-area {
+    text-align: center;
+}
+
+.logo-preview {
+    width: 135px;
+    height: 105px;
+    border: 1px dashed #aab8c8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 8px;
+    overflow: hidden;
+    background: #fafcff;
+}
+
+.logo-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    color: #94a3b8;
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.company-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 15px;
+}
+
+.company-info .full {
+    grid-column: 1 / -1;
+}
+
+.company-info label {
+    display: block;
+    font-size: 10px;
+    font-weight: bold;
+    color: var(--muted);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.company-info input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    padding: 5px 2px;
+    outline: none;
+    color: var(--text);
+}
+
+/* DOCUMENT TITLE */
+
+.document-title {
+    text-align: center;
+    padding: 21px 0 16px;
+}
+
+.document-title h1 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 24px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.document-title p {
+    color: var(--muted);
+    font-size: 11px;
+    margin: 7px 0 0;
+}
+
+.document-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    background: #f4f7fb;
+    border: 1px solid #dce5ef;
+    padding: 12px;
+    margin-bottom: 20px;
+}
+
+/* SECTIONS */
+
+.section {
+    margin-top: 19px;
+}
+
+.section-heading {
+    background: var(--navy);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    padding: 9px 12px;
+    margin-bottom: 13px;
+}
+
+.grid-2,
+.grid-3,
+.grid-4 {
+    display: grid;
+    gap: 13px 16px;
+}
+
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.field {
+    min-width: 0;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+.field label {
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+    color: #40536b;
+    margin-bottom: 5px;
+}
+
+.required {
+    color: #c0392b;
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 9px 10px;
+    background: #fff;
+    color: #263445;
+    outline: none;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 2px rgba(40,91,145,.08);
+}
+
+.field textarea {
+    min-height: 72px;
+    resize: vertical;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+    color: #a0aab7;
+}
+
+/* CHECKBOXES */
+
+.choice-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 22px;
+    padding: 8px 0;
+}
+
+.choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+}
+
+.choice input {
+    accent-color: var(--navy);
+    width: 14px;
+    height: 14px;
+    margin: 0;
+}
+
+/* TABLE */
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+}
+
+th {
+    background: #eaf0f7;
+    color: var(--navy);
+    font-weight: bold;
+    text-align: left;
+    padding: 10px 8px;
+    border: 1px solid #cbd5e1;
+}
+
+td {
+    border: 1px solid #d6dee8;
+    padding: 7px;
+    vertical-align: middle;
+}
+
+td input {
+    width: 100%;
+    min-width: 0;
+    border: none;
+    outline: none;
+    padding: 5px;
+    background: transparent;
+    font: inherit;
+}
+
+.contact-table th:first-child,
+.contact-table td:first-child {
+    width: 45px;
+    text-align: center;
+}
+
+.contact-table th:last-child,
+.contact-table td:last-child {
+    width: 85px;
+    text-align: center;
+}
+
+/* SIGNATURE */
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 18px;
+}
+
+.signature-box {
+    padding-top: 28px;
+}
+
+.signature-box input {
+    width: 100%;
+    padding: 8px 4px;
+    border: none;
+    border-bottom: 1px solid #64748b;
+    outline: none;
+    background: transparent;
+}
+
+.signature-box label {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 7px;
+}
+
+/* FOOTER */
+
+.form-footer {
+    margin-top: 25px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+.error-message {
+    color: #b42318;
+    font-size: 12px;
+    margin: 8px 0;
+    display: none;
+}
+
+.small-note {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+@media(max-width: 650px) {
+    body {
+        padding: 10px;
+    }
+
+    .form-container {
+        padding: 18px 14px;
+    }
+
+    .company-header {
+        grid-template-columns: 1fr;
+    }
+
+    .company-info {
+        grid-template-columns: 1fr;
+    }
+
+    .company-info .full {
+        grid-column: auto;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+
+    .document-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .signature-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .document-title h1 {
+        font-size: 20px;
+    }
+}
+
+/* PRINT SETTINGS */
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        font-size: 10pt;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .company-header {
+        grid-template-columns: 130px 1fr;
+    }
+
+    .company-info input,
+    .field input,
+    .field select,
+    .field textarea {
+        color: #000;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .field input,
+    .field select {
+        border: none;
+        border-bottom: 1px solid #b5b5b5;
+        border-radius: 0;
+        padding: 5px 2px;
+    }
+
+    .field textarea {
+        border: 1px solid #b5b5b5;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .section {
+        break-inside: auto;
+    }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    .signature-grid {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .logo-preview {
+        border: none;
+    }
+
+    button {
+        display: none !important;
+    }
+
+    .table-wrap {
+        overflow: visible;
+    }
+
+    input,
+    textarea,
+    select {
+        print-color-adjust: exact;
+    }
+
+    .choice input {
+        print-color-adjust: exact;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+
+    <select id="paperSize" class="print-setting"
+            aria-label="Select paper size">
+        <option value="A4">A4 Paper</option>
+        <option value="Letter">US Letter</option>
+    </select>
+
+    <button type="button" class="reset-btn" onclick="resetForm()">
+        RESET FORM
+    </button>
+
+    <button type="button" class="print-btn" onclick="printForm()">
+        PRINT FORM / SAVE PDF
+    </button>
+
+</div>
+
+<div class="form-container">
+
+<form id="registrationForm">
+
+<!-- COMPANY HEADER -->
+
+<div class="company-header">
+
+    <div class="logo-area">
+
+        <div class="logo-preview" id="logoPreview">
+            <div class="logo-placeholder">
+                COMPANY<br>LOGO
+            </div>
+        </div>
+
+        <label class="no-print">
+            <input type="file" id="logoUpload"
+                   accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                   hidden>
+            <button type="button" class="add-btn"
+                    onclick="document.getElementById('logoUpload').click()">
+                UPLOAD LOGO
+            </button>
+        </label>
+
+    </div>
+
+    <div class="company-info">
+
+        <div class="full">
+            <label>Company Name</label>
+            <input type="text" id="companyName"
+                   placeholder="Enter company name">
+        </div>
+
+        <div class="full">
+            <label>Business Address</label>
+            <input type="text" id="companyAddress"
+                   placeholder="Enter business address">
+        </div>
+
+        <div>
+            <label>Phone Number</label>
+            <input type="tel" id="companyPhone"
+                   placeholder="Enter phone number">
+        </div>
+
+        <div>
+            <label>Email Address</label>
+            <input type="email" id="companyEmail"
+                   placeholder="Enter email address">
+        </div>
+
+        <div>
+            <label>Website</label>
+            <input type="text" id="companyWebsite"
+                   placeholder="www.example.com">
+        </div>
+
+        <div>
+            <label>Business Registration Number</label>
+            <input type="text" id="companyRegistration"
+                   placeholder="Registration number">
+        </div>
+
+    </div>
+
+</div>
+
+<!-- DOCUMENT TITLE -->
+
+<div class="document-title">
+    <h1>Customer Registration Form</h1>
+    <p>Please complete all required fields to register as a customer.</p>
+</div>
+
+<!-- DOCUMENT INFORMATION -->
+
+<div class="document-meta">
+
+    <div class="field">
+        <label>Registration Number</label>
+        <input type="text" id="registrationNumber"
+               placeholder="Auto generated" readonly>
+    </div>
+
+    <div class="field">
+        <label>Registration Date <span class="required">*</span></label>
+        <input type="date" id="registrationDate" required>
+    </div>
+
+    <div class="field">
+        <label>Customer Status</label>
+        <select id="customerStatus">
+            <option value="New">New Customer</option>
+            <option value="Active">Active Customer</option>
+            <option value="Pending">Pending Approval</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+    </div>
+
+</div>
+
+<!-- CUSTOMER TYPE -->
+
+<div class="section">
+
+    <div class="section-heading">01. Customer Classification</div>
+
+    <div class="grid-2">
+
+        <div class="field">
+            <label>Customer Type <span class="required">*</span></label>
+            <select id="customerType" required>
+                <option value="">Select Customer Type</option>
+                <option value="Individual">Individual</option>
+                <option value="Business">Business / Organization</option>
+                <option value="Government">Government Organization</option>
+                <option value="Non-Profit">Non-Profit Organization</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Customer Category</label>
+            <select id="customerCategory">
+                <option value="">Select Category</option>
+                <option>Retail Customer</option>
+                <option>Wholesale Customer</option>
+                <option>Corporate Customer</option>
+                <option>VIP Customer</option>
+                <option>Regular Customer</option>
+                <option>New Customer</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field full" id="businessNameField"
+             style="display:none">
+            <label>Business / Organization Name</label>
+            <input type="text" id="customerBusinessName"
+                   placeholder="Enter registered business name">
+        </div>
+
+        <div class="field" id="businessRegField"
+             style="display:none">
+            <label>Business Registration / Tax ID</label>
+            <input type="text" id="customerBusinessReg"
+                   placeholder="Enter registration or tax ID">
+        </div>
+
+        <div class="field" id="businessIndustryField"
+             style="display:none">
+            <label>Industry / Business Type</label>
+            <input type="text" id="businessIndustry"
+                   placeholder="Enter industry">
+        </div>
+
+    </div>
+
+</div>
+
+<!-- PERSONAL DETAILS -->
+
+<div class="section">
+
+    <div class="section-heading">02. Customer Personal Information</div>
+
+    <div class="grid-3">
+
+        <div class="field">
+            <label>First Name <span class="required">*</span></label>
+            <input type="text" id="firstName"
+                   placeholder="First name" required>
+        </div>
+
+        <div class="field">
+            <label>Middle Name</label>
+            <input type="text" id="middleName"
+                   placeholder="Middle name">
+        </div>
+
+        <div class="field">
+            <label>Last Name <span class="required">*</span></label>
+            <input type="text" id="lastName"
+                   placeholder="Last name" required>
+        </div>
+
+        <div class="field">
+            <label>Gender</label>
+            <select id="gender">
+                <option value="">Select Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Prefer Not to Say</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Date of Birth</label>
+            <input type="date" id="dateOfBirth">
+        </div>
+
+        <div class="field">
+            <label>Preferred Language</label>
+            <select id="language">
+                <option value="">Select Language</option>
+                <option>English</option>
+                <option>Spanish</option>
+                <option>French</option>
+                <option>German</option>
+                <option>Arabic</option>
+                <option>Urdu</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Job Title / Occupation</label>
+            <input type="text" id="occupation"
+                   placeholder="Enter occupation">
+        </div>
+
+        <div class="field">
+            <label>National ID / Identification Number</label>
+            <input type="text" id="nationalId"
+                   placeholder="Enter ID number">
+        </div>
+
+        <div class="field">
+            <label>Preferred Contact Time</label>
+            <select id="contactTime">
+                <option value="">Select Time</option>
+                <option>Morning</option>
+                <option>Afternoon</option>
+                <option>Evening</option>
+                <option>Anytime</option>
+            </select>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CONTACT INFORMATION -->
+
+<div class="section">
+
+    <div class="section-heading">03. Contact Information</div>
+
+    <div class="grid-2">
+
+        <div class="field">
+            <label>Primary Phone Number <span class="required">*</span></label>
+            <input type="tel" id="phone" required
+                   placeholder="Enter primary phone number">
+        </div>
+
+        <div class="field">
+            <label>Alternate Phone Number</label>
+            <input type="tel" id="alternatePhone"
+                   placeholder="Enter alternate phone number">
+        </div>
+
+        <div class="field">
+            <label>Email Address <span class="required">*</span></label>
+            <input type="email" id="email" required
+                   placeholder="name@example.com">
+        </div>
+
+        <div class="field">
+            <label>Alternate Email Address</label>
+            <input type="email" id="alternateEmail"
+                   placeholder="alternate@example.com">
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ADDRESS -->
+
+<div class="section">
+
+    <div class="section-heading">04. Residential / Business Address</div>
+
+    <div class="grid-2">
+
+        <div class="field full">
+            <label>Street Address <span class="required">*</span></label>
+            <input type="text" id="streetAddress" required
+                   placeholder="House number, street, building">
+        </div>
+
+        <div class="field">
+            <label>Apartment / Suite / Unit</label>
+            <input type="text" id="unit"
+                   placeholder="Apartment or unit number">
+        </div>
+
+        <div class="field">
+            <label>City <span class="required">*</span></label>
+            <input type="text" id="city" required
+                   placeholder="Enter city">
+        </div>
+
+        <div class="field">
+            <label>State / Province / Region</label>
+            <input type="text" id="state"
+                   placeholder="Enter state or province">
+        </div>
+
+        <div class="field">
+            <label>Postal / ZIP Code</label>
+            <input type="text" id="postalCode"
+                   placeholder="Enter postal code">
+        </div>
+
+        <div class="field">
+            <label>Country <span class="required">*</span></label>
+            <input type="text" id="country" required
+                   placeholder="Enter country">
+        </div>
+
+    </div>
+
+</div>
+
+<!-- BILLING / SHIPPING -->
+
+<div class="section">
+
+    <div class="section-heading">05. Billing & Shipping Information</div>
+
+    <div class="field">
+        <label>Billing Address Same as Residential Address?</label>
+
+        <div class="choice-group">
+            <label class="choice">
+                <input type="radio" name="billingSame"
+                       value="Yes" checked>
+                Yes
+            </label>
+
+            <label class="choice">
+                <input type="radio" name="billingSame"
+                       value="No">
+                No
+            </label>
+        </div>
+    </div>
+
+    <div id="billingAddressFields" style="display:none">
+
+        <div class="grid-2">
+
+            <div class="field full">
+                <label>Billing Street Address</label>
+                <input type="text" id="billingStreet"
+                       placeholder="Enter billing address">
+            </div>
+
+            <div class="field">
+                <label>Billing City</label>
+                <input type="text" id="billingCity">
+            </div>
+
+            <div class="field">
+                <label>Billing State / Province</label>
+                <input type="text" id="billingState">
+            </div>
+
+            <div class="field">
+                <label>Billing Postal Code</label>
+                <input type="text" id="billingPostal">
+            </div>
+
+            <div class="field">
+                <label>Billing Country</label>
+                <input type="text" id="billingCountry">
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="field" style="margin-top:15px">
+        <label>Shipping Address Same as Residential Address?</label>
+
+        <div class="choice-group">
+            <label class="choice">
+                <input type="radio" name="shippingSame"
+                       value="Yes" checked>
+                Yes
+            </label>
+
+            <label class="choice">
+                <input type="radio" name="shippingSame"
+                       value="No">
+                No
+            </label>
+        </div>
+    </div>
+
+    <div id="shippingAddressFields" style="display:none">
+
+        <div class="grid-2">
+
+            <div class="field full">
+                <label>Shipping Street Address</label>
+                <input type="text" id="shippingStreet"
+                       placeholder="Enter shipping address">
+            </div>
+
+            <div class="field">
+                <label>Shipping City</label>
+                <input type="text" id="shippingCity">
+            </div>
+
+            <div class="field">
+                <label>Shipping State / Province</label>
+                <input type="text" id="shippingState">
+            </div>
+
+            <div class="field">
+                <label>Shipping Postal Code</label>
+                <input type="text" id="shippingPostal">
+            </div>
+
+            <div class="field">
+                <label>Shipping Country</label>
+                <input type="text" id="shippingCountry">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CUSTOMER PREFERENCES -->
+
+<div class="section">
+
+    <div class="section-heading">06. Customer Preferences</div>
+
+    <div class="grid-2">
+
+        <div class="field">
+            <label>Preferred Contact Method</label>
+            <select id="preferredContact">
+                <option value="">Select Method</option>
+                <option>Phone Call</option>
+                <option>Email</option>
+                <option>SMS / Text Message</option>
+                <option>WhatsApp</option>
+                <option>In Person</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Preferred Communication Language</label>
+            <select id="communicationLanguage">
+                <option value="">Select Language</option>
+                <option>English</option>
+                <option>Spanish</option>
+                <option>French</option>
+                <option>German</option>
+                <option>Arabic</option>
+                <option>Urdu</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Customer Source / Referral</label>
+            <select id="customerSource">
+                <option value="">Select Source</option>
+                <option>Website</option>
+                <option>Social Media</option>
+                <option>Google Search</option>
+                <option>Online Advertisement</option>
+                <option>Walk-In</option>
+                <option>Existing Customer Referral</option>
+                <option>Business Partner Referral</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Preferred Service / Product</label>
+            <input type="text" id="preferredProduct"
+                   placeholder="Enter preferred product or service">
+        </div>
+
+    </div>
+
+    <div class="field" style="margin-top:15px">
+        <label>Communication Preferences</label>
+
+        <div class="choice-group">
+
+            <label class="choice">
+                <input type="checkbox" id="emailUpdates">
+                Email Updates
+            </label>
+
+            <label class="choice">
+                <input type="checkbox" id="smsUpdates">
+                SMS Notifications
+            </label>
+
+            <label class="choice">
+                <input type="checkbox" id="promotions">
+                Promotional Offers
+            </label>
+
+            <label class="choice">
+                <input type="checkbox" id="serviceUpdates">
+                Service Updates
+            </label>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- AUTHORIZED CONTACTS -->
+
+<div class="section">
+
+    <div class="section-heading">07. Additional / Authorized Contacts</div>
+
+    <p class="small-note">
+        Add any additional person authorized to communicate or coordinate
+        on behalf of the customer, if applicable.
+    </p>
+
+    <div class="table-wrap">
+
+        <table class="contact-table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Contact Name</th>
+                    <th>Relationship / Position</th>
+                    <th>Phone Number</th>
+                    <th>Email Address</th>
+                    <th class="no-print">Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="contactsBody">
+
+                <tr>
+                    <td class="row-number">1</td>
+                    <td><input type="text" aria-label="Contact name"></td>
+                    <td><input type="text" aria-label="Relationship"></td>
+                    <td><input type="tel" aria-label="Contact phone"></td>
+                    <td><input type="email" aria-label="Contact email"></td>
+                    <td class="no-print">
+                        <button type="button" class="remove-btn"
+                                onclick="removeRow(this)">
+                            Remove
+                        </button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <button type="button" class="add-btn no-print"
+            style="margin-top:10px"
+            onclick="addContactRow()">
+        + ADD CONTACT
+    </button>
+
+</div>
+
+<!-- NOTES -->
+
+<div class="section">
+
+    <div class="section-heading">08. Additional Information</div>
+
+    <div class="grid-2">
+
+        <div class="field">
+            <label>Special Requirements / Preferences</label>
+            <textarea id="specialRequirements"
+                      placeholder="Enter any special requirements..."></textarea>
+        </div>
+
+        <div class="field">
+            <label>Internal Notes / Remarks</label>
+            <textarea id="internalNotes"
+                      placeholder="For office use only..."></textarea>
+        </div>
+
+        <div class="field full">
+            <label>Additional Comments</label>
+            <textarea id="additionalComments"
+                      placeholder="Enter any additional information..."></textarea>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- DECLARATION -->
+
+<div class="section">
+
+    <div class="section-heading">09. Customer Declaration & Consent</div>
+
+    <p style="line-height:1.7; text-align:justify">
+        I confirm that the information provided in this registration form
+        is accurate and complete to the best of my knowledge. I agree to
+        notify the company of any changes to my contact or registration
+        information. I understand that my information will be handled
+        according to the company's applicable privacy policy and used
+        for legitimate business and customer service purposes.
+    </p>
+
+    <div class="choice-group">
+
+        <label class="choice">
+            <input type="checkbox" id="accuracyConsent" required>
+            I confirm that the information provided is accurate.
+            <span class="required">*</span>
+        </label>
+
+    </div>
+
+    <div class="choice-group">
+
+        <label class="choice">
+            <input type="checkbox" id="privacyConsent" required>
+            I acknowledge the company's privacy policy.
+            <span class="required">*</span>
+        </label>
+
+    </div>
+
+    <div class="choice-group">
+
+        <label class="choice">
+            <input type="checkbox" id="marketingConsent">
+            I agree to receive marketing and promotional communications.
+        </label>
+
+    </div>
+
+</div>
+
+<!-- SIGNATURES -->
+
+<div class="section">
+
+    <div class="section-heading">10. Authorization & Signatures</div>
+
+    <div class="signature-grid">
+
+        <div class="signature-box">
+
+            <div class="field">
+                <label>Customer Full Name</label>
+                <input type="text" id="signatureName"
+                       placeholder="Enter customer name">
+            </div>
+
+            <div class="field" style="margin-top:15px">
+                <label>Customer Signature</label>
+                <input type="text" id="customerSignature"
+                       placeholder="Type full name as electronic signature">
+            </div>
+
+            <div class="field" style="margin-top:15px">
+                <label>Signature Date</label>
+                <input type="date" id="signatureDate">
+            </div>
+
+        </div>
+
+        <div class="signature-box">
+
+            <div class="field">
+                <label>Received / Processed By</label>
+                <input type="text" id="processedBy"
+                       placeholder="Employee name">
+            </div>
+
+            <div class="field" style="margin-top:15px">
+                <label>Authorized Staff Signature</label>
+                <input type="text" id="staffSignature"
+                       placeholder="Authorized signature">
+            </div>
+
+            <div class="field" style="margin-top:15px">
+                <label>Approval Date</label>
+                <input type="date" id="approvalDate">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="form-footer">
+
+    <strong id="footerCompanyName">Customer Registration Form</strong>
+
+    <br>
+
+    Thank you for registering with us.
+
+    <br>
+
+    This document is intended for authorized business use.
+    Customer information should be handled confidentially.
+
+</div>
+
+<div class="error-message" id="formError" role="alert"></div>
+
+</form>
+</div>
+
+<script>
+
+/* INITIAL SETTINGS */
+
+const form = document.getElementById("registrationForm");
+
+function today() {
+    const date = new Date();
+    const offset = date.getTimezoneOffset();
+    return new Date(date.getTime() - offset * 60000)
+        .toISOString().slice(0,10);
+}
+
+document.getElementById("registrationDate").value = today();
+document.getElementById("signatureDate").value = today();
+
+function generateRegistrationNumber() {
+    const year = new Date().getFullYear();
+    const random = Math.floor(10000 + Math.random() * 90000);
+
+    document.getElementById("registrationNumber").value =
+        "CR-" + year + "-" + random;
+}
+
+generateRegistrationNumber();
+
+
+/* LOGO UPLOAD */
+
+document.getElementById("logoUpload")
+.addEventListener("change", function(e) {
+
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP image.");
+        this.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+
+        const preview = document.getElementById("logoPreview");
+
+        preview.innerHTML = "";
+
+        const img = document.createElement("img");
+        img.src = event.target.result;
+        img.alt = "Company Logo";
+
+        preview.appendChild(img);
+    };
+
+    reader.readAsDataURL(file);
+});
+
+
+/* CUSTOMER TYPE LOGIC */
+
+document.getElementById("customerType")
+.addEventListener("change", function() {
+
+    const isBusiness = [
+        "Business",
+        "Government",
+        "Non-Profit"
+    ].includes(this.value);
+
+    document.getElementById("businessNameField").style.display =
+        isBusiness ? "block" : "none";
+
+    document.getElementById("businessRegField").style.display =
+        isBusiness ? "block" : "none";
+
+    document.getElementById("businessIndustryField").style.display =
+        isBusiness ? "block" : "none";
+
+    document.getElementById("customerBusinessName").required =
+        isBusiness;
+});
+
+
+/* BILLING ADDRESS LOGIC */
+
+document.querySelectorAll('input[name="billingSame"]')
+.forEach(radio => {
+
+    radio.addEventListener("change", function() {
+
+        document.getElementById("billingAddressFields").style.display =
+            this.value === "No" ? "block" : "none";
+
+    });
+
+});
+
+
+/* SHIPPING ADDRESS LOGIC */
+
+document.querySelectorAll('input[name="shippingSame"]')
+.forEach(radio => {
+
+    radio.addEventListener("change", function() {
+
+        document.getElementById("shippingAddressFields").style.display =
+            this.value === "No" ? "block" : "none";
+
+    });
+
+});
+
+
+/* ADD CONTACT ROW */
+
+function addContactRow() {
+
+    const tbody = document.getElementById("contactsBody");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="row-number"></td>
+        <td><input type="text" aria-label="Contact name"></td>
+        <td><input type="text" aria-label="Relationship"></td>
+        <td><input type="tel" aria-label="Contact phone"></td>
+        <td><input type="email" aria-label="Contact email"></td>
+        <td class="no-print">
+            <button type="button" class="remove-btn"
+                    onclick="removeRow(this)">
+                Remove
+            </button>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+
+    updateRowNumbers();
+}
+
+
+/* REMOVE CONTACT ROW */
+
+function removeRow(button) {
+
+    const rows = document.querySelectorAll("#contactsBody tr");
+
+    if (rows.length <= 1) {
+        alert("At least one contact row must remain.");
+        return;
+    }
+
+    button.closest("tr").remove();
+
+    updateRowNumbers();
+}
+
+
+/* AUTOMATIC ROW NUMBERING */
+
+function updateRowNumbers() {
+
+    document.querySelectorAll("#contactsBody tr")
+    .forEach((row, index) => {
+
+        row.querySelector(".row-number").textContent = index + 1;
+
+    });
+
+}
+
+
+/* CUSTOMER NAME SYNC */
+
+document.getElementById("firstName")
+.addEventListener("input", updateCustomerName);
+
+document.getElementById("middleName")
+.addEventListener("input", updateCustomerName);
+
+document.getElementById("lastName")
+.addEventListener("input", updateCustomerName);
+
+function updateCustomerName() {
+
+    const first = document.getElementById("firstName").value;
+    const middle = document.getElementById("middleName").value;
+    const last = document.getElementById("lastName").value;
+
+    document.getElementById("signatureName").value =
+        [first, middle, last].filter(Boolean).join(" ");
+
+}
+
+
+/* COMPANY FOOTER */
+
+document.getElementById("companyName")
+.addEventListener("input", function() {
+
+    document.getElementById("footerCompanyName").textContent =
+        this.value || "Customer Registration Form";
+
+});
+
+
+/* PRINT PAPER SIZE */
+
+const printStyle = document.createElement("style");
+
+document.head.appendChild(printStyle);
+
+function updatePaperSize() {
+
+    const size = document.getElementById("paperSize").value;
+
+    printStyle.textContent = `
+        @page {
+            size: ${size} portrait;
+            margin: 12mm;
+        }
+    `;
+}
+
+document.getElementById("paperSize")
+.addEventListener("change", updatePaperSize);
+
+updatePaperSize();
+
+
+/* PRINT FORM */
+
+function printForm() {
+
+    if (!form.reportValidity()) {
+
+        document.getElementById("formError").style.display = "block";
+
+        document.getElementById("formError").textContent =
+            "Please complete all required fields before printing.";
+
+        return;
+    }
+
+    document.getElementById("formError").style.display = "none";
+
+    window.print();
+
+}
+
+
+/* RESET FORM */
+
+function resetForm() {
+
+    const confirmed = confirm(
+        "Are you sure you want to reset all registration information?"
+    );
+
+    if (!confirmed) return;
+
+    form.reset();
+
+    document.getElementById("registrationDate").value = today();
+    document.getElementById("signatureDate").value = today();
+
+    document.getElementById("logoPreview").innerHTML = `
+        <div class="logo-placeholder">
+            COMPANY<br>LOGO
+        </div>
+    `;
+
+    document.getElementById("billingAddressFields").style.display = "none";
+    document.getElementById("shippingAddressFields").style.display = "none";
+
+    document.getElementById("businessNameField").style.display = "none";
+    document.getElementById("businessRegField").style.display = "none";
+    document.getElementById("businessIndustryField").style.display = "none";
+
+    document.getElementById("customerBusinessName").required = false;
+
+    document.getElementById("logoUpload").value = "";
+
+    document.getElementById("footerCompanyName").textContent =
+        "Customer Registration Form";
+
+    document.getElementById("formError").style.display = "none";
+
+    generateRegistrationNumber();
+
+    updateRowNumbers();
+
+}
+
+</script>
+
+</body>
+</html>

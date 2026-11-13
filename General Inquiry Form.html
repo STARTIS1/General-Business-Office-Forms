@@ -1,0 +1,1010 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>General Inquiry Form</title>
+
+<style>
+:root {
+    --navy: #17365d;
+    --blue: #2f6597;
+    --light: #eaf1f8;
+    --border: #cbd4df;
+    --text: #283444;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 14px;
+    background: #edf1f5;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+    font-size: 13px;
+}
+
+.toolbar {
+    max-width: 900px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+button, .upload-label {
+    border: none;
+    border-radius: 4px;
+    padding: 10px 17px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.print-btn {
+    background: var(--navy);
+    color: white;
+}
+
+.reset-btn {
+    background: #e6eaf0;
+    color: #27374a;
+    border: 1px solid #cbd4df;
+}
+
+.upload-label {
+    display: inline-block;
+    background: var(--light);
+    color: var(--navy);
+    border: 1px solid #bdcddd;
+    margin-top: 8px;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    padding: 30px 35px;
+    background: white;
+    border: 1px solid #d9dfe7;
+    box-shadow: 0 3px 15px rgba(0,0,0,.07);
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 155px 1fr;
+    gap: 25px;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 3px solid var(--navy);
+}
+
+.logo-area {
+    text-align: center;
+}
+
+.logo-box {
+    width: 125px;
+    height: 95px;
+    border: 1px dashed #aab8c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    overflow: hidden;
+    color: #8996a5;
+    font-size: 11px;
+    text-align: center;
+    padding: 5px;
+}
+
+.logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: none;
+}
+
+.company-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 15px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-weight: bold;
+    color: #34465a;
+    font-size: 11px;
+}
+
+input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 9px 10px;
+    color: #202b38;
+    background: #fff;
+    font-family: inherit;
+    font-size: 12px;
+}
+
+input, select {
+    min-height: 34px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 85px;
+    line-height: 1.5;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid #b6cee5;
+    border-color: var(--blue);
+}
+
+.document-title {
+    text-align: center;
+    padding: 22px 0 17px;
+}
+
+.document-title h1 {
+    color: var(--navy);
+    font-size: 24px;
+    margin: 0 0 7px;
+    letter-spacing: .6px;
+}
+
+.document-title p {
+    color: #69798b;
+    font-size: 11px;
+    margin: 0;
+}
+
+.section {
+    margin-top: 20px;
+}
+
+.section-heading {
+    background: var(--light);
+    color: var(--navy);
+    border-left: 4px solid var(--navy);
+    padding: 9px 12px;
+    margin-bottom: 13px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .35px;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 13px 17px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 13px;
+}
+
+.radio-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    padding: 7px 0;
+}
+
+.check-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: normal;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.check-option input {
+    width: 14px;
+    height: 14px;
+    min-height: 14px;
+    margin: 0;
+    accent-color: var(--navy);
+}
+
+.helper {
+    font-size: 10px;
+    color: #758395;
+    margin-top: 3px;
+}
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-top: 18px;
+}
+
+.signature-line {
+    border-bottom: 1px solid #667586;
+    height: 38px;
+    margin-bottom: 7px;
+}
+
+.footer {
+    border-top: 1px solid var(--border);
+    margin-top: 25px;
+    padding-top: 12px;
+    text-align: center;
+    color: #758395;
+    font-size: 10px;
+}
+
+.required {
+    color: #bd3434;
+}
+
+.error-message {
+    display: none;
+    color: #b42318;
+    background: #fff0ef;
+    border: 1px solid #efc1bd;
+    padding: 10px;
+    margin: 12px 0;
+    font-size: 12px;
+}
+
+@media(max-width: 650px) {
+    body {
+        padding: 10px 5px;
+    }
+
+    .form-container {
+        padding: 20px 14px;
+    }
+
+    .header {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .company-fields,
+    .grid-2,
+    .grid-3,
+    .signature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .field.full {
+        grid-column: auto;
+    }
+
+    .document-title h1 {
+        font-size: 21px;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .toolbar button {
+        flex: 1;
+    }
+}
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        font-size: 11px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .header {
+        grid-template-columns: 125px 1fr;
+        gap: 15px;
+    }
+
+    input, textarea, select {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: 1px solid #aab2bb;
+        border-radius: 0;
+        font-size: 10px;
+        padding: 7px;
+    }
+
+    input::placeholder, textarea::placeholder {
+        color: transparent;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .section, .signature-grid, .header {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .logo-box {
+        border: none;
+    }
+
+    .footer {
+        break-inside: avoid;
+    }
+
+    .required {
+        color: #000;
+    }
+
+    .error-message {
+        display: none !important;
+    }
+}
+
+@media print {
+    body.letter-page {
+        /* Letter page selection is handled by the page size rule below. */
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+    <button class="print-btn" type="button" onclick="printForm()">
+        PRINT FORM
+    </button>
+    <button class="reset-btn" type="button" onclick="resetForm()">
+        RESET FORM
+    </button>
+</div>
+
+<div class="form-container">
+
+    <header class="header">
+
+        <div class="logo-area">
+            <div class="logo-box">
+                <span id="logoPlaceholder">COMPANY LOGO</span>
+                <img id="logoPreview" alt="Company Logo">
+            </div>
+
+            <label class="upload-label no-print" for="logoUpload">
+                Upload Company Logo
+            </label>
+
+            <input class="no-print" type="file"
+                   id="logoUpload"
+                   accept=".jpg,.jpeg,.png,.svg,.webp,image/jpeg,image/png,image/svg+xml,image/webp"
+                   hidden>
+        </div>
+
+        <div class="company-fields">
+
+            <div class="field">
+                <label for="companyName">Company Name</label>
+                <input id="companyName" type="text"
+                       placeholder="Enter company name">
+            </div>
+
+            <div class="field">
+                <label for="companyPhone">Phone Number</label>
+                <input id="companyPhone" type="tel"
+                       placeholder="+1 000 000 0000">
+            </div>
+
+            <div class="field full">
+                <label for="companyAddress">Business Address</label>
+                <input id="companyAddress" type="text"
+                       placeholder="Enter business address">
+            </div>
+
+            <div class="field">
+                <label for="companyEmail">Email Address</label>
+                <input id="companyEmail" type="email"
+                       placeholder="company@example.com">
+            </div>
+
+            <div class="field">
+                <label for="companyWebsite">Website</label>
+                <input id="companyWebsite" type="text"
+                       placeholder="www.example.com">
+            </div>
+
+        </div>
+    </header>
+
+    <div class="document-title">
+        <h1>GENERAL INQUIRY FORM</h1>
+        <p>Please complete this form so we can respond to your inquiry efficiently.</p>
+    </div>
+
+    <div id="errorMessage" class="error-message no-print"
+         role="alert"></div>
+
+    <form id="inquiryForm" novalidate>
+
+        <!-- INQUIRY REFERENCE -->
+
+        <section class="section">
+            <div class="section-heading">01. Inquiry Reference</div>
+
+            <div class="grid-3">
+
+                <div class="field">
+                    <label for="inquiryNumber">Inquiry Reference No.</label>
+                    <input type="text" id="inquiryNumber"
+                           placeholder="e.g. INQ-001">
+                </div>
+
+                <div class="field">
+                    <label for="inquiryDate">Inquiry Date <span class="required">*</span></label>
+                    <input type="date" id="inquiryDate" required>
+                </div>
+
+                <div class="field">
+                    <label for="responseDeadline">Preferred Response Date</label>
+                    <input type="date" id="responseDeadline">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CONTACT DETAILS -->
+
+        <section class="section">
+            <div class="section-heading">02. Contact Information</div>
+
+            <div class="grid-2">
+
+                <div class="field">
+                    <label for="fullName">Full Name <span class="required">*</span></label>
+                    <input type="text" id="fullName"
+                           placeholder="Enter your full name" required>
+                </div>
+
+                <div class="field">
+                    <label for="organization">Company / Organization</label>
+                    <input type="text" id="organization"
+                           placeholder="Company or organization name">
+                </div>
+
+                <div class="field">
+                    <label for="jobTitle">Job Title / Position</label>
+                    <input type="text" id="jobTitle"
+                           placeholder="Enter your position">
+                </div>
+
+                <div class="field">
+                    <label for="contactEmail">Email Address <span class="required">*</span></label>
+                    <input type="email" id="contactEmail"
+                           placeholder="yourname@example.com" required>
+                </div>
+
+                <div class="field">
+                    <label for="contactPhone">Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="contactPhone"
+                           placeholder="Enter phone number" required>
+                </div>
+
+                <div class="field">
+                    <label for="alternatePhone">Alternate Phone Number</label>
+                    <input type="tel" id="alternatePhone"
+                           placeholder="Optional alternate number">
+                </div>
+
+                <div class="field">
+                    <label for="country">Country</label>
+                    <input type="text" id="country"
+                           placeholder="Enter country">
+                </div>
+
+                <div class="field">
+                    <label for="city">City</label>
+                    <input type="text" id="city"
+                           placeholder="Enter city">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- INQUIRY DETAILS -->
+
+        <section class="section">
+            <div class="section-heading">03. Inquiry Details</div>
+
+            <div class="grid-2">
+
+                <div class="field">
+                    <label for="inquiryCategory">Inquiry Category <span class="required">*</span></label>
+                    <select id="inquiryCategory" required>
+                        <option value="">Select inquiry category</option>
+                        <option>General Information</option>
+                        <option>Products Information</option>
+                        <option>Services Information</option>
+                        <option>Pricing & Quotations</option>
+                        <option>Sales Inquiry</option>
+                        <option>Technical Support</option>
+                        <option>Customer Support</option>
+                        <option>Partnership & Collaboration</option>
+                        <option>Business Opportunities</option>
+                        <option>Orders & Delivery</option>
+                        <option>Billing & Payments</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="inquirySubject">Inquiry Subject <span class="required">*</span></label>
+                    <input type="text" id="inquirySubject"
+                           placeholder="Brief subject of inquiry" required>
+                </div>
+
+                <div class="field">
+                    <label for="relatedProduct">Related Product / Service</label>
+                    <input type="text" id="relatedProduct"
+                           placeholder="Enter product or service name">
+                </div>
+
+                <div class="field">
+                    <label for="referenceNumber">Related Order / Reference Number</label>
+                    <input type="text" id="referenceNumber"
+                           placeholder="If applicable">
+                </div>
+
+                <div class="field full">
+                    <label for="inquiryDescription">Detailed Inquiry <span class="required">*</span></label>
+                    <textarea id="inquiryDescription"
+                              placeholder="Please describe your question, request, or inquiry in detail..."
+                              required></textarea>
+                </div>
+
+                <div class="field full">
+                    <label for="additionalInformation">Additional Information / Comments</label>
+                    <textarea id="additionalInformation"
+                              placeholder="Enter any additional information that may help us respond to your inquiry."></textarea>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CONTACT PREFERENCES -->
+
+        <section class="section">
+            <div class="section-heading">04. Contact Preferences</div>
+
+            <div class="grid-2">
+
+                <div class="field">
+                    <label>Preferred Contact Method <span class="required">*</span></label>
+                    <div class="radio-options">
+
+                        <label class="check-option">
+                            <input type="radio" name="contactMethod"
+                                   value="Email" required>
+                            Email
+                        </label>
+
+                        <label class="check-option">
+                            <input type="radio" name="contactMethod"
+                                   value="Phone">
+                            Phone
+                        </label>
+
+                        <label class="check-option">
+                            <input type="radio" name="contactMethod"
+                                   value="WhatsApp">
+                            WhatsApp
+                        </label>
+
+                        <label class="check-option">
+                            <input type="radio" name="contactMethod"
+                                   value="Any Method">
+                            Any Method
+                        </label>
+
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="urgency">Inquiry Priority</label>
+                    <select id="urgency">
+                        <option value="">Select priority</option>
+                        <option>Low</option>
+                        <option>Normal</option>
+                        <option>High</option>
+                        <option>Urgent</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="preferredTime">Preferred Contact Time</label>
+                    <select id="preferredTime">
+                        <option value="">Select preferred time</option>
+                        <option>Morning (9 AM - 12 PM)</option>
+                        <option>Afternoon (12 PM - 5 PM)</option>
+                        <option>Evening (5 PM - 8 PM)</option>
+                        <option>Any Time</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="timezone">Time Zone</label>
+                    <input type="text" id="timezone"
+                           placeholder="e.g. GMT+5">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ATTACHMENTS -->
+
+        <section class="section">
+            <div class="section-heading">05. Supporting Documents</div>
+
+            <div class="field">
+                <label for="attachmentDescription">Document / Attachment Description</label>
+                <textarea id="attachmentDescription"
+                          placeholder="List any supporting documents or files being provided with this inquiry."></textarea>
+                <span class="helper">This form records attachment descriptions only. Attachments are not uploaded or transmitted.</span>
+            </div>
+        </section>
+
+        <!-- DECLARATION -->
+
+        <section class="section">
+            <div class="section-heading">06. Declaration & Consent</div>
+
+            <div class="field">
+                <label class="check-option">
+                    <input type="checkbox" id="informationAccuracy" required>
+                    I confirm that the information provided in this inquiry is accurate and complete.
+                    <span class="required">*</span>
+                </label>
+
+                <label class="check-option">
+                    <input type="checkbox" id="privacyConsent" required>
+                    I agree that the company may use my contact information to respond to this inquiry.
+                    <span class="required">*</span>
+                </label>
+
+                <label class="check-option">
+                    <input type="checkbox" id="marketingConsent">
+                    I would also like to receive relevant company updates and promotional information.
+                </label>
+            </div>
+
+            <div class="signature-grid">
+
+                <div>
+                    <div class="field">
+                        <label for="signatureName">Applicant / Authorized Person Name</label>
+                        <input type="text" id="signatureName"
+                               placeholder="Enter full name">
+                    </div>
+                    <div class="signature-line"></div>
+                    <label>Signature</label>
+                </div>
+
+                <div>
+                    <div class="field">
+                        <label for="signatureDate">Date of Signature</label>
+                        <input type="date" id="signatureDate">
+                    </div>
+                    <div class="signature-line"></div>
+                    <label>Authorized Signature / Date Confirmation</label>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- OFFICE USE -->
+
+        <section class="section">
+            <div class="section-heading">07. For Office Use Only</div>
+
+            <div class="grid-2">
+
+                <div class="field">
+                    <label for="receivedBy">Received By</label>
+                    <input type="text" id="receivedBy"
+                           placeholder="Staff member name">
+                </div>
+
+                <div class="field">
+                    <label for="receivedDate">Date Received</label>
+                    <input type="date" id="receivedDate">
+                </div>
+
+                <div class="field">
+                    <label for="assignedDepartment">Assigned Department</label>
+                    <select id="assignedDepartment">
+                        <option value="">Select department</option>
+                        <option>Sales</option>
+                        <option>Customer Service</option>
+                        <option>Technical Support</option>
+                        <option>Accounts & Finance</option>
+                        <option>Management</option>
+                        <option>Administration</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="inquiryStatus">Inquiry Status</label>
+                    <select id="inquiryStatus">
+                        <option value="">Select status</option>
+                        <option>New</option>
+                        <option>Under Review</option>
+                        <option>Assigned</option>
+                        <option>In Progress</option>
+                        <option>Awaiting Customer Response</option>
+                        <option>Resolved</option>
+                        <option>Closed</option>
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label for="internalNotes">Internal Notes / Action Taken</label>
+                    <textarea id="internalNotes"
+                              placeholder="Internal remarks and follow-up actions..."></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="handledBy">Handled By</label>
+                    <input type="text" id="handledBy"
+                           placeholder="Staff member name">
+                </div>
+
+                <div class="field">
+                    <label for="resolutionDate">Resolution Date</label>
+                    <input type="date" id="resolutionDate">
+                </div>
+
+            </div>
+        </section>
+
+    </form>
+
+    <div class="footer">
+        <div>Thank you for contacting us. We appreciate your interest and will respond as soon as possible.</div>
+        <div style="margin-top:5px;">GENERAL INQUIRY FORM | Confidential Business Document</div>
+    </div>
+
+</div>
+
+<script>
+"use strict";
+
+/* LOGO UPLOAD AND PREVIEW */
+
+const logoUpload = document.getElementById("logoUpload");
+const logoPreview = document.getElementById("logoPreview");
+const logoPlaceholder = document.getElementById("logoPlaceholder");
+
+let currentLogoURL = null;
+
+logoUpload.addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP image.");
+        this.value = "";
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert("Logo file size must be less than 5 MB.");
+        this.value = "";
+        return;
+    }
+
+    if (currentLogoURL) {
+        URL.revokeObjectURL(currentLogoURL);
+    }
+
+    currentLogoURL = URL.createObjectURL(file);
+
+    logoPreview.onload = function () {
+        logoPreview.style.display = "block";
+        logoPlaceholder.style.display = "none";
+    };
+
+    logoPreview.onerror = function () {
+        alert("Unable to preview this logo file.");
+        logoPreview.style.display = "none";
+        logoPlaceholder.style.display = "block";
+        URL.revokeObjectURL(currentLogoURL);
+        currentLogoURL = null;
+        logoUpload.value = "";
+    };
+
+    logoPreview.src = currentLogoURL;
+});
+
+
+/* PRINT FORM */
+
+function printForm() {
+
+    const form = document.getElementById("inquiryForm");
+
+    if (!form.reportValidity()) {
+        return;
+    }
+
+    const responseDate = document.getElementById("responseDeadline").value;
+    const inquiryDate = document.getElementById("inquiryDate").value;
+
+    if (responseDate && inquiryDate && responseDate < inquiryDate) {
+        alert("Preferred response date cannot be earlier than the inquiry date.");
+        return;
+    }
+
+    window.print();
+}
+
+
+/* RESET FORM */
+
+function resetForm() {
+
+    const confirmed = confirm(
+        "Are you sure you want to reset the entire General Inquiry Form? All entered information will be cleared."
+    );
+
+    if (!confirmed) return;
+
+    document.getElementById("inquiryForm").reset();
+
+    // Reset editable company information.
+    document.querySelectorAll(".company-fields input").forEach(function(input) {
+        input.value = "";
+    });
+
+    // Reset logo preview.
+    if (currentLogoURL) {
+        URL.revokeObjectURL(currentLogoURL);
+        currentLogoURL = null;
+    }
+
+    logoPreview.removeAttribute("src");
+    logoPreview.style.display = "none";
+    logoPlaceholder.style.display = "block";
+    logoUpload.value = "";
+
+    // Clear validation messages.
+    document.getElementById("errorMessage").style.display = "none";
+
+    // Restore today's date.
+    setDefaultDates();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* DEFAULT DATES */
+
+function setDefaultDates() {
+
+    const today = new Date();
+    const localDate = new Date(
+        today.getTime() - today.getTimezoneOffset() * 60000
+    ).toISOString().split("T")[0];
+
+    document.getElementById("inquiryDate").value = localDate;
+    document.getElementById("receivedDate").value = "";
+}
+
+setDefaultDates();
+
+
+/* DATE VALIDATION */
+
+document.getElementById("responseDeadline").addEventListener("change", function () {
+
+    const inquiryDate = document.getElementById("inquiryDate").value;
+
+    if (inquiryDate && this.value && this.value < inquiryDate) {
+        alert("Preferred response date cannot be earlier than inquiry date.");
+        this.value = "";
+    }
+
+});
+
+document.getElementById("inquiryDate").addEventListener("change", function () {
+
+    const responseDate = document.getElementById("responseDeadline");
+
+    if (this.value && responseDate.value && responseDate.value < this.value) {
+        responseDate.value = "";
+    }
+
+});
+
+
+/* PREVENT FAKE SUBMISSION */
+
+document.getElementById("inquiryForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+});
+
+
+/* OPTIONAL PAPER SIZE SETTING */
+
+function setPaperSize(size) {
+
+    let style = document.getElementById("paperSizeStyle");
+
+    if (!style) {
+        style = document.createElement("style");
+        style.id = "paperSizeStyle";
+        document.head.appendChild(style);
+    }
+
+    style.textContent = size === "letter"
+        ? "@page { size: Letter portrait; margin: 12mm; }"
+        : "@page { size: A4 portrait; margin: 12mm; }";
+}
+
+</script>
+
+</body>
+</html>

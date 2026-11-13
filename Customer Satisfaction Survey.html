@@ -1,0 +1,1506 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Satisfaction Survey</title>
+
+<style>
+:root {
+    --navy: #17365d;
+    --blue: #286090;
+    --light-blue: #eaf1f8;
+    --border: #cbd5e1;
+    --text: #273444;
+    --muted: #64748b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 12px;
+    background: #eef2f6;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.toolbar {
+    max-width: 900px;
+    margin: 0 auto 15px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 9px;
+}
+
+.toolbar button,
+.toolbar select,
+.upload-btn {
+    padding: 10px 15px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.print-btn {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy) !important;
+    font-weight: bold;
+}
+
+.reset-btn {
+    background: white;
+    color: #475569;
+}
+
+.form-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 35px;
+    background: white;
+    border: 1px solid #dbe2ea;
+    box-shadow: 0 3px 15px rgba(0,0,0,.06);
+}
+
+input, textarea, select {
+    width: 100%;
+    font: inherit;
+    color: var(--text);
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    padding: 8px;
+    min-width: 0;
+    background: #fff;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: 1px solid var(--blue);
+    border-color: var(--blue);
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    margin: 0;
+    padding: 0;
+    accent-color: var(--blue);
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 75px;
+}
+
+label {
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+    color: #475569;
+    margin-bottom: 5px;
+}
+
+.field {
+    min-width: 0;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 175px 1fr;
+    gap: 25px;
+    padding-bottom: 22px;
+    border-bottom: 2px solid var(--navy);
+    align-items: start;
+}
+
+.logo-column {
+    text-align: center;
+}
+
+.logo-box {
+    width: 145px;
+    height: 110px;
+    margin: auto;
+    border: 1px dashed #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 8px;
+    color: #94a3b8;
+    font-size: 12px;
+    text-align: center;
+}
+
+.logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.upload-btn {
+    display: inline-block;
+    margin-top: 9px;
+    background: #f1f5f9;
+    color: var(--navy);
+}
+
+.company-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
+}
+
+.company-fields .wide {
+    grid-column: 1 / -1;
+}
+
+.company-fields input {
+    padding: 7px;
+}
+
+.document-title {
+    text-align: center;
+    padding: 23px 0 17px;
+}
+
+.document-title h1 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 25px;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+}
+
+.document-title p {
+    color: var(--muted);
+    margin: 6px 0 0;
+    font-size: 12px;
+}
+
+.section {
+    margin-top: 21px;
+}
+
+.section-heading {
+    background: var(--navy);
+    color: white;
+    padding: 9px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .3px;
+    margin-bottom: 13px;
+    text-transform: uppercase;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 13px 18px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 13px 15px;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+.field input,
+.field select {
+    height: 34px;
+}
+
+.question {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.question-title {
+    background: #f1f5f9;
+    padding: 10px 12px;
+    font-weight: bold;
+    color: var(--navy);
+    font-size: 12px;
+}
+
+.question-content {
+    padding: 12px;
+}
+
+.scale {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    justify-content: space-between;
+}
+
+.scale-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex: 1 1 45px;
+    text-align: center;
+    font-size: 10px;
+    color: #475569;
+}
+
+.scale-option label {
+    margin: 0;
+    font-weight: normal;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.scale-option input {
+    display: block;
+}
+
+.scale-description {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 9px;
+}
+
+.nps-scale {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.nps-option {
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 2px;
+    font-size: 12px;
+    background: #f8fafc;
+}
+
+.nps-option:has(input:checked) {
+    background: var(--light-blue);
+    border-color: var(--blue);
+    color: var(--navy);
+    font-weight: bold;
+}
+
+.nps-option input {
+    display: block;
+    margin: 0 auto 5px;
+}
+
+.nps-legend {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 7px;
+    font-size: 10px;
+    color: var(--muted);
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.result-box {
+    border: 1px solid var(--border);
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 4px;
+}
+
+.result-box strong {
+    display: block;
+    color: var(--navy);
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+.result-value {
+    font-size: 21px;
+    font-weight: bold;
+    color: var(--blue);
+}
+
+.choice-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    align-items: center;
+}
+
+.choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0;
+    cursor: pointer;
+}
+
+.choice input {
+    width: 14px;
+    height: 14px;
+}
+
+.note {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-top: 12px;
+}
+
+.signature-line {
+    border-bottom: 1px solid #64748b;
+    height: 35px;
+    margin-bottom: 7px;
+}
+
+.footer {
+    border-top: 1px solid var(--border);
+    margin-top: 25px;
+    padding-top: 12px;
+    text-align: center;
+    font-size: 10px;
+    color: var(--muted);
+}
+
+.required {
+    color: #c0392b;
+}
+
+@media(max-width:650px) {
+    body {
+        padding: 10px 5px;
+    }
+
+    .form-container {
+        padding: 17px 12px;
+    }
+
+    .header {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .company-fields {
+        text-align: left;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+
+    .full {
+        grid-column: auto;
+    }
+
+    .nps-scale {
+        gap: 2px;
+    }
+
+    .nps-option {
+        padding: 7px 1px;
+        font-size: 10px;
+    }
+
+    .result-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .signature-grid {
+        gap: 15px;
+    }
+}
+
+/* PRINT SETTINGS */
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        font-size: 11px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print,
+    .toolbar,
+    .upload-btn {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .header {
+        grid-template-columns: 145px 1fr;
+        gap: 18px;
+    }
+
+    input,
+    textarea,
+    select {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border-color: #aab4c0;
+        border-radius: 0;
+        font-size: 11px;
+        appearance: none;
+        -webkit-appearance: none;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+        appearance: auto;
+        -webkit-appearance: auto;
+        print-color-adjust: exact;
+    }
+
+    textarea {
+        overflow: visible;
+    }
+
+    .section-heading,
+    .question-title {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .question {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .question-title {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .result-box {
+        break-inside: avoid;
+    }
+
+    .footer {
+        break-inside: avoid;
+    }
+
+    .logo-box {
+        border: none;
+    }
+
+    .signature-line {
+        border-bottom: 1px solid #555;
+    }
+
+    .document-title {
+        padding-top: 17px;
+    }
+
+    button {
+        display: none !important;
+    }
+
+    .form-container,
+    .section {
+        overflow: visible;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+    <label style="margin:0;display:flex;align-items:center;gap:7px;">
+        Paper Size
+        <select id="paperSize" onchange="changePaperSize()">
+            <option value="A4">A4 Portrait</option>
+            <option value="Letter">US Letter</option>
+        </select>
+    </label>
+
+    <button type="button" class="reset-btn" onclick="resetForm()">
+        Reset Form
+    </button>
+
+    <button type="button" class="print-btn" onclick="printForm()">
+        PRINT FORM / SAVE PDF
+    </button>
+</div>
+
+<div class="form-container">
+
+<form id="surveyForm">
+
+<!-- COMPANY HEADER -->
+
+<div class="header">
+
+    <div class="logo-column">
+        <div class="logo-box" id="logoBox">
+            <span id="logoPlaceholder">COMPANY<br>LOGO</span>
+            <img id="logoPreview" alt="Company Logo"
+                 style="display:none;">
+        </div>
+
+        <label class="upload-btn no-print" for="logoUpload">
+            Upload Company Logo
+        </label>
+
+        <input type="file" id="logoUpload"
+               accept=".jpg,.jpeg,.png,.svg,.webp"
+               class="no-print"
+               style="display:none;">
+    </div>
+
+    <div class="company-fields">
+
+        <div class="field wide">
+            <label>Company Name</label>
+            <input type="text" placeholder="Enter Company Name">
+        </div>
+
+        <div class="field wide">
+            <label>Business Address</label>
+            <input type="text" placeholder="Enter Business Address">
+        </div>
+
+        <div class="field">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="Phone Number">
+        </div>
+
+        <div class="field">
+            <label>Email Address</label>
+            <input type="email" placeholder="Email Address">
+        </div>
+
+        <div class="field">
+            <label>Website</label>
+            <input type="text" placeholder="Website">
+        </div>
+
+        <div class="field">
+            <label>Registration Number</label>
+            <input type="text" placeholder="Registration Number">
+        </div>
+
+    </div>
+</div>
+
+<!-- DOCUMENT TITLE -->
+
+<div class="document-title">
+    <h1>Customer Satisfaction Survey</h1>
+    <p>We value your feedback. Help us improve our products and services.</p>
+</div>
+
+<!-- SURVEY INFORMATION -->
+
+<div class="section">
+
+    <div class="section-heading">01. Survey Information</div>
+
+    <div class="grid-3">
+
+        <div class="field">
+            <label>Survey Reference Number</label>
+            <input type="text" placeholder="SUR-001">
+        </div>
+
+        <div class="field">
+            <label>Survey Date <span class="required">*</span></label>
+            <input type="date" id="surveyDate" required>
+        </div>
+
+        <div class="field">
+            <label>Service / Purchase Date</label>
+            <input type="date">
+        </div>
+
+        <div class="field">
+            <label>Service / Product Category</label>
+            <select>
+                <option value="">Select Category</option>
+                <option>Product Purchase</option>
+                <option>Customer Support</option>
+                <option>Professional Services</option>
+                <option>Consultation</option>
+                <option>Delivery Service</option>
+                <option>Maintenance / Repair</option>
+                <option>Online Service</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Service Channel</label>
+            <select>
+                <option value="">Select Channel</option>
+                <option>In-Store</option>
+                <option>Website</option>
+                <option>Telephone</option>
+                <option>Email</option>
+                <option>Social Media</option>
+                <option>Mobile Application</option>
+                <option>On-Site Service</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Survey Completed By</label>
+            <select>
+                <option value="">Select Respondent</option>
+                <option>Customer</option>
+                <option>Client</option>
+                <option>Business Representative</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+    </div>
+</div>
+
+<!-- CUSTOMER INFORMATION -->
+
+<div class="section">
+
+    <div class="section-heading">02. Customer Information</div>
+
+    <div class="grid-2">
+
+        <div class="field">
+            <label>Customer Name</label>
+            <input type="text" placeholder="Enter Customer Name">
+        </div>
+
+        <div class="field">
+            <label>Customer / Client ID</label>
+            <input type="text" placeholder="Customer Reference ID">
+        </div>
+
+        <div class="field">
+            <label>Email Address</label>
+            <input type="email" placeholder="customer@example.com">
+        </div>
+
+        <div class="field">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="Enter Phone Number">
+        </div>
+
+        <div class="field full">
+            <label>Product / Service Purchased or Used</label>
+            <input type="text" placeholder="Enter Product or Service Name">
+        </div>
+
+        <div class="field full">
+            <label>Order / Invoice / Transaction Reference</label>
+            <input type="text" placeholder="Enter Reference Number">
+        </div>
+
+    </div>
+
+    <p class="note">
+        Customer contact details are optional unless follow-up is requested.
+    </p>
+
+</div>
+
+<!-- SATISFACTION RATINGS -->
+
+<div class="section">
+
+    <div class="section-heading">03. Customer Satisfaction Ratings</div>
+
+    <p style="margin:0 0 12px;">
+        Please select one rating for each statement below.
+    </p>
+
+    <div class="question">
+
+        <div class="question-title">
+            1. How satisfied are you with our overall service?
+            <span class="required">*</span>
+        </div>
+
+        <div class="question-content">
+            <div class="scale">
+                <div class="scale-option">
+                    <label><input type="radio" name="rating1" value="1" required> 1</label>
+                    <span>Very Dissatisfied</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating1" value="2"> 2</label>
+                    <span>Dissatisfied</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating1" value="3"> 3</label>
+                    <span>Neutral</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating1" value="4"> 4</label>
+                    <span>Satisfied</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating1" value="5"> 5</label>
+                    <span>Very Satisfied</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="question">
+
+        <div class="question-title">
+            2. How would you rate the quality of our product or service?
+            <span class="required">*</span>
+        </div>
+
+        <div class="question-content">
+            <div class="scale">
+                <div class="scale-option">
+                    <label><input type="radio" name="rating2" value="1" required> 1</label>
+                    <span>Poor</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating2" value="2"> 2</label>
+                    <span>Below Average</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating2" value="3"> 3</label>
+                    <span>Average</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating2" value="4"> 4</label>
+                    <span>Good</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating2" value="5"> 5</label>
+                    <span>Excellent</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="question">
+
+        <div class="question-title">
+            3. How satisfied are you with our staff's professionalism?
+            <span class="required">*</span>
+        </div>
+
+        <div class="question-content">
+            <div class="scale">
+                <div class="scale-option">
+                    <label><input type="radio" name="rating3" value="1" required> 1</label>
+                    <span>Very Dissatisfied</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating3" value="2"> 2</label>
+                    <span>Dissatisfied</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating3" value="3"> 3</label>
+                    <span>Neutral</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating3" value="4"> 4</label>
+                    <span>Satisfied</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating3" value="5"> 5</label>
+                    <span>Very Satisfied</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="question">
+
+        <div class="question-title">
+            4. How satisfied are you with our response time?
+            <span class="required">*</span>
+        </div>
+
+        <div class="question-content">
+            <div class="scale">
+                <div class="scale-option">
+                    <label><input type="radio" name="rating4" value="1" required> 1</label>
+                    <span>Very Dissatisfied</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating4" value="2"> 2</label>
+                    <span>Dissatisfied</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating4" value="3"> 3</label>
+                    <span>Neutral</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating4" value="4"> 4</label>
+                    <span>Satisfied</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating4" value="5"> 5</label>
+                    <span>Very Satisfied</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="question">
+
+        <div class="question-title">
+            5. How satisfied are you with the value for money?
+            <span class="required">*</span>
+        </div>
+
+        <div class="question-content">
+            <div class="scale">
+                <div class="scale-option">
+                    <label><input type="radio" name="rating5" value="1" required> 1</label>
+                    <span>Very Dissatisfied</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating5" value="2"> 2</label>
+                    <span>Dissatisfied</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating5" value="3"> 3</label>
+                    <span>Neutral</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating5" value="4"> 4</label>
+                    <span>Satisfied</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating5" value="5"> 5</label>
+                    <span>Very Satisfied</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="question">
+
+        <div class="question-title">
+            6. How easy was it to purchase or use our product/service?
+            <span class="required">*</span>
+        </div>
+
+        <div class="question-content">
+            <div class="scale">
+                <div class="scale-option">
+                    <label><input type="radio" name="rating6" value="1" required> 1</label>
+                    <span>Very Difficult</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating6" value="2"> 2</label>
+                    <span>Difficult</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating6" value="3"> 3</label>
+                    <span>Neutral</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating6" value="4"> 4</label>
+                    <span>Easy</span>
+                </div>
+                <div class="scale-option">
+                    <label><input type="radio" name="rating6" value="5"> 5</label>
+                    <span>Very Easy</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- RECOMMENDATION -->
+
+<div class="section">
+
+    <div class="section-heading">04. Customer Recommendation</div>
+
+    <div class="question">
+
+        <div class="question-title">
+            7. How likely are you to recommend our company to friends or colleagues?
+            <span class="required">*</span>
+        </div>
+
+        <div class="question-content">
+
+            <p style="margin:0;">
+                Please select a number from 0 to 10.
+            </p>
+
+            <div class="nps-scale">
+
+                <label class="nps-option">
+                    <input type="radio" name="nps" value="0" required>0
+                </label>
+
+                <label class="nps-option">
+                    <input type="radio" name="nps" value="1">1
+                </label>
+
+                <label class="nps-option">
+                    <input type="radio" name="nps" value="2">2
+                </label>
+
+                <label class="nps-option">
+                    <input type="radio" name="nps" value="3">3
+                </label>
+
+                <label class="nps-option">
+                    <input type="radio" name="nps" value="4">4
+                </label>
+
+                <label class="nps-option">
+                    <input type="radio" name="nps" value="5">5
+                </label>
+
+                <label class="nps-option">
+                    <input type="radio" name="nps" value="6">6
+                </label>
+
+                <label class="nps-option">
+                    <input type="radio" name="nps" value="7">7
+                </label>
+
+                <label class="nps-option">
+                    <input type="radio" name="nps" value="8">8
+                </label>
+
+                <label class="nps-option">
+                    <input type="radio" name="nps" value="9">9
+                </label>
+
+                <label class="nps-option">
+                    <input type="radio" name="nps" value="10">10
+                </label>
+
+            </div>
+
+            <div class="nps-legend">
+                <span>0 - Not at all likely</span>
+                <span>10 - Extremely likely</span>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="result-grid">
+
+        <div class="result-box">
+            <strong>AVERAGE SATISFACTION SCORE</strong>
+            <div class="result-value" id="averageScore">-- / 5</div>
+            <div class="note" id="scoreDescription">
+                Complete the six rating questions.
+            </div>
+        </div>
+
+        <div class="result-box">
+            <strong>RECOMMENDATION CLASSIFICATION</strong>
+            <div class="result-value" id="npsCategory">--</div>
+            <div class="note" id="npsDescription">
+                Select a recommendation score.
+            </div>
+        </div>
+
+    </div>
+
+    <p class="note">
+        These are individual respondent results. The recommendation
+        classification is not an aggregate Net Promoter Score (NPS).
+    </p>
+
+</div>
+
+<!-- CUSTOMER FEEDBACK -->
+
+<div class="section">
+
+    <div class="section-heading">05. Additional Customer Feedback</div>
+
+    <div class="field" style="margin-bottom:15px;">
+        <label>8. What did you like most about our product or service?</label>
+        <textarea placeholder="Please share what you liked most..."></textarea>
+    </div>
+
+    <div class="field" style="margin-bottom:15px;">
+        <label>9. What areas do you think we should improve?</label>
+        <textarea placeholder="Please suggest improvements..."></textarea>
+    </div>
+
+    <div class="field" style="margin-bottom:15px;">
+        <label>10. Was there anything that did not meet your expectations?</label>
+        <textarea placeholder="Describe any issues or concerns..."></textarea>
+    </div>
+
+    <div class="field">
+        <label>11. Any additional comments or suggestions?</label>
+        <textarea placeholder="Enter additional comments..."></textarea>
+    </div>
+
+</div>
+
+<!-- FOLLOW-UP -->
+
+<div class="section">
+
+    <div class="section-heading">06. Customer Follow-Up Preferences</div>
+
+    <div class="field" style="margin-bottom:14px;">
+        <label>Would you like our team to contact you regarding your feedback?</label>
+
+        <div class="choice-list">
+            <label class="choice">
+                <input type="radio" name="followup" value="Yes">
+                Yes
+            </label>
+
+            <label class="choice">
+                <input type="radio" name="followup" value="No">
+                No
+            </label>
+        </div>
+    </div>
+
+    <div class="grid-2">
+
+        <div class="field">
+            <label>Preferred Contact Method</label>
+            <select>
+                <option value="">Select Method</option>
+                <option>Phone Call</option>
+                <option>Email</option>
+                <option>SMS / Text Message</option>
+                <option>WhatsApp</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Preferred Contact Time</label>
+            <select>
+                <option value="">Select Time</option>
+                <option>Morning</option>
+                <option>Afternoon</option>
+                <option>Evening</option>
+                <option>Anytime</option>
+            </select>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- TESTIMONIAL CONSENT -->
+
+<div class="section">
+
+    <div class="section-heading">07. Feedback & Testimonial Permission</div>
+
+    <div class="field">
+
+        <label>
+            May we use your feedback as a customer testimonial in our
+            marketing materials?
+        </label>
+
+        <div class="choice-list" style="margin-top:10px;">
+
+            <label class="choice">
+                <input type="radio" name="testimonial" value="Yes">
+                Yes, I give permission.
+            </label>
+
+            <label class="choice">
+                <input type="radio" name="testimonial" value="No">
+                No, I do not give permission.
+            </label>
+
+        </div>
+
+        <p class="note">
+            Your permission is optional. Your feedback can be submitted
+            without agreeing to testimonial use.
+        </p>
+
+    </div>
+
+</div>
+
+<!-- DECLARATION -->
+
+<div class="section">
+
+    <div class="section-heading">08. Customer Declaration</div>
+
+    <p style="font-size:11px;line-height:1.7;">
+        I confirm that the information and feedback provided in this
+        survey reflect my honest experience with the company's
+        products or services. I understand that providing feedback is
+        voluntary and that my responses may be used to improve
+        customer service and business operations.
+    </p>
+
+    <div class="field" style="margin-top:12px;">
+        <label class="choice">
+            <input type="checkbox" id="declaration">
+            I confirm that the information provided is accurate.
+        </label>
+    </div>
+
+    <div class="signature-grid">
+
+        <div>
+            <label>Customer Name</label>
+            <input type="text" placeholder="Enter Full Name">
+        </div>
+
+        <div>
+            <label>Date</label>
+            <input type="date">
+        </div>
+
+        <div>
+            <label>Customer Signature</label>
+            <div class="signature-line"></div>
+        </div>
+
+        <div>
+            <label>Received / Reviewed By</label>
+            <input type="text" placeholder="Staff Name">
+        </div>
+
+    </div>
+
+</div>
+
+<!-- INTERNAL USE -->
+
+<div class="section">
+
+    <div class="section-heading">09. Internal Office Use Only</div>
+
+    <div class="grid-2">
+
+        <div class="field">
+            <label>Feedback Reviewed By</label>
+            <input type="text" placeholder="Employee Name">
+        </div>
+
+        <div class="field">
+            <label>Review Date</label>
+            <input type="date">
+        </div>
+
+        <div class="field">
+            <label>Feedback Priority</label>
+            <select>
+                <option value="">Select Priority</option>
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+                <option>Urgent</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Action Status</label>
+            <select>
+                <option value="">Select Status</option>
+                <option>Pending Review</option>
+                <option>Under Investigation</option>
+                <option>Action Required</option>
+                <option>Resolved</option>
+                <option>Closed</option>
+            </select>
+        </div>
+
+        <div class="field full">
+            <label>Internal Notes / Corrective Action</label>
+            <textarea placeholder="Enter internal review notes and actions taken..."></textarea>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="footer">
+    Customer Satisfaction Survey | Thank you for helping us improve.
+    <br>
+    <span>Confidential Customer Feedback Record</span>
+</div>
+
+</form>
+</div>
+
+<script>
+
+// LOGO UPLOAD
+
+document.getElementById("logoUpload").addEventListener("change", function(e) {
+
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const allowed = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowed.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP logo.");
+        this.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        const img = document.getElementById("logoPreview");
+        img.src = event.target.result;
+        img.style.display = "block";
+
+        document.getElementById("logoPlaceholder").style.display = "none";
+    };
+
+    reader.onerror = function() {
+        alert("Unable to load the selected logo.");
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+// AUTOMATIC SATISFACTION CALCULATION
+
+function calculateSatisfaction() {
+
+    const ratings = [];
+
+    for (let i = 1; i <= 6; i++) {
+
+        const selected = document.querySelector(
+            'input[name="rating' + i + '"]:checked'
+        );
+
+        if (selected) {
+            ratings.push(Number(selected.value));
+        }
+    }
+
+    const scoreElement = document.getElementById("averageScore");
+    const description = document.getElementById("scoreDescription");
+
+    if (ratings.length === 0) {
+        scoreElement.textContent = "-- / 5";
+        description.textContent = "Complete the six rating questions.";
+        return;
+    }
+
+    const average = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+
+    scoreElement.textContent = average.toFixed(2) + " / 5";
+
+    if (ratings.length < 6) {
+        description.textContent =
+            ratings.length + " of 6 questions completed.";
+    } else if (average >= 4.5) {
+        description.textContent = "Excellent satisfaction";
+    } else if (average >= 3.5) {
+        description.textContent = "Good satisfaction";
+    } else if (average >= 2.5) {
+        description.textContent = "Average satisfaction";
+    } else if (average >= 1.5) {
+        description.textContent = "Low satisfaction";
+    } else {
+        description.textContent = "Very low satisfaction";
+    }
+}
+
+// INDIVIDUAL NPS CLASSIFICATION
+
+function calculateNPS() {
+
+    const selected = document.querySelector(
+        'input[name="nps"]:checked'
+    );
+
+    const category = document.getElementById("npsCategory");
+    const description = document.getElementById("npsDescription");
+
+    if (!selected) {
+        category.textContent = "--";
+        description.textContent = "Select a recommendation score.";
+        return;
+    }
+
+    const value = Number(selected.value);
+
+    if (value >= 9) {
+        category.textContent = "Promoter";
+        description.textContent =
+            "The customer is highly likely to recommend.";
+    } else if (value >= 7) {
+        category.textContent = "Passive";
+        description.textContent =
+            "The customer is moderately satisfied.";
+    } else {
+        category.textContent = "Detractor";
+        description.textContent =
+            "The customer is unlikely to recommend.";
+    }
+}
+
+// LISTEN FOR RATING CHANGES
+
+document.querySelectorAll(
+    'input[name^="rating"]'
+).forEach(function(input) {
+
+    input.addEventListener("change", calculateSatisfaction);
+
+});
+
+document.querySelectorAll(
+    'input[name="nps"]'
+).forEach(function(input) {
+
+    input.addEventListener("change", calculateNPS);
+
+});
+
+// PRINT FUNCTION
+
+function printForm() {
+
+    const form = document.getElementById("surveyForm");
+
+    if (!form.reportValidity()) {
+        return;
+    }
+
+    window.print();
+}
+
+// PAPER SIZE SETTING
+
+function changePaperSize() {
+
+    const size = document.getElementById("paperSize").value;
+
+    let style = document.getElementById("dynamicPageStyle");
+
+    if (!style) {
+        style = document.createElement("style");
+        style.id = "dynamicPageStyle";
+        document.head.appendChild(style);
+    }
+
+    style.textContent = "@page { size: " + size + " portrait; margin: 12mm; }";
+}
+
+// RESET FUNCTION
+
+function resetForm() {
+
+    const confirmReset = confirm(
+        "Are you sure you want to reset all survey information?"
+    );
+
+    if (!confirmReset) return;
+
+    document.getElementById("surveyForm").reset();
+
+    document.getElementById("logoPreview").src = "";
+    document.getElementById("logoPreview").style.display = "none";
+
+    document.getElementById("logoPlaceholder").style.display = "block";
+
+    document.getElementById("logoUpload").value = "";
+
+    calculateSatisfaction();
+    calculateNPS();
+}
+
+// SET DEFAULT SURVEY DATE
+
+document.getElementById("surveyDate").value =
+    new Date().toISOString().slice(0, 10);
+
+</script>
+
+</body>
+</html>

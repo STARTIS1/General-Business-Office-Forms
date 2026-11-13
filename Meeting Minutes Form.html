@@ -1,0 +1,1408 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meeting Minutes Form</title>
+
+<style>
+:root {
+    --navy: #17365d;
+    --blue: #285b91;
+    --light-blue: #eaf1f8;
+    --border: #cbd5e1;
+    --text: #263445;
+    --muted: #64748b;
+    --paper-width: 210mm;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 12px;
+    background: #edf1f5;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.no-print {
+    display: block;
+}
+
+.toolbar {
+    max-width: 210mm;
+    margin: 0 auto 14px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+button, .upload-label {
+    border: none;
+    border-radius: 4px;
+    padding: 10px 17px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.print-btn {
+    background: var(--navy);
+    color: white;
+}
+
+.print-btn:hover {
+    background: #102744;
+}
+
+.reset-btn {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.reset-btn:hover {
+    background: #cbd5e1;
+}
+
+.upload-label {
+    display: inline-block;
+    background: var(--light-blue);
+    color: var(--navy);
+    border: 1px solid #b9cce0;
+    margin-top: 8px;
+}
+
+.add-btn {
+    background: var(--blue);
+    color: white;
+    padding: 7px 12px;
+    margin-top: 8px;
+}
+
+.remove-btn {
+    background: #fce8e8;
+    color: #a52828;
+    padding: 5px 9px;
+    font-size: 11px;
+}
+
+.paper-select {
+    padding: 9px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: white;
+    color: var(--text);
+    font-size: 12px;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 210mm;
+    min-height: 297mm;
+    margin: auto;
+    padding: 13mm;
+    background: #fff;
+    box-shadow: 0 3px 18px rgba(0,0,0,.09);
+    border: 1px solid #e1e5eb;
+}
+
+.document-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 22px;
+    padding-bottom: 19px;
+    border-bottom: 2px solid var(--navy);
+}
+
+.logo-section {
+    width: 145px;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.logo-area {
+    width: 125px;
+    height: 95px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #aab8c8;
+    background: #fafbfd;
+    overflow: hidden;
+    color: #94a3b8;
+    font-size: 11px;
+    text-align: center;
+    padding: 5px;
+}
+
+.logo-area img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.company-info {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 14px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.field label {
+    color: #475569;
+    font-size: 10px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+}
+
+input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    background: #fff;
+    padding: 7px 8px;
+    color: #25364a;
+    font-family: inherit;
+    font-size: 12px;
+    outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #3976b5;
+    box-shadow: 0 0 0 2px rgba(57,118,181,.10);
+}
+
+input {
+    height: 32px;
+}
+
+textarea {
+    min-height: 65px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.document-title {
+    text-align: center;
+    margin: 22px 0 17px;
+}
+
+.document-title h1 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+}
+
+.document-title p {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.section {
+    margin-top: 19px;
+}
+
+.section-heading {
+    background: var(--navy);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    padding: 8px 11px;
+    margin: 0 0 11px;
+}
+
+.section-description {
+    color: var(--muted);
+    font-size: 11px;
+    margin: -4px 0 10px;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th {
+    background: #eaf0f6;
+    color: var(--navy);
+    font-size: 10px;
+    font-weight: 700;
+    text-align: left;
+    text-transform: uppercase;
+    padding: 9px 6px;
+    border: 1px solid #bdc9d6;
+}
+
+td {
+    border: 1px solid #cbd5e1;
+    padding: 5px;
+    vertical-align: middle;
+}
+
+td input, td select {
+    border: 1px solid transparent;
+    background: transparent;
+    padding: 6px 4px;
+    height: 31px;
+    font-size: 11px;
+}
+
+td input:focus, td select:focus {
+    border-color: #3976b5;
+    background: white;
+}
+
+.row-number {
+    text-align: center;
+    font-weight: 700;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.table-actions {
+    text-align: center;
+    width: 65px;
+}
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+    margin-top: 15px;
+}
+
+.signature-box {
+    min-height: 90px;
+    border-bottom: 1px solid #64748b;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 7px;
+    gap: 5px;
+}
+
+.signature-box input {
+    border: none;
+    border-bottom: 1px solid #d6dde6;
+    border-radius: 0;
+}
+
+.signature-box span {
+    font-size: 10px;
+    color: #64748b;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.footer {
+    margin-top: 23px;
+    border-top: 1px solid #cbd5e1;
+    padding-top: 9px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    color: #64748b;
+    font-size: 9px;
+}
+
+.required {
+    color: #c0392b;
+}
+
+input:invalid:not(:placeholder-shown) {
+    border-color: #dc7777;
+}
+
+@media(max-width:650px) {
+    body {
+        padding: 10px 5px;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .form-container {
+        padding: 18px 12px;
+    }
+
+    .document-header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo-section {
+        width: 100%;
+    }
+
+    .company-info {
+        width: 100%;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-4 {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .document-title h1 {
+        font-size: 20px;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 620px;
+    }
+
+    .signature-grid {
+        gap: 18px;
+    }
+}
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        width: 100%;
+        font-size: 10pt;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print,
+    button,
+    .remove-btn,
+    .add-btn,
+    .upload-label {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+    }
+
+    .document-header {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .section {
+        break-inside: auto;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tfoot {
+        display: table-footer-group;
+    }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    th, td {
+        border: 1px solid #aeb9c5 !important;
+    }
+
+    input, select, textarea {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border-color: transparent !important;
+        font-size: 10pt;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        -webkit-appearance: auto;
+        appearance: auto;
+        width: 12px;
+        height: 12px;
+    }
+
+    textarea {
+        resize: none;
+        overflow: visible;
+    }
+
+    .signature-box {
+        break-inside: avoid;
+    }
+
+    .footer {
+        break-inside: avoid;
+    }
+
+    .section-description {
+        color: #333;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+    <label style="font-size:11px;font-weight:700;">PAPER SIZE</label>
+    <select id="paperSize" class="paper-select" aria-label="Paper size">
+        <option value="A4">A4 Portrait</option>
+        <option value="Letter">US Letter</option>
+    </select>
+
+    <button type="button" class="reset-btn" id="resetBtn">
+        RESET FORM
+    </button>
+
+    <button type="button" class="print-btn" id="printBtn">
+        PRINT FORM / SAVE PDF
+    </button>
+</div>
+
+<form id="meetingForm" class="form-container" novalidate>
+
+    <!-- COMPANY HEADER -->
+    <header class="document-header">
+
+        <div class="logo-section">
+            <div class="logo-area" id="logoArea">
+                <span>COMPANY<br>LOGO</span>
+            </div>
+
+            <label for="logoUpload" class="upload-label no-print">
+                UPLOAD COMPANY LOGO
+            </label>
+
+            <input
+                type="file"
+                id="logoUpload"
+                accept="image/jpeg,image/png,image/svg+xml,image/webp"
+                hidden
+            >
+        </div>
+
+        <div class="company-info">
+
+            <div class="field">
+                <label for="companyName">Company Name</label>
+                <input id="companyName" type="text"
+                       placeholder="Company / Organization Name">
+            </div>
+
+            <div class="field">
+                <label for="companyPhone">Phone Number</label>
+                <input id="companyPhone" type="tel"
+                       placeholder="+1 000 000 0000">
+            </div>
+
+            <div class="field full">
+                <label for="companyAddress">Business Address</label>
+                <input id="companyAddress" type="text"
+                       placeholder="Street, City, State, Country">
+            </div>
+
+            <div class="field">
+                <label for="companyEmail">Email Address</label>
+                <input id="companyEmail" type="email"
+                       placeholder="company@example.com">
+            </div>
+
+            <div class="field">
+                <label for="companyWebsite">Website</label>
+                <input id="companyWebsite" type="text"
+                       placeholder="www.company.com">
+            </div>
+
+            <div class="field full">
+                <label for="registrationNo">
+                    Business Registration Number
+                </label>
+                <input id="registrationNo" type="text"
+                       placeholder="Registration Number (Optional)">
+            </div>
+
+        </div>
+    </header>
+
+    <!-- DOCUMENT TITLE -->
+    <div class="document-title">
+        <h1>Meeting Minutes Form</h1>
+        <p>Official Record of Meeting Discussions, Decisions and Action Items</p>
+    </div>
+
+    <!-- MEETING INFORMATION -->
+    <section class="section">
+
+        <h2 class="section-heading">01. Meeting Information</h2>
+
+        <div class="grid-3">
+
+            <div class="field">
+                <label for="meetingNo">Meeting Reference No. <span class="required">*</span></label>
+                <input id="meetingNo" type="text"
+                       placeholder="e.g. MTG-001" required>
+            </div>
+
+            <div class="field">
+                <label for="meetingDate">Meeting Date <span class="required">*</span></label>
+                <input id="meetingDate" type="date" required>
+            </div>
+
+            <div class="field">
+                <label for="meetingType">Meeting Type</label>
+                <select id="meetingType">
+                    <option value="">Select Type</option>
+                    <option>Board Meeting</option>
+                    <option>Management Meeting</option>
+                    <option>Team Meeting</option>
+                    <option>Project Meeting</option>
+                    <option>Client Meeting</option>
+                    <option>Department Meeting</option>
+                    <option>Annual General Meeting</option>
+                    <option>Special Meeting</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="startTime">Start Time <span class="required">*</span></label>
+                <input id="startTime" type="time" required>
+            </div>
+
+            <div class="field">
+                <label for="endTime">End Time <span class="required">*</span></label>
+                <input id="endTime" type="time" required>
+            </div>
+
+            <div class="field">
+                <label for="meetingStatus">Meeting Status</label>
+                <select id="meetingStatus">
+                    <option>Completed</option>
+                    <option>Adjourned</option>
+                    <option>Postponed</option>
+                    <option>Cancelled</option>
+                </select>
+            </div>
+
+            <div class="field full">
+                <label for="meetingTitle">Meeting Subject / Title <span class="required">*</span></label>
+                <input id="meetingTitle" type="text"
+                       placeholder="Enter meeting title or main subject" required>
+            </div>
+
+            <div class="field">
+                <label for="meetingLocation">Meeting Location</label>
+                <input id="meetingLocation" type="text"
+                       placeholder="Office / Conference Room">
+            </div>
+
+            <div class="field">
+                <label for="meetingMode">Meeting Mode</label>
+                <select id="meetingMode">
+                    <option>In Person</option>
+                    <option>Online / Virtual</option>
+                    <option>Hybrid</option>
+                    <option>Telephone Conference</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="meetingChair">Meeting Chairperson</label>
+                <input id="meetingChair" type="text"
+                       placeholder="Chairperson Name">
+            </div>
+
+            <div class="field">
+                <label for="meetingOrganizer">Meeting Organizer</label>
+                <input id="meetingOrganizer" type="text"
+                       placeholder="Organizer Name">
+            </div>
+
+            <div class="field">
+                <label for="meetingSecretary">Minutes Prepared By <span class="required">*</span></label>
+                <input id="meetingSecretary" type="text"
+                       placeholder="Name of Minute Taker" required>
+            </div>
+
+            <div class="field">
+                <label for="meetingCategory">Department / Team</label>
+                <input id="meetingCategory" type="text"
+                       placeholder="Department Name">
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ATTENDANCE -->
+    <section class="section">
+
+        <h2 class="section-heading">02. Attendance Record</h2>
+
+        <p class="section-description">
+            Record all attendees, their positions and attendance status.
+        </p>
+
+        <div class="table-wrapper">
+            <table id="attendanceTable">
+
+                <thead>
+                    <tr>
+                        <th style="width:6%">No.</th>
+                        <th style="width:29%">Name</th>
+                        <th style="width:25%">Designation / Department</th>
+                        <th style="width:17%">Attendance</th>
+                        <th style="width:15%">Contact / Email</th>
+                        <th class="table-actions no-print">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="attendanceBody">
+                    <tr>
+                        <td class="row-number">1</td>
+                        <td><input type="text" aria-label="Attendee name" placeholder="Full Name"></td>
+                        <td><input type="text" aria-label="Attendee designation" placeholder="Position"></td>
+                        <td>
+                            <select aria-label="Attendance status">
+                                <option>Present</option>
+                                <option>Absent</option>
+                                <option>Late</option>
+                                <option>Excused</option>
+                                <option>Remote</option>
+                            </select>
+                        </td>
+                        <td><input type="text" aria-label="Attendee contact" placeholder="Contact"></td>
+                        <td class="table-actions no-print">
+                            <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+        <button type="button" class="add-btn no-print"
+                onclick="addAttendanceRow()">
+            + ADD ATTENDEE
+        </button>
+
+        <div class="grid-2" style="margin-top:13px;">
+            <div class="field">
+                <label for="absentMembers">Apologies / Absent Members</label>
+                <textarea id="absentMembers"
+                          placeholder="Enter names of members who sent apologies or were absent."></textarea>
+            </div>
+
+            <div class="field">
+                <label for="guestMembers">Guests / Special Attendees</label>
+                <textarea id="guestMembers"
+                          placeholder="Enter guest names and their organizations."></textarea>
+            </div>
+        </div>
+    </section>
+
+    <!-- AGENDA -->
+    <section class="section">
+
+        <h2 class="section-heading">03. Meeting Agenda</h2>
+
+        <div class="field">
+            <label for="agendaItems">Agenda Items / Topics for Discussion</label>
+            <textarea id="agendaItems" style="min-height:105px;"
+                placeholder="1. Opening and welcome&#10;2. Review of previous meeting minutes&#10;3. Department updates&#10;4. Key issues and discussion&#10;5. New business&#10;6. Closing remarks"></textarea>
+        </div>
+    </section>
+
+    <!-- DISCUSSION -->
+    <section class="section">
+
+        <h2 class="section-heading">04. Discussion Summary</h2>
+
+        <p class="section-description">
+            Record important discussions, updates, concerns and key points raised during the meeting.
+        </p>
+
+        <div class="field">
+            <label for="discussionSummary">Summary of Discussions</label>
+            <textarea id="discussionSummary"
+                style="min-height:145px;"
+                placeholder="Enter a detailed summary of the discussions, key contributions, concerns and relevant updates."></textarea>
+        </div>
+    </section>
+
+    <!-- DECISIONS -->
+    <section class="section">
+
+        <h2 class="section-heading">05. Decisions and Resolutions</h2>
+
+        <p class="section-description">
+            Document decisions approved, resolutions passed and matters requiring further review.
+        </p>
+
+        <div class="field">
+            <label for="decisions">Key Decisions / Resolutions</label>
+            <textarea id="decisions"
+                style="min-height:110px;"
+                placeholder="Record decisions made, resolutions approved, voting outcomes and responsible authorities."></textarea>
+        </div>
+    </section>
+
+    <!-- ACTION ITEMS -->
+    <section class="section">
+
+        <h2 class="section-heading">06. Action Items and Follow-Up Tasks</h2>
+
+        <p class="section-description">
+            Assign responsibilities, deadlines and progress status to agreed action items.
+        </p>
+
+        <div class="table-wrapper">
+            <table id="actionTable">
+
+                <thead>
+                    <tr>
+                        <th style="width:6%">No.</th>
+                        <th style="width:32%">Action Item / Task</th>
+                        <th style="width:19%">Responsible Person</th>
+                        <th style="width:15%">Due Date</th>
+                        <th style="width:15%">Priority / Status</th>
+                        <th class="table-actions no-print">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="actionBody">
+                    <tr>
+                        <td class="row-number">1</td>
+                        <td><input type="text" aria-label="Action item" placeholder="Describe task"></td>
+                        <td><input type="text" aria-label="Responsible person" placeholder="Assigned to"></td>
+                        <td><input type="date" aria-label="Action due date"></td>
+                        <td>
+                            <select aria-label="Action status">
+                                <option>Not Started</option>
+                                <option>In Progress</option>
+                                <option>Completed</option>
+                                <option>On Hold</option>
+                                <option>High Priority</option>
+                            </select>
+                        </td>
+                        <td class="table-actions no-print">
+                            <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+        <button type="button" class="add-btn no-print"
+                onclick="addActionRow()">
+            + ADD ACTION ITEM
+        </button>
+    </section>
+
+    <!-- OTHER BUSINESS -->
+    <section class="section">
+
+        <h2 class="section-heading">07. Additional Matters</h2>
+
+        <div class="field">
+            <label for="otherBusiness">Any Other Business / Additional Notes</label>
+            <textarea id="otherBusiness"
+                placeholder="Enter additional topics, suggestions, concerns or matters not covered above."></textarea>
+        </div>
+    </section>
+
+    <!-- NEXT MEETING -->
+    <section class="section">
+
+        <h2 class="section-heading">08. Next Meeting Details</h2>
+
+        <div class="grid-3">
+
+            <div class="field">
+                <label for="nextMeetingDate">Proposed Next Meeting Date</label>
+                <input id="nextMeetingDate" type="date">
+            </div>
+
+            <div class="field">
+                <label for="nextMeetingTime">Proposed Meeting Time</label>
+                <input id="nextMeetingTime" type="time">
+            </div>
+
+            <div class="field">
+                <label for="nextMeetingLocation">Proposed Location</label>
+                <input id="nextMeetingLocation" type="text"
+                       placeholder="Meeting Venue">
+            </div>
+
+            <div class="field full">
+                <label for="nextMeetingAgenda">Proposed Agenda / Preparation</label>
+                <textarea id="nextMeetingAgenda"
+                    placeholder="Enter topics or documents to be prepared for the next meeting."></textarea>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- APPROVAL -->
+    <section class="section">
+
+        <h2 class="section-heading">09. Review and Approval</h2>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label for="reviewStatus">Minutes Approval Status</label>
+                <select id="reviewStatus">
+                    <option>Pending Review</option>
+                    <option>Approved</option>
+                    <option>Approved with Amendments</option>
+                    <option>Not Approved</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="approvalDate">Approval Date</label>
+                <input id="approvalDate" type="date">
+            </div>
+
+        </div>
+
+        <div class="signature-grid">
+
+            <div class="signature-box">
+                <input type="text" id="preparedBy"
+                       aria-label="Prepared by name"
+                       placeholder="Enter Name">
+                <span>Prepared By / Meeting Secretary</span>
+                <input type="date" id="preparedDate"
+                       aria-label="Prepared date">
+                <span>Date</span>
+            </div>
+
+            <div class="signature-box">
+                <input type="text" id="approvedBy"
+                       aria-label="Approved by name"
+                       placeholder="Enter Name">
+                <span>Approved By / Chairperson</span>
+                <input type="date" id="approvedSignatureDate"
+                       aria-label="Approval signature date">
+                <span>Date</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ADDITIONAL NOTES -->
+    <section class="section">
+
+        <h2 class="section-heading">10. Final Notes and Distribution</h2>
+
+        <div class="field">
+            <label for="distributionList">Minutes Distribution List</label>
+            <textarea id="distributionList"
+                placeholder="Enter the names, departments or email addresses of people receiving these minutes."></textarea>
+        </div>
+
+        <div class="field" style="margin-top:12px;">
+            <label for="finalNotes">Additional Notes / Confidentiality Remarks</label>
+            <textarea id="finalNotes"
+                placeholder="Enter any additional information or confidentiality instructions."></textarea>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <span>MEETING MINUTES FORM</span>
+        <span>Official Meeting Record</span>
+        <span>Confidential Where Applicable</span>
+    </footer>
+
+</form>
+
+<script>
+/* ==========================================
+   MEETING MINUTES FORM - JAVASCRIPT
+   ========================================== */
+
+/* LOGO UPLOAD AND PREVIEW */
+
+const logoUpload = document.getElementById("logoUpload");
+const logoArea = document.getElementById("logoArea");
+
+let currentLogoURL = null;
+
+logoUpload.addEventListener("change", function () {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP image.");
+        this.value = "";
+        return;
+    }
+
+    if (currentLogoURL) {
+        URL.revokeObjectURL(currentLogoURL);
+    }
+
+    currentLogoURL = URL.createObjectURL(file);
+
+    const image = document.createElement("img");
+
+    image.alt = "Company Logo";
+    image.src = currentLogoURL;
+
+    image.onerror = function () {
+        alert("Unable to preview this logo. Please try another image.");
+        logoArea.innerHTML = "<span>COMPANY<br>LOGO</span>";
+        URL.revokeObjectURL(currentLogoURL);
+        currentLogoURL = null;
+    };
+
+    logoArea.replaceChildren(image);
+});
+
+
+/* TABLE ROW NUMBERING */
+
+function updateRowNumbers(tableId) {
+
+    const tbody = document.querySelector(
+        "#" + tableId + " tbody"
+    );
+
+    Array.from(tbody.rows).forEach((row, index) => {
+
+        const numberCell = row.querySelector(".row-number");
+
+        if (numberCell) {
+            numberCell.textContent = index + 1;
+        }
+
+    });
+}
+
+
+/* REMOVE ROW */
+
+function removeRow(button) {
+
+    const row = button.closest("tr");
+    const tbody = row.parentElement;
+    const tableId = tbody.closest("table").id;
+
+    if (tbody.rows.length <= 1) {
+        alert("At least one row must remain in this table.");
+        return;
+    }
+
+    row.remove();
+
+    updateRowNumbers(tableId);
+}
+
+
+/* ADD ATTENDEE */
+
+function addAttendanceRow() {
+
+    const tbody = document.getElementById("attendanceBody");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="row-number"></td>
+
+        <td>
+            <input type="text"
+                   aria-label="Attendee name"
+                   placeholder="Full Name">
+        </td>
+
+        <td>
+            <input type="text"
+                   aria-label="Attendee designation"
+                   placeholder="Position">
+        </td>
+
+        <td>
+            <select aria-label="Attendance status">
+                <option>Present</option>
+                <option>Absent</option>
+                <option>Late</option>
+                <option>Excused</option>
+                <option>Remote</option>
+            </select>
+        </td>
+
+        <td>
+            <input type="text"
+                   aria-label="Attendee contact"
+                   placeholder="Contact">
+        </td>
+
+        <td class="table-actions no-print">
+            <button type="button"
+                    class="remove-btn"
+                    onclick="removeRow(this)">
+                Remove
+            </button>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+
+    updateRowNumbers("attendanceTable");
+}
+
+
+/* ADD ACTION ITEM */
+
+function addActionRow() {
+
+    const tbody = document.getElementById("actionBody");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="row-number"></td>
+
+        <td>
+            <input type="text"
+                   aria-label="Action item"
+                   placeholder="Describe task">
+        </td>
+
+        <td>
+            <input type="text"
+                   aria-label="Responsible person"
+                   placeholder="Assigned to">
+        </td>
+
+        <td>
+            <input type="date"
+                   aria-label="Action due date">
+        </td>
+
+        <td>
+            <select aria-label="Action status">
+                <option>Not Started</option>
+                <option>In Progress</option>
+                <option>Completed</option>
+                <option>On Hold</option>
+                <option>High Priority</option>
+            </select>
+        </td>
+
+        <td class="table-actions no-print">
+            <button type="button"
+                    class="remove-btn"
+                    onclick="removeRow(this)">
+                Remove
+            </button>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+
+    updateRowNumbers("actionTable");
+}
+
+
+/* DATE VALIDATION */
+
+function validateDates() {
+
+    const meetingDate = document.getElementById("meetingDate").value;
+    const startTime = document.getElementById("startTime").value;
+    const endTime = document.getElementById("endTime").value;
+
+    if (meetingDate && startTime && endTime) {
+
+        if (endTime <= startTime) {
+            alert("Meeting end time must be later than the start time.");
+            document.getElementById("endTime").focus();
+            return false;
+        }
+    }
+
+    const nextDate = document.getElementById("nextMeetingDate").value;
+
+    if (meetingDate && nextDate && nextDate < meetingDate) {
+        alert("The next meeting date cannot be earlier than the current meeting date.");
+        document.getElementById("nextMeetingDate").focus();
+        return false;
+    }
+
+    const actionDates = document.querySelectorAll(
+        "#actionBody input[type='date']"
+    );
+
+    for (const field of actionDates) {
+
+        if (field.value && meetingDate && field.value < meetingDate) {
+            alert("An action item due date cannot be earlier than the meeting date.");
+            field.focus();
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+/* REQUIRED FIELD VALIDATION */
+
+function validateForm() {
+
+    const requiredFields = [
+        "meetingNo",
+        "meetingDate",
+        "meetingTitle",
+        "startTime",
+        "endTime",
+        "meetingSecretary"
+    ];
+
+    for (const id of requiredFields) {
+
+        const field = document.getElementById(id);
+
+        if (!field.value.trim()) {
+
+            alert("Please complete all required fields marked with an asterisk (*).");
+
+            field.focus();
+
+            return false;
+        }
+    }
+
+    const email = document.getElementById("companyEmail");
+
+    if (email.value.trim() && !email.checkValidity()) {
+        alert("Please enter a valid company email address.");
+        email.focus();
+        return false;
+    }
+
+    if (!validateDates()) {
+        return false;
+    }
+
+    return true;
+}
+
+
+/* PAPER SIZE SETTING */
+
+const paperSize = document.getElementById("paperSize");
+
+function updatePaperSize() {
+
+    let style = document.getElementById("dynamicPrintStyle");
+
+    if (!style) {
+        style = document.createElement("style");
+        style.id = "dynamicPrintStyle";
+        document.head.appendChild(style);
+    }
+
+    const selectedSize = paperSize.value;
+
+    style.textContent = `
+        @page {
+            size: ${selectedSize} portrait;
+            margin: 12mm;
+        }
+    `;
+}
+
+paperSize.addEventListener("change", updatePaperSize);
+
+
+/* PRINT FORM / SAVE AS PDF */
+
+document.getElementById("printBtn").addEventListener("click", function () {
+
+    if (!validateForm()) return;
+
+    updatePaperSize();
+
+    window.print();
+});
+
+
+/* RESET FORM */
+
+document.getElementById("resetBtn").addEventListener("click", function () {
+
+    const confirmed = confirm(
+        "Are you sure you want to reset the entire Meeting Minutes Form? All entered information and uploaded logo will be cleared."
+    );
+
+    if (!confirmed) return;
+
+    document.getElementById("meetingForm").reset();
+
+    // Restore original logo placeholder
+    if (currentLogoURL) {
+        URL.revokeObjectURL(currentLogoURL);
+        currentLogoURL = null;
+    }
+
+    logoArea.innerHTML = "<span>COMPANY<br>LOGO</span>";
+    logoUpload.value = "";
+
+    // Restore default attendance row
+    document.getElementById("attendanceBody").innerHTML = `
+        <tr>
+            <td class="row-number">1</td>
+            <td><input type="text" aria-label="Attendee name" placeholder="Full Name"></td>
+            <td><input type="text" aria-label="Attendee designation" placeholder="Position"></td>
+            <td>
+                <select aria-label="Attendance status">
+                    <option>Present</option>
+                    <option>Absent</option>
+                    <option>Late</option>
+                    <option>Excused</option>
+                    <option>Remote</option>
+                </select>
+            </td>
+            <td><input type="text" aria-label="Attendee contact" placeholder="Contact"></td>
+            <td class="table-actions no-print">
+                <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+            </td>
+        </tr>
+    `;
+
+    // Restore default action item row
+    document.getElementById("actionBody").innerHTML = `
+        <tr>
+            <td class="row-number">1</td>
+            <td><input type="text" aria-label="Action item" placeholder="Describe task"></td>
+            <td><input type="text" aria-label="Responsible person" placeholder="Assigned to"></td>
+            <td><input type="date" aria-label="Action due date"></td>
+            <td>
+                <select aria-label="Action status">
+                    <option>Not Started</option>
+                    <option>In Progress</option>
+                    <option>Completed</option>
+                    <option>On Hold</option>
+                    <option>High Priority</option>
+                </select>
+            </td>
+            <td class="table-actions no-print">
+                <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+            </td>
+        </tr>
+    `;
+
+    paperSize.value = "A4";
+    updatePaperSize();
+
+    alert("The form has been successfully reset.");
+});
+
+
+/* INITIALIZE */
+
+updateRowNumbers("attendanceTable");
+updateRowNumbers("actionTable");
+updatePaperSize();
+
+</script>
+
+</body>
+</html>

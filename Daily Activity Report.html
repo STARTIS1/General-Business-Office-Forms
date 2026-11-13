@@ -1,0 +1,1318 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Activity Report</title>
+
+<style>
+:root {
+    --navy: #183653;
+    --blue: #28618e;
+    --light: #eaf1f7;
+    --border: #cbd5df;
+    --text: #263442;
+    --muted: #637384;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 12px;
+    background: #edf1f5;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+.no-print {
+    font-family: Arial, sans-serif;
+}
+
+.toolbar {
+    max-width: 900px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+button, .upload-label {
+    border: none;
+    border-radius: 4px;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.print-btn {
+    background: var(--navy);
+    color: white;
+}
+
+.reset-btn {
+    background: #e4e8ed;
+    color: #344454;
+}
+
+.add-btn {
+    background: var(--blue);
+    color: white;
+}
+
+.remove-btn {
+    background: #fce9e9;
+    color: #a12e2e;
+    padding: 6px 10px;
+}
+
+.upload-label {
+    display: inline-block;
+    background: var(--light);
+    color: var(--navy);
+    border: 1px solid var(--border);
+    margin-top: 8px;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    padding: 30px;
+    background: white;
+    border: 1px solid #dce2e8;
+    box-shadow: 0 4px 18px rgba(20, 40, 60, .08);
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 145px 1fr;
+    gap: 22px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid var(--navy);
+}
+
+.logo-area {
+    text-align: center;
+}
+
+.logo-box {
+    width: 125px;
+    height: 105px;
+    border: 1px dashed #aab8c6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    overflow: hidden;
+    color: #8795a3;
+    font-size: 11px;
+    text-align: center;
+}
+
+.logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.company-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px 14px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    color: #526273;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    min-height: 32px;
+    padding: 7px 8px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text);
+    background: #fff;
+    font-family: inherit;
+    font-size: 12px;
+}
+
+textarea {
+    min-height: 65px;
+    resize: vertical;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 1px solid var(--blue);
+    border-color: var(--blue);
+}
+
+.document-title {
+    text-align: center;
+    padding: 21px 0 17px;
+}
+
+.document-title h1 {
+    font-size: 23px;
+    color: var(--navy);
+    margin: 0 0 7px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.document-title p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.section {
+    margin-top: 19px;
+}
+
+.section-heading {
+    background: var(--navy);
+    color: white;
+    padding: 9px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .4px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    break-after: avoid;
+    page-break-after: avoid;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th {
+    background: #e9eff5;
+    color: var(--navy);
+    font-size: 10px;
+    text-transform: uppercase;
+    padding: 9px 5px;
+    border: 1px solid var(--border);
+    text-align: left;
+}
+
+td {
+    border: 1px solid var(--border);
+    padding: 5px;
+    vertical-align: middle;
+}
+
+td input, td select {
+    border: none;
+    padding: 6px 4px;
+    min-height: 30px;
+    background: transparent;
+}
+
+td textarea {
+    border: none;
+    min-height: 40px;
+    padding: 5px;
+}
+
+.activity-table th:nth-child(1) { width: 5%; }
+.activity-table th:nth-child(2) { width: 25%; }
+.activity-table th:nth-child(3) { width: 12%; }
+.activity-table th:nth-child(4) { width: 12%; }
+.activity-table th:nth-child(5) { width: 12%; }
+.activity-table th:nth-child(6) { width: 13%; }
+.activity-table th:nth-child(7) { width: 11%; }
+.activity-table th:nth-child(8) { width: 10%; }
+
+.summary-box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.summary-item {
+    background: #f3f6f9;
+    border: 1px solid var(--border);
+    padding: 12px;
+}
+
+.summary-item span {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.summary-item strong {
+    font-size: 19px;
+    color: var(--navy);
+}
+
+.progress-track {
+    height: 8px;
+    background: #dce4ec;
+    margin-top: 8px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--blue);
+    width: 0%;
+    transition: width .2s;
+}
+
+.status-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 8px 0;
+}
+
+.status-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: normal;
+}
+
+.status-group input {
+    width: auto;
+    min-height: auto;
+}
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 45px;
+    margin-top: 25px;
+}
+
+.signature-box {
+    padding-top: 35px;
+    border-bottom: 1px solid #596775;
+}
+
+.signature-caption {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 7px;
+}
+
+.footer-note {
+    border-top: 1px solid var(--border);
+    margin-top: 25px;
+    padding-top: 10px;
+    text-align: center;
+    color: #7a8793;
+    font-size: 10px;
+}
+
+.error-message {
+    display: none;
+    color: #a12e2e;
+    background: #fff0f0;
+    border: 1px solid #efcccc;
+    padding: 9px;
+    margin-bottom: 12px;
+}
+
+@media(max-width: 650px) {
+    body {
+        padding: 10px 5px;
+    }
+
+    .form-container {
+        padding: 16px 11px;
+    }
+
+    .header {
+        grid-template-columns: 1fr;
+    }
+
+    .company-fields,
+    .grid-2,
+    .grid-3,
+    .grid-4,
+    .signature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .field.full {
+        grid-column: auto;
+    }
+
+    .summary-box {
+        grid-template-columns: 1fr;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+    }
+
+    .activity-table {
+        min-width: 780px;
+    }
+
+    .signature-grid {
+        gap: 25px;
+    }
+}
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        font-size: 10px;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .no-print,
+    button,
+    .upload-label,
+    .remove-column {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+    }
+
+    input, textarea, select {
+        color: #000;
+        background: transparent !important;
+        box-shadow: none;
+        border-color: transparent;
+        appearance: none;
+        -webkit-appearance: none;
+        padding: 3px 2px;
+        font-size: 10px;
+        min-height: 22px;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        appearance: auto;
+        -webkit-appearance: auto;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    td, th {
+        border: 1px solid #aab5bf;
+    }
+
+    .header, .document-title, .summary-box {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .signature-grid {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .logo-box {
+        border: none;
+    }
+
+    .logo-box img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .section {
+        break-inside: auto;
+    }
+
+    .footer-note {
+        break-inside: avoid;
+    }
+}
+
+@media print {
+    body.letter {
+        font-size: 10px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+    <label for="paperSize" style="align-self:center;">Paper Size</label>
+    <select id="paperSize" style="width:auto;">
+        <option value="A4">A4 Portrait</option>
+        <option value="Letter">US Letter</option>
+    </select>
+    <button class="reset-btn" type="button" onclick="resetForm()">RESET FORM</button>
+    <button class="print-btn" type="button" onclick="printForm()">PRINT FORM / SAVE PDF</button>
+</div>
+
+<main class="form-container" id="reportForm">
+
+    <div class="error-message" id="errorMessage" role="alert"></div>
+
+    <!-- COMPANY HEADER -->
+    <header class="header">
+
+        <div class="logo-area">
+            <div class="logo-box" id="logoBox">
+                <span>COMPANY<br>LOGO</span>
+            </div>
+
+            <div class="no-print">
+                <label class="upload-label" for="logoUpload">UPLOAD LOGO</label>
+                <input type="file" id="logoUpload" accept=".jpg,.jpeg,.png,.svg,.webp,image/jpeg,image/png,image/svg+xml,image/webp" hidden>
+            </div>
+        </div>
+
+        <div class="company-fields">
+
+            <div class="field full">
+                <label for="companyName">COMPANY NAME</label>
+                <input id="companyName" type="text" placeholder="Enter company name">
+            </div>
+
+            <div class="field full">
+                <label for="companyAddress">BUSINESS ADDRESS</label>
+                <input id="companyAddress" type="text" placeholder="Enter business address">
+            </div>
+
+            <div class="field">
+                <label for="companyPhone">PHONE NUMBER</label>
+                <input id="companyPhone" type="tel" placeholder="Phone number">
+            </div>
+
+            <div class="field">
+                <label for="companyEmail">EMAIL ADDRESS</label>
+                <input id="companyEmail" type="email" placeholder="Email address">
+            </div>
+
+            <div class="field">
+                <label for="companyWebsite">WEBSITE</label>
+                <input id="companyWebsite" type="text" placeholder="www.company.com">
+            </div>
+
+            <div class="field">
+                <label for="companyReg">REGISTRATION NUMBER</label>
+                <input id="companyReg" type="text" placeholder="Registration number">
+            </div>
+
+        </div>
+    </header>
+
+    <!-- DOCUMENT TITLE -->
+    <div class="document-title">
+        <h1>Daily Activity Report</h1>
+        <p>Daily Work Record, Task Progress & Employee Performance Summary</p>
+    </div>
+
+    <!-- REPORT INFORMATION -->
+    <section class="section">
+        <div class="section-heading">01. Report Information</div>
+
+        <div class="grid-3">
+
+            <div class="field">
+                <label for="reportNo">REPORT NUMBER</label>
+                <input id="reportNo" type="text" placeholder="DAR-001">
+            </div>
+
+            <div class="field">
+                <label for="reportDate">REPORT DATE *</label>
+                <input id="reportDate" type="date" required>
+            </div>
+
+            <div class="field">
+                <label for="department">DEPARTMENT *</label>
+                <select id="department" required>
+                    <option value="">Select Department</option>
+                    <option>Administration</option>
+                    <option>Accounting & Finance</option>
+                    <option>Human Resources</option>
+                    <option>Sales & Marketing</option>
+                    <option>Customer Service</option>
+                    <option>Operations</option>
+                    <option>Information Technology</option>
+                    <option>Production</option>
+                    <option>Logistics</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- EMPLOYEE INFORMATION -->
+    <section class="section">
+        <div class="section-heading">02. Employee Information</div>
+
+        <div class="grid-3">
+
+            <div class="field">
+                <label for="employeeName">EMPLOYEE NAME *</label>
+                <input id="employeeName" type="text" required placeholder="Full name">
+            </div>
+
+            <div class="field">
+                <label for="employeeId">EMPLOYEE ID</label>
+                <input id="employeeId" type="text" placeholder="Employee ID">
+            </div>
+
+            <div class="field">
+                <label for="jobTitle">JOB TITLE / POSITION *</label>
+                <input id="jobTitle" type="text" required placeholder="Job title">
+            </div>
+
+            <div class="field">
+                <label for="supervisor">REPORTING MANAGER</label>
+                <input id="supervisor" type="text" placeholder="Manager name">
+            </div>
+
+            <div class="field">
+                <label for="workLocation">WORK LOCATION</label>
+                <input id="workLocation" type="text" placeholder="Office / Remote / Site">
+            </div>
+
+            <div class="field">
+                <label for="workType">WORK ARRANGEMENT</label>
+                <select id="workType">
+                    <option>Office Based</option>
+                    <option>Remote</option>
+                    <option>Hybrid</option>
+                    <option>Field Work</option>
+                    <option>Client Site</option>
+                </select>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- WORKING HOURS -->
+    <section class="section">
+        <div class="section-heading">03. Working Hours & Attendance</div>
+
+        <div class="grid-4">
+
+            <div class="field">
+                <label for="startTime">START TIME *</label>
+                <input type="time" id="startTime" required>
+            </div>
+
+            <div class="field">
+                <label for="endTime">END TIME *</label>
+                <input type="time" id="endTime" required>
+            </div>
+
+            <div class="field">
+                <label for="breakTime">BREAK (MINUTES)</label>
+                <input type="number" id="breakTime" min="0" max="1440" value="60">
+            </div>
+
+            <div class="field">
+                <label for="overtime">OVERTIME (HOURS)</label>
+                <input type="number" id="overtime" min="0" step="0.25" value="0">
+            </div>
+
+        </div>
+
+        <div class="summary-box">
+
+            <div class="summary-item">
+                <span>Net Working Hours</span>
+                <strong id="netHours">0.00</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Overtime Hours</span>
+                <strong id="overtimeDisplay">0.00</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Total Hours</span>
+                <strong id="totalHours">0.00</strong>
+            </div>
+
+        </div>
+
+        <div class="field" style="margin-top:12px;">
+            <label>ATTENDANCE STATUS</label>
+            <div class="status-group">
+                <label><input type="radio" name="attendance" value="Present" checked> Present</label>
+                <label><input type="radio" name="attendance" value="Late"> Late</label>
+                <label><input type="radio" name="attendance" value="Half Day"> Half Day</label>
+                <label><input type="radio" name="attendance" value="Absent"> Absent</label>
+                <label><input type="radio" name="attendance" value="Leave"> On Leave</label>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACTIVITY LOG -->
+    <section class="section">
+        <div class="section-heading">04. Daily Activity & Task Log</div>
+
+        <div class="table-scroll">
+            <table class="activity-table" id="activityTable">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Activity / Task Description</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Duration (Hrs)</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th class="remove-column">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="activityBody">
+
+                    <tr>
+                        <td class="row-number">1</td>
+                        <td><textarea class="task-description" placeholder="Describe work completed or task assigned"></textarea></td>
+                        <td><input type="time" class="task-start"></td>
+                        <td><input type="time" class="task-end"></td>
+                        <td><input type="number" class="task-duration" min="0" step="0.25" placeholder="0.00"></td>
+                        <td>
+                            <select class="task-priority">
+                                <option>Medium</option>
+                                <option>High</option>
+                                <option>Low</option>
+                                <option>Critical</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="task-status">
+                                <option>Completed</option>
+                                <option>In Progress</option>
+                                <option>Pending</option>
+                                <option>On Hold</option>
+                                <option>Cancelled</option>
+                            </select>
+                        </td>
+                        <td class="remove-column"><button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="no-print" style="margin-top:10px;">
+            <button type="button" class="add-btn" onclick="addActivityRow()">+ ADD ACTIVITY</button>
+        </div>
+
+        <div class="summary-box">
+            <div class="summary-item">
+                <span>Total Activities</span>
+                <strong id="activityCount">1</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Completed Tasks</span>
+                <strong id="completedCount">0</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Task Completion</span>
+                <strong id="completionPercent">0%</strong>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACCOMPLISHMENTS -->
+    <section class="section">
+        <div class="section-heading">05. Daily Accomplishments & Results</div>
+
+        <div class="field">
+            <label for="accomplishments">KEY ACCOMPLISHMENTS / WORK COMPLETED</label>
+            <textarea id="accomplishments" placeholder="Describe the major achievements, completed work, and results for the day..."></textarea>
+        </div>
+
+        <div class="field" style="margin-top:12px;">
+            <label for="pendingTasks">PENDING TASKS / CARRY-FORWARD WORK</label>
+            <textarea id="pendingTasks" placeholder="List unfinished work and tasks to be continued..."></textarea>
+        </div>
+
+        <div class="field" style="margin-top:12px;">
+            <label for="issues">CHALLENGES / ISSUES ENCOUNTERED</label>
+            <textarea id="issues" placeholder="Describe any problems, delays, or obstacles..."></textarea>
+        </div>
+
+        <div class="field" style="margin-top:12px;">
+            <label for="solutions">ACTIONS TAKEN / SOLUTIONS</label>
+            <textarea id="solutions" placeholder="Describe corrective actions or solutions..."></textarea>
+        </div>
+    </section>
+
+    <!-- NEXT DAY -->
+    <section class="section">
+        <div class="section-heading">06. Next Working Day Plan</div>
+
+        <div class="field">
+            <label for="nextDayPlan">PLANNED ACTIVITIES / PRIORITIES</label>
+            <textarea id="nextDayPlan" placeholder="List tasks and priorities planned for the next working day..."></textarea>
+        </div>
+
+        <div class="grid-2" style="margin-top:12px;">
+            <div class="field">
+                <label for="supportRequired">SUPPORT / RESOURCES REQUIRED</label>
+                <textarea id="supportRequired" placeholder="Mention any support, approvals, or resources needed..."></textarea>
+            </div>
+
+            <div class="field">
+                <label for="additionalNotes">ADDITIONAL COMMENTS</label>
+                <textarea id="additionalNotes" placeholder="Any additional information..."></textarea>
+            </div>
+        </div>
+    </section>
+
+    <!-- OVERALL STATUS -->
+    <section class="section">
+        <div class="section-heading">07. Overall Daily Performance</div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label for="overallStatus">OVERALL WORK STATUS</label>
+                <select id="overallStatus">
+                    <option>On Track</option>
+                    <option>Completed as Planned</option>
+                    <option>Partially Completed</option>
+                    <option>Delayed</option>
+                    <option>Requires Attention</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="selfRating">SELF-ASSESSMENT</label>
+                <select id="selfRating">
+                    <option value="">Select Rating</option>
+                    <option>Excellent</option>
+                    <option>Very Good</option>
+                    <option>Good</option>
+                    <option>Satisfactory</option>
+                    <option>Needs Improvement</option>
+                </select>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SIGNATURES -->
+    <section class="section">
+        <div class="section-heading">08. Review & Authorization</div>
+
+        <div class="grid-2">
+            <div class="field">
+                <label for="preparedBy">PREPARED BY</label>
+                <input id="preparedBy" type="text" placeholder="Employee name">
+            </div>
+
+            <div class="field">
+                <label for="preparedDate">SUBMISSION DATE</label>
+                <input id="preparedDate" type="date">
+            </div>
+
+            <div class="field">
+                <label for="reviewedBy">REVIEWED BY</label>
+                <input id="reviewedBy" type="text" placeholder="Supervisor / Manager">
+            </div>
+
+            <div class="field">
+                <label for="reviewDate">REVIEW DATE</label>
+                <input id="reviewDate" type="date">
+            </div>
+        </div>
+
+        <div class="signature-grid">
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-caption">Employee Signature</div>
+            </div>
+
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-caption">Manager / Supervisor Signature</div>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="footer-note">
+        Daily Activity Report | Internal Business Record | Confidential
+    </div>
+
+</main>
+
+<script>
+"use strict";
+
+/* DATE DEFAULTS */
+const today = new Date();
+const localDate = new Date(
+    today.getTime() - today.getTimezoneOffset() * 60000
+).toISOString().slice(0, 10);
+
+document.getElementById("reportDate").value = localDate;
+document.getElementById("preparedDate").value = localDate;
+
+/* LOGO UPLOAD */
+document.getElementById("logoUpload").addEventListener("change", function() {
+    const file = this.files[0];
+    if (!file) return;
+
+    const allowed = ["image/jpeg", "image/png", "image/svg+xml", "image/webp"];
+
+    if (!allowed.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP logo.");
+        this.value = "";
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert("Logo size must be less than 5 MB.");
+        this.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        const box = document.getElementById("logoBox");
+        box.replaceChildren();
+
+        const img = document.createElement("img");
+        img.src = event.target.result;
+        img.alt = "Company Logo";
+        box.appendChild(img);
+    };
+
+    reader.readAsDataURL(file);
+});
+
+/* ACTIVITY ROWS */
+function addActivityRow() {
+    const body = document.getElementById("activityBody");
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="row-number"></td>
+        <td><textarea class="task-description" placeholder="Describe activity or task"></textarea></td>
+        <td><input type="time" class="task-start"></td>
+        <td><input type="time" class="task-end"></td>
+        <td><input type="number" class="task-duration" min="0" step="0.25" placeholder="0.00"></td>
+        <td>
+            <select class="task-priority">
+                <option>Medium</option>
+                <option>High</option>
+                <option>Low</option>
+                <option>Critical</option>
+            </select>
+        </td>
+        <td>
+            <select class="task-status">
+                <option>Completed</option>
+                <option>In Progress</option>
+                <option>Pending</option>
+                <option>On Hold</option>
+                <option>Cancelled</option>
+            </select>
+        </td>
+        <td class="remove-column">
+            <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+        </td>
+    `;
+
+    body.appendChild(row);
+    updateActivitySummary();
+}
+
+function removeRow(button) {
+    const body = document.getElementById("activityBody");
+
+    if (body.rows.length <= 1) {
+        alert("At least one activity row must remain.");
+        return;
+    }
+
+    button.closest("tr").remove();
+    updateActivitySummary();
+}
+
+function updateRowNumbers() {
+    document.querySelectorAll("#activityBody tr").forEach((row, index) => {
+        row.querySelector(".row-number").textContent = index + 1;
+    });
+}
+
+/* TASK DURATION CALCULATION */
+function timeToMinutes(value) {
+    if (!value) return null;
+    const parts = value.split(":").map(Number);
+    return parts[0] * 60 + parts[1];
+}
+
+function calculateTaskDuration(row) {
+    const start = row.querySelector(".task-start").value;
+    const end = row.querySelector(".task-end").value;
+    const durationField = row.querySelector(".task-duration");
+
+    if (!start || !end) return;
+
+    const startMinutes = timeToMinutes(start);
+    let endMinutes = timeToMinutes(end);
+
+    if (endMinutes < startMinutes) {
+        endMinutes += 1440;
+    }
+
+    durationField.value = ((endMinutes - startMinutes) / 60).toFixed(2);
+    updateActivitySummary();
+}
+
+/* WORKING HOURS */
+function calculateWorkingHours() {
+    const start = document.getElementById("startTime").value;
+    const end = document.getElementById("endTime").value;
+
+    let breakMinutes = Number(document.getElementById("breakTime").value) || 0;
+    let overtime = Number(document.getElementById("overtime").value) || 0;
+
+    breakMinutes = Math.max(0, Math.min(1440, breakMinutes));
+    overtime = Math.max(0, overtime);
+
+    let net = 0;
+
+    if (start && end) {
+        const startMinutes = timeToMinutes(start);
+        let endMinutes = timeToMinutes(end);
+
+        if (endMinutes < startMinutes) {
+            endMinutes += 1440;
+        }
+
+        const totalMinutes = endMinutes - startMinutes;
+
+        if (breakMinutes > totalMinutes) {
+            showError("Break time cannot exceed the total time between start and end.");
+            return;
+        }
+
+        hideError();
+        net = (totalMinutes - breakMinutes) / 60;
+    }
+
+    document.getElementById("netHours").textContent = net.toFixed(2);
+    document.getElementById("overtimeDisplay").textContent = overtime.toFixed(2);
+    document.getElementById("totalHours").textContent = (net + overtime).toFixed(2);
+}
+
+/* ACTIVITY SUMMARY */
+function updateActivitySummary() {
+    const rows = [...document.querySelectorAll("#activityBody tr")];
+
+    let completed = 0;
+
+    rows.forEach(row => {
+        const status = row.querySelector(".task-status").value;
+        if (status === "Completed") completed++;
+    });
+
+    const total = rows.length;
+    const percentage = total ? (completed / total) * 100 : 0;
+
+    document.getElementById("activityCount").textContent = total;
+    document.getElementById("completedCount").textContent = completed;
+    document.getElementById("completionPercent").textContent =
+        percentage.toFixed(0) + "%";
+
+    document.getElementById("progressFill").style.width =
+        percentage + "%";
+
+    updateRowNumbers();
+}
+
+/* EVENT LISTENERS */
+document.getElementById("activityBody").addEventListener("change", function(event) {
+    const row = event.target.closest("tr");
+
+    if (event.target.classList.contains("task-start") ||
+        event.target.classList.contains("task-end")) {
+        calculateTaskDuration(row);
+    }
+
+    if (event.target.classList.contains("task-status")) {
+        updateActivitySummary();
+    }
+});
+
+document.getElementById("activityBody").addEventListener("input", function(event) {
+    if (event.target.classList.contains("task-duration")) {
+        const value = Number(event.target.value);
+
+        if (event.target.value !== "" && (!Number.isFinite(value) || value < 0)) {
+            event.target.value = 0;
+        }
+    }
+});
+
+["startTime", "endTime", "breakTime", "overtime"].forEach(id => {
+    document.getElementById(id).addEventListener("input", calculateWorkingHours);
+});
+
+/* ERROR MESSAGES */
+function showError(message) {
+    const box = document.getElementById("errorMessage");
+    box.textContent = message;
+    box.style.display = "block";
+}
+
+function hideError() {
+    const box = document.getElementById("errorMessage");
+    box.textContent = "";
+    box.style.display = "none";
+}
+
+/* VALIDATION */
+function validateForm() {
+    hideError();
+
+    const requiredFields = [
+        ["reportDate", "Report Date"],
+        ["department", "Department"],
+        ["employeeName", "Employee Name"],
+        ["jobTitle", "Job Title"],
+        ["startTime", "Start Time"],
+        ["endTime", "End Time"]
+    ];
+
+    for (const [id, label] of requiredFields) {
+        const field = document.getElementById(id);
+
+        if (!field.value.trim()) {
+            showError(label + " is required.");
+            field.focus();
+            return false;
+        }
+    }
+
+    const email = document.getElementById("companyEmail");
+
+    if (email.value && !email.checkValidity()) {
+        showError("Please enter a valid company email address.");
+        email.focus();
+        return false;
+    }
+
+    const start = timeToMinutes(document.getElementById("startTime").value);
+    let end = timeToMinutes(document.getElementById("endTime").value);
+
+    if (end < start) end += 1440;
+
+    const breakMinutes = Number(document.getElementById("breakTime").value) || 0;
+    const overtime = Number(document.getElementById("overtime").value) || 0;
+
+    if (breakMinutes < 0 || breakMinutes > 1440 || breakMinutes > end - start) {
+        showError("Please enter a valid break duration.");
+        return false;
+    }
+
+    if (overtime < 0) {
+        showError("Overtime cannot be negative.");
+        return false;
+    }
+
+    const durationFields = document.querySelectorAll(".task-duration");
+
+    for (const field of durationFields) {
+        if (field.value !== "" && (!Number.isFinite(Number(field.value)) || Number(field.value) < 0)) {
+            showError("Activity duration must be a valid non-negative number.");
+            field.focus();
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/* PRINT */
+function printForm() {
+    if (!validateForm()) return;
+
+    const size = document.getElementById("paperSize").value;
+
+    let style = document.getElementById("dynamicPrintSize");
+
+    if (!style) {
+        style = document.createElement("style");
+        style.id = "dynamicPrintSize";
+        document.head.appendChild(style);
+    }
+
+    style.textContent = "@page { size: " + size + " portrait; margin: 12mm; }";
+
+    window.print();
+}
+
+/* RESET */
+function resetForm() {
+    if (!confirm("Are you sure you want to reset the entire Daily Activity Report? All entered information will be cleared.")) {
+        return;
+    }
+
+    document.getElementById("reportForm").querySelectorAll("input, textarea, select").forEach(field => {
+        if (field.id === "paperSize") return;
+
+        if (field.type === "radio") {
+            field.checked = field.value === "Present";
+        } else if (field.type === "file") {
+            field.value = "";
+        } else {
+            field.value = "";
+        }
+    });
+
+    document.getElementById("reportDate").value = localDate;
+    document.getElementById("preparedDate").value = localDate;
+    document.getElementById("breakTime").value = "60";
+    document.getElementById("overtime").value = "0";
+    document.getElementById("workType").value = "Office Based";
+    document.getElementById("overallStatus").value = "On Track";
+
+    document.getElementById("logoBox").innerHTML = "<span>COMPANY<br>LOGO</span>";
+
+    document.getElementById("activityBody").innerHTML = `
+        <tr>
+            <td class="row-number">1</td>
+            <td><textarea class="task-description" placeholder="Describe work completed or task assigned"></textarea></td>
+            <td><input type="time" class="task-start"></td>
+            <td><input type="time" class="task-end"></td>
+            <td><input type="number" class="task-duration" min="0" step="0.25" placeholder="0.00"></td>
+            <td>
+                <select class="task-priority">
+                    <option>Medium</option>
+                    <option>High</option>
+                    <option>Low</option>
+                    <option>Critical</option>
+                </select>
+            </td>
+            <td>
+                <select class="task-status">
+                    <option>Completed</option>
+                    <option>In Progress</option>
+                    <option>Pending</option>
+                    <option>On Hold</option>
+                    <option>Cancelled</option>
+                </select>
+            </td>
+            <td class="remove-column"><button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button></td>
+        </tr>
+    `;
+
+    document.getElementById("netHours").textContent = "0.00";
+    document.getElementById("overtimeDisplay").textContent = "0.00";
+    document.getElementById("totalHours").textContent = "0.00";
+
+    hideError();
+    updateActivitySummary();
+}
+
+/* INITIALIZE */
+updateActivitySummary();
+calculateWorkingHours();
+
+</script>
+
+</body>
+</html>

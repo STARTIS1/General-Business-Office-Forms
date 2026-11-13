@@ -1,0 +1,1590 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Service Request Form</title>
+
+<style>
+:root {
+    --navy: #17365d;
+    --blue: #245b91;
+    --light: #edf3f9;
+    --border: #cbd5e1;
+    --text: #263445;
+    --muted: #64748b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 12px;
+    background: #edf1f5;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+    font-size: 13px;
+}
+
+.no-print {
+    /* Screen-only controls */
+}
+
+.toolbar {
+    max-width: 950px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 9px;
+    align-items: center;
+}
+
+button, .upload-label {
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover, .upload-label:hover {
+    opacity: 0.88;
+}
+
+.print-btn {
+    background: var(--navy);
+    color: white;
+}
+
+.reset-btn {
+    background: #64748b;
+    color: white;
+}
+
+.add-btn {
+    background: var(--blue);
+    color: white;
+    padding: 8px 12px;
+}
+
+.remove-btn {
+    background: #b94141;
+    color: white;
+    padding: 6px 10px;
+}
+
+.upload-label {
+    display: inline-block;
+    background: #e8eef6;
+    color: var(--navy);
+    border: 1px solid #b8c8da;
+    margin-top: 8px;
+}
+
+.page-select {
+    padding: 9px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: white;
+    color: var(--text);
+}
+
+.form-container {
+    max-width: 950px;
+    margin: auto;
+    padding: 30px 35px;
+    background: white;
+    border: 1px solid #d9e0e8;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.07);
+}
+
+.company-header {
+    display: grid;
+    grid-template-columns: 155px 1fr;
+    gap: 25px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid var(--navy);
+    align-items: center;
+}
+
+.logo-section {
+    text-align: center;
+}
+
+.logo-box {
+    width: 140px;
+    height: 105px;
+    border: 1px dashed #9baec2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #fafbfd;
+    margin: auto;
+}
+
+.logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    font-size: 12px;
+    color: #8292a5;
+    text-align: center;
+    padding: 10px;
+}
+
+.company-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px 14px;
+}
+
+.company-fields .full {
+    grid-column: 1 / -1;
+}
+
+.form-title {
+    text-align: center;
+    margin: 25px 0 20px;
+}
+
+.form-title h1 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+}
+
+.form-title p {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.document-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    background: #f3f6fa;
+    padding: 14px;
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.field {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #34465b;
+}
+
+input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    background: #fff;
+    padding: 9px 10px;
+    color: #263445;
+    font-family: inherit;
+    font-size: 12px;
+    outline: none;
+}
+
+input, select {
+    height: 35px;
+}
+
+textarea {
+    min-height: 72px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 2px rgba(36,91,145,0.10);
+}
+
+input.invalid, select.invalid, textarea.invalid {
+    border: 1.5px solid #d12d2d !important;
+    background: #fff5f5;
+}
+
+.section {
+    margin-top: 21px;
+}
+
+.section-heading {
+    background: var(--navy);
+    color: white;
+    padding: 10px 13px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 13px;
+    break-after: avoid;
+    page-break-after: avoid;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 13px 17px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 13px 15px;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+.choice-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    min-height: 35px;
+}
+
+.choice-group label {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.choice-group input {
+    width: auto;
+    height: auto;
+    accent-color: var(--navy);
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th {
+    background: #eaf0f7;
+    color: var(--navy);
+    font-size: 11px;
+    padding: 10px 6px;
+    border: 1px solid #bfcddd;
+    text-align: left;
+}
+
+td {
+    border: 1px solid #cbd5e1;
+    padding: 5px;
+    vertical-align: middle;
+}
+
+td input, td select {
+    border: none;
+    background: transparent;
+    padding: 6px 4px;
+    height: 32px;
+}
+
+td input:focus, td select:focus {
+    border: 1px solid var(--blue);
+    background: white;
+}
+
+td:first-child {
+    text-align: center;
+}
+
+.table-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.info-note {
+    padding: 10px 12px;
+    background: #f1f6fb;
+    border-left: 3px solid var(--blue);
+    color: #52647a;
+    font-size: 11px;
+    line-height: 1.6;
+    margin-top: 12px;
+}
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+    margin-top: 25px;
+}
+
+.signature-box {
+    min-height: 85px;
+    border-bottom: 1px solid #6c7d90;
+    margin-bottom: 8px;
+}
+
+.signature-label {
+    color: #475569;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.footer {
+    margin-top: 30px;
+    padding-top: 12px;
+    border-top: 1px solid #cbd5e1;
+    text-align: center;
+    color: #718096;
+    font-size: 10px;
+}
+
+.error-message {
+    display: none;
+    padding: 10px;
+    background: #fff0f0;
+    border: 1px solid #e4a0a0;
+    color: #a52626;
+    margin: 12px 0;
+    font-size: 12px;
+}
+
+@media(max-width: 650px) {
+    body {
+        padding: 10px 5px;
+    }
+
+    .form-container {
+        padding: 18px 12px;
+    }
+
+    .company-header {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .company-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .company-fields .full {
+        grid-column: auto;
+    }
+
+    .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+    }
+
+    .document-info {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .form-title h1 {
+        font-size: 21px;
+    }
+
+    .signature-grid {
+        gap: 18px;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+    }
+
+    .table-wrap table {
+        min-width: 650px;
+    }
+}
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        font-size: 10pt;
+        color: #000;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+    }
+
+    .company-header {
+        grid-template-columns: 130px 1fr;
+        gap: 15px;
+    }
+
+    .logo-box {
+        width: 120px;
+        height: 85px;
+    }
+
+    .section-heading {
+        background: #e8eef5 !important;
+        color: #17365d !important;
+        border-bottom: 1px solid #17365d;
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    input, textarea, select {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: 1px solid #aab4c0 !important;
+        font-size: 9pt;
+    }
+
+    input::placeholder, textarea::placeholder {
+        color: transparent !important;
+    }
+
+    .document-info {
+        background: #f3f6fa !important;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    th {
+        background: #eaf0f7 !important;
+        color: #17365d !important;
+    }
+
+    .table-wrap {
+        overflow: visible !important;
+    }
+
+    .table-wrap table {
+        min-width: 0 !important;
+    }
+
+    .section, .signature-grid, .info-note {
+        break-inside: auto;
+    }
+
+    .signature-box {
+        min-height: 65px;
+    }
+
+    button, .upload-label, .table-actions {
+        display: none !important;
+    }
+
+    .footer {
+        break-inside: avoid;
+    }
+
+    a {
+        color: black;
+        text-decoration: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+    <label for="paperSize" style="margin-right:3px;">Paper Size:</label>
+    <select id="paperSize" class="page-select" onchange="changePaperSize()">
+        <option value="A4">A4 Portrait</option>
+        <option value="Letter">US Letter</option>
+    </select>
+
+    <button class="reset-btn" type="button" onclick="resetForm()">
+        RESET FORM
+    </button>
+
+    <button class="print-btn" type="button" onclick="printForm()">
+        PRINT FORM / SAVE PDF
+    </button>
+</div>
+
+<div class="form-container" id="formContainer">
+
+    <!-- COMPANY HEADER -->
+    <header class="company-header">
+
+        <div class="logo-section">
+            <div class="logo-box" id="logoBox">
+                <span class="logo-placeholder">COMPANY<br>LOGO</span>
+            </div>
+
+            <label for="logoUpload" class="upload-label no-print">
+                Upload Company Logo
+            </label>
+
+            <input type="file" id="logoUpload"
+                   accept=".jpg,.jpeg,.png,.svg,.webp"
+                   class="no-print"
+                   style="display:none;"
+                   onchange="uploadLogo(event)">
+        </div>
+
+        <div class="company-fields">
+
+            <div class="field full">
+                <label>COMPANY NAME *</label>
+                <input type="text" id="companyName"
+                       placeholder="Enter company name" required>
+            </div>
+
+            <div class="field full">
+                <label>BUSINESS ADDRESS</label>
+                <input type="text" id="companyAddress"
+                       placeholder="Enter business address">
+            </div>
+
+            <div class="field">
+                <label>PHONE NUMBER</label>
+                <input type="tel" id="companyPhone"
+                       placeholder="+1 000 000 0000">
+            </div>
+
+            <div class="field">
+                <label>EMAIL ADDRESS</label>
+                <input type="email" id="companyEmail"
+                       placeholder="company@example.com">
+            </div>
+
+            <div class="field">
+                <label>WEBSITE</label>
+                <input type="text" id="companyWebsite"
+                       placeholder="www.example.com">
+            </div>
+
+            <div class="field">
+                <label>BUSINESS REGISTRATION NO.</label>
+                <input type="text" id="registrationNo"
+                       placeholder="Registration number (optional)">
+            </div>
+
+        </div>
+    </header>
+
+    <!-- FORM TITLE -->
+    <div class="form-title">
+        <h1>Service Request Form</h1>
+        <p>Official Service Request & Work Authorization Record</p>
+    </div>
+
+    <!-- DOCUMENT INFORMATION -->
+    <div class="document-info">
+
+        <div class="field">
+            <label>REQUEST NUMBER *</label>
+            <input type="text" id="requestNumber"
+                   placeholder="SR-0001" required>
+        </div>
+
+        <div class="field">
+            <label>REQUEST DATE *</label>
+            <input type="date" id="requestDate" required>
+        </div>
+
+        <div class="field">
+            <label>REQUEST STATUS</label>
+            <select id="requestStatus">
+                <option value="New">New</option>
+                <option value="Under Review">Under Review</option>
+                <option value="Approved">Approved</option>
+                <option value="Assigned">Assigned</option>
+                <option value="In Progress">In Progress</option>
+                <option value="On Hold">On Hold</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div id="errorMessage" class="error-message no-print"></div>
+
+    <!-- REQUESTOR INFORMATION -->
+    <section class="section">
+
+        <div class="section-heading">
+            01. Requestor / Client Information
+        </div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>CLIENT / REQUESTOR NAME *</label>
+                <input type="text" id="clientName"
+                       placeholder="Enter full name" required>
+            </div>
+
+            <div class="field">
+                <label>COMPANY / ORGANIZATION</label>
+                <input type="text" id="clientCompany"
+                       placeholder="Company name (if applicable)">
+            </div>
+
+            <div class="field">
+                <label>PHONE NUMBER *</label>
+                <input type="tel" id="clientPhone"
+                       placeholder="Enter contact number" required>
+            </div>
+
+            <div class="field">
+                <label>EMAIL ADDRESS</label>
+                <input type="email" id="clientEmail"
+                       placeholder="Enter email address">
+            </div>
+
+            <div class="field">
+                <label>DEPARTMENT</label>
+                <input type="text" id="clientDepartment"
+                       placeholder="Department name">
+            </div>
+
+            <div class="field">
+                <label>ALTERNATE CONTACT PERSON</label>
+                <input type="text" id="alternateContact"
+                       placeholder="Contact person name">
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SERVICE INFORMATION -->
+    <section class="section">
+
+        <div class="section-heading">
+            02. Service Request Information
+        </div>
+
+        <div class="grid-3">
+
+            <div class="field">
+                <label>SERVICE CATEGORY *</label>
+                <select id="serviceCategory" required>
+                    <option value="">Select Category</option>
+                    <option>Maintenance & Repair</option>
+                    <option>Technical Support</option>
+                    <option>Installation</option>
+                    <option>Inspection</option>
+                    <option>Cleaning Services</option>
+                    <option>Consultation</option>
+                    <option>IT & Computer Services</option>
+                    <option>Electrical Services</option>
+                    <option>Plumbing Services</option>
+                    <option>Equipment Servicing</option>
+                    <option>Administrative Services</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>SERVICE TYPE</label>
+                <select id="serviceType">
+                    <option value="">Select Type</option>
+                    <option>New Service</option>
+                    <option>Routine Service</option>
+                    <option>Emergency Service</option>
+                    <option>Follow-up Service</option>
+                    <option>Recurring Service</option>
+                    <option>Warranty Service</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>PRIORITY LEVEL *</label>
+                <select id="priority" required>
+                    <option value="">Select Priority</option>
+                    <option>Low</option>
+                    <option>Normal</option>
+                    <option>High</option>
+                    <option>Urgent</option>
+                    <option>Emergency</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>PREFERRED SERVICE DATE</label>
+                <input type="date" id="preferredDate">
+            </div>
+
+            <div class="field">
+                <label>PREFERRED TIME</label>
+                <input type="time" id="preferredTime">
+            </div>
+
+            <div class="field">
+                <label>EXPECTED COMPLETION DATE</label>
+                <input type="date" id="expectedDate">
+            </div>
+
+        </div>
+
+        <div class="field" style="margin-top:14px;">
+            <label>REQUEST DESCRIPTION *</label>
+            <textarea id="requestDescription"
+                placeholder="Describe the reason for this service request and the problem or assistance required..."
+                required></textarea>
+        </div>
+
+    </section>
+
+    <!-- SERVICE LOCATION -->
+    <section class="section">
+
+        <div class="section-heading">
+            03. Service Location & Access Information
+        </div>
+
+        <div class="grid-2">
+
+            <div class="field full">
+                <label>SERVICE LOCATION / ADDRESS *</label>
+                <input type="text" id="serviceAddress"
+                       placeholder="Enter complete service location" required>
+            </div>
+
+            <div class="field">
+                <label>BUILDING / SITE NAME</label>
+                <input type="text" id="siteName"
+                       placeholder="Building or site name">
+            </div>
+
+            <div class="field">
+                <label>ROOM / FLOOR / UNIT NUMBER</label>
+                <input type="text" id="roomNumber"
+                       placeholder="Enter room, floor or unit">
+            </div>
+
+            <div class="field">
+                <label>ON-SITE CONTACT PERSON</label>
+                <input type="text" id="siteContact"
+                       placeholder="Name of on-site contact">
+            </div>
+
+            <div class="field">
+                <label>ON-SITE CONTACT PHONE</label>
+                <input type="tel" id="sitePhone"
+                       placeholder="Contact number">
+            </div>
+
+            <div class="field full">
+                <label>SITE ACCESS REQUIREMENTS / INSTRUCTIONS</label>
+                <textarea id="accessInstructions"
+                    placeholder="Security procedures, access codes, parking, entry arrangements or other instructions..."></textarea>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SERVICE DETAILS -->
+    <section class="section">
+
+        <div class="section-heading">
+            04. Requested Services / Work Details
+        </div>
+
+        <div class="table-wrap">
+            <table id="serviceTable">
+                <thead>
+                    <tr>
+                        <th style="width:7%;">No.</th>
+                        <th style="width:28%;">Service / Task Description</th>
+                        <th style="width:15%;">Location / Item</th>
+                        <th style="width:12%;">Quantity</th>
+                        <th style="width:16%;">Preferred Date</th>
+                        <th style="width:22%;">Additional Instructions</th>
+                        <th class="no-print" style="width:8%;">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="serviceTableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-actions no-print">
+            <button type="button" class="add-btn"
+                    onclick="addServiceRow()">
+                + ADD SERVICE ROW
+            </button>
+        </div>
+
+        <div class="info-note">
+            List each requested service or task separately. Include the relevant
+            location, quantity and any special instructions to help the service
+            team understand the work requirements.
+        </div>
+
+    </section>
+
+    <!-- SCHEDULING -->
+    <section class="section">
+
+        <div class="section-heading">
+            05. Scheduling & Availability
+        </div>
+
+        <div class="grid-3">
+
+            <div class="field">
+                <label>REQUESTED SERVICE FREQUENCY</label>
+                <select id="frequency">
+                    <option value="">Select Frequency</option>
+                    <option>One-Time</option>
+                    <option>Daily</option>
+                    <option>Weekly</option>
+                    <option>Bi-Weekly</option>
+                    <option>Monthly</option>
+                    <option>Quarterly</option>
+                    <option>As Required</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>AVAILABLE FROM</label>
+                <input type="date" id="availableFrom">
+            </div>
+
+            <div class="field">
+                <label>AVAILABLE UNTIL</label>
+                <input type="date" id="availableUntil">
+            </div>
+
+            <div class="field full">
+                <label>PREFERRED DAYS / TIME AVAILABILITY</label>
+                <div class="choice-group">
+                    <label><input type="checkbox" name="availableDays" value="Monday"> Monday</label>
+                    <label><input type="checkbox" name="availableDays" value="Tuesday"> Tuesday</label>
+                    <label><input type="checkbox" name="availableDays" value="Wednesday"> Wednesday</label>
+                    <label><input type="checkbox" name="availableDays" value="Thursday"> Thursday</label>
+                    <label><input type="checkbox" name="availableDays" value="Friday"> Friday</label>
+                    <label><input type="checkbox" name="availableDays" value="Saturday"> Saturday</label>
+                    <label><input type="checkbox" name="availableDays" value="Sunday"> Sunday</label>
+                </div>
+            </div>
+
+            <div class="field full">
+                <label>OTHER SCHEDULING REQUIREMENTS</label>
+                <textarea id="schedulingNotes"
+                    placeholder="Enter any additional scheduling preferences or restrictions..."></textarea>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- REQUIREMENTS -->
+    <section class="section">
+
+        <div class="section-heading">
+            06. Special Requirements & Resources
+        </div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>EQUIPMENT / MATERIALS REQUIRED</label>
+                <textarea id="equipmentRequired"
+                    placeholder="List any special equipment or materials..."></textarea>
+            </div>
+
+            <div class="field">
+                <label>SAFETY / SECURITY REQUIREMENTS</label>
+                <textarea id="safetyRequirements"
+                    placeholder="Enter safety precautions or security requirements..."></textarea>
+            </div>
+
+            <div class="field">
+                <label>EXISTING WARRANTY / SERVICE AGREEMENT</label>
+                <select id="warranty">
+                    <option value="">Select Option</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                    <option>Not Applicable</option>
+                    <option>Not Sure</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>PREVIOUS REQUEST REFERENCE</label>
+                <input type="text" id="previousReference"
+                       placeholder="Previous request number (if applicable)">
+            </div>
+
+            <div class="field full">
+                <label>ADDITIONAL COMMENTS / NOTES</label>
+                <textarea id="additionalNotes"
+                    placeholder="Enter any additional information relevant to this service request..."></textarea>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ATTACHMENTS -->
+    <section class="section">
+
+        <div class="section-heading">
+            07. Supporting Documents & Attachments
+        </div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>ATTACHMENT / DOCUMENT DESCRIPTION</label>
+                <input type="text" id="attachmentDescription"
+                       placeholder="Describe attached photographs, documents or files">
+            </div>
+
+            <div class="field">
+                <label>REFERENCE FILES</label>
+                <input type="file" id="attachments" multiple
+                       class="no-print">
+                <input type="text" id="attachmentNames"
+                       readonly placeholder="Selected file names will appear here">
+            </div>
+
+        </div>
+
+        <div class="info-note">
+            Note: Selected files are not automatically embedded in this form
+            or included in its printed output. Attach them separately when
+            submitting the request.
+        </div>
+
+    </section>
+
+    <!-- AUTHORIZATION -->
+    <section class="section">
+
+        <div class="section-heading">
+            08. Requestor Declaration & Authorization
+        </div>
+
+        <div class="field">
+            <label>DECLARATION</label>
+            <p style="font-size:12px;line-height:1.7;margin:5px 0 12px;">
+                I confirm that the information provided in this service request
+                is accurate and complete to the best of my knowledge. I authorize
+                the relevant service team to review and process this request
+                according to the applicable service policies and procedures.
+            </p>
+        </div>
+
+        <div class="choice-group">
+            <label>
+                <input type="checkbox" id="declaration" required>
+                I confirm and agree to the above declaration.
+            </label>
+        </div>
+
+        <div class="signature-grid">
+
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">REQUESTOR SIGNATURE</div>
+
+                <div class="field" style="margin-top:12px;">
+                    <label>REQUESTOR NAME</label>
+                    <input type="text" id="signatureName"
+                           placeholder="Enter full name">
+                </div>
+
+                <div class="field" style="margin-top:10px;">
+                    <label>DATE</label>
+                    <input type="date" id="signatureDate">
+                </div>
+            </div>
+
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">AUTHORIZED REPRESENTATIVE SIGNATURE</div>
+
+                <div class="field" style="margin-top:12px;">
+                    <label>AUTHORIZED PERSON NAME</label>
+                    <input type="text" id="authorizedName"
+                           placeholder="Enter full name">
+                </div>
+
+                <div class="field" style="margin-top:10px;">
+                    <label>DATE</label>
+                    <input type="date" id="authorizationDate">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- INTERNAL PROCESSING -->
+    <section class="section">
+
+        <div class="section-heading">
+            09. Internal Office Use Only
+        </div>
+
+        <div class="grid-3">
+
+            <div class="field">
+                <label>ASSIGNED DEPARTMENT</label>
+                <input type="text" id="assignedDepartment"
+                       placeholder="Department">
+            </div>
+
+            <div class="field">
+                <label>ASSIGNED STAFF / TECHNICIAN</label>
+                <input type="text" id="assignedStaff"
+                       placeholder="Staff name">
+            </div>
+
+            <div class="field">
+                <label>ASSIGNMENT DATE</label>
+                <input type="date" id="assignmentDate">
+            </div>
+
+            <div class="field">
+                <label>REVIEWED BY</label>
+                <input type="text" id="reviewedBy"
+                       placeholder="Reviewer name">
+            </div>
+
+            <div class="field">
+                <label>APPROVED BY</label>
+                <input type="text" id="approvedBy"
+                       placeholder="Approver name">
+            </div>
+
+            <div class="field">
+                <label>APPROVAL DATE</label>
+                <input type="date" id="approvalDate">
+            </div>
+
+            <div class="field">
+                <label>FINAL COMPLETION DATE</label>
+                <input type="date" id="completionDate">
+            </div>
+
+            <div class="field">
+                <label>FINAL SERVICE STATUS</label>
+                <select id="finalStatus">
+                    <option value="">Select Status</option>
+                    <option>Pending</option>
+                    <option>Assigned</option>
+                    <option>In Progress</option>
+                    <option>On Hold</option>
+                    <option>Completed</option>
+                    <option>Rejected</option>
+                    <option>Cancelled</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>COMPLETION VERIFIED BY</label>
+                <input type="text" id="verifiedBy"
+                       placeholder="Name of verifier">
+            </div>
+
+            <div class="field full">
+                <label>INTERNAL REVIEW / COMPLETION NOTES</label>
+                <textarea id="internalNotes"
+                    placeholder="Internal remarks, action taken, outcome or follow-up requirements..."></textarea>
+            </div>
+
+        </div>
+
+        <div class="signature-grid">
+
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">SERVICE TEAM REPRESENTATIVE</div>
+            </div>
+
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">MANAGER / APPROVAL SIGNATURE</div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer class="footer">
+        <p>
+            <strong>Service Request Form</strong> |
+            Please retain a copy of this document for your records.
+        </p>
+        <p>Confidential Business Document</p>
+    </footer>
+
+</div>
+
+<script>
+/* =====================================
+   PAPER SIZE SETTINGS
+===================================== */
+
+function changePaperSize() {
+    const size = document.getElementById("paperSize").value;
+
+    let oldStyle = document.getElementById("dynamicPageSize");
+
+    if (oldStyle) oldStyle.remove();
+
+    const style = document.createElement("style");
+    style.id = "dynamicPageSize";
+    style.textContent = `@page { size: ${size} portrait; margin: 12mm; }`;
+
+    document.head.appendChild(style);
+}
+
+/* =====================================
+   PRINT FORM
+===================================== */
+
+function printForm() {
+    if (!validateForm()) {
+        return;
+    }
+
+    window.print();
+}
+
+/* =====================================
+   LOGO UPLOAD AND PREVIEW
+===================================== */
+
+let logoURL = null;
+
+function uploadLogo(event) {
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP logo.");
+        event.target.value = "";
+        return;
+    }
+
+    if (logoURL) {
+        URL.revokeObjectURL(logoURL);
+    }
+
+    logoURL = URL.createObjectURL(file);
+
+    const box = document.getElementById("logoBox");
+    box.innerHTML = "";
+
+    const img = document.createElement("img");
+    img.src = logoURL;
+    img.alt = "Company Logo";
+
+    box.appendChild(img);
+}
+
+/* =====================================
+   SERVICE TABLE
+===================================== */
+
+let rowCounter = 0;
+
+function addServiceRow() {
+    const tbody = document.getElementById("serviceTableBody");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="row-number"></td>
+
+        <td>
+            <input type="text"
+                   class="service-description"
+                   aria-label="Service description"
+                   placeholder="Enter service">
+        </td>
+
+        <td>
+            <input type="text"
+                   aria-label="Location or item"
+                   placeholder="Location / item">
+        </td>
+
+        <td>
+            <input type="number"
+                   aria-label="Quantity"
+                   min="0"
+                   step="0.01"
+                   placeholder="0">
+        </td>
+
+        <td>
+            <input type="date"
+                   aria-label="Preferred service date">
+        </td>
+
+        <td>
+            <input type="text"
+                   aria-label="Additional instructions"
+                   placeholder="Instructions">
+        </td>
+
+        <td class="no-print">
+            <button type="button"
+                    class="remove-btn"
+                    onclick="removeServiceRow(this)">
+                Remove
+            </button>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+
+    updateRowNumbers();
+}
+
+function removeServiceRow(button) {
+    const tbody = document.getElementById("serviceTableBody");
+
+    if (tbody.rows.length <= 1) {
+        alert("At least one service row must remain.");
+        return;
+    }
+
+    button.closest("tr").remove();
+
+    updateRowNumbers();
+}
+
+function updateRowNumbers() {
+    const rows = document.querySelectorAll(
+        "#serviceTableBody tr"
+    );
+
+    rows.forEach((row, index) => {
+        row.querySelector(".row-number").textContent = index + 1;
+    });
+}
+
+/* =====================================
+   VALIDATION
+===================================== */
+
+function validateForm() {
+
+    const form = document.getElementById("formContainer");
+
+    const requiredFields = form.querySelectorAll(
+        "input[required], select[required], textarea[required]"
+    );
+
+    const errorBox = document.getElementById("errorMessage");
+
+    // Remove previous error highlights
+    form.querySelectorAll(".invalid").forEach(field => {
+        field.classList.remove("invalid");
+    });
+
+    errorBox.style.display = "none";
+
+    let firstInvalid = null;
+
+    requiredFields.forEach(field => {
+
+        if (field.type === "checkbox") {
+            if (!field.checked) {
+                field.classList.add("invalid");
+                if (!firstInvalid) firstInvalid = field;
+            }
+        } else if (!field.value.trim()) {
+            field.classList.add("invalid");
+            if (!firstInvalid) firstInvalid = field;
+        }
+    });
+
+    // Email validation
+    const emailFields = [
+        document.getElementById("companyEmail"),
+        document.getElementById("clientEmail")
+    ];
+
+    emailFields.forEach(field => {
+        if (field.value.trim() && !field.checkValidity()) {
+            field.classList.add("invalid");
+            if (!firstInvalid) firstInvalid = field;
+        }
+    });
+
+    // Date validation
+    const datePairs = [
+        ["preferredDate", "expectedDate", "Expected completion date cannot be before preferred service date."],
+        ["availableFrom", "availableUntil", "Available until date cannot be before available from date."]
+    ];
+
+    datePairs.forEach(pair => {
+        const first = document.getElementById(pair[0]);
+        const second = document.getElementById(pair[1]);
+
+        if (first.value && second.value && second.value < first.value) {
+            second.classList.add("invalid");
+            if (!firstInvalid) firstInvalid = second;
+        }
+    });
+
+    // Validate quantities
+    const quantities = document.querySelectorAll(
+        "#serviceTableBody input[type=number]"
+    );
+
+    quantities.forEach(field => {
+        if (field.value !== "" &&
+            (!Number.isFinite(Number(field.value)) ||
+             Number(field.value) < 0)) {
+            field.classList.add("invalid");
+            if (!firstInvalid) firstInvalid = field;
+        }
+    });
+
+    if (firstInvalid) {
+
+        errorBox.textContent =
+            "Please complete all required fields and correct the highlighted information before printing.";
+
+        errorBox.style.display = "block";
+
+        firstInvalid.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+        firstInvalid.focus();
+
+        return false;
+    }
+
+    return true;
+}
+
+/* =====================================
+   REMOVE VALIDATION HIGHLIGHT ON EDIT
+===================================== */
+
+document.addEventListener("input", function(event) {
+    const field = event.target;
+
+    if (field.classList.contains("invalid")) {
+        field.classList.remove("invalid");
+    }
+
+    const errorBox = document.getElementById("errorMessage");
+
+    if (errorBox.style.display === "block") {
+        errorBox.style.display = "none";
+    }
+});
+
+document.addEventListener("change", function(event) {
+    const field = event.target;
+
+    if (field.classList.contains("invalid")) {
+        field.classList.remove("invalid");
+    }
+});
+
+/* =====================================
+   FILE ATTACHMENT DISPLAY
+===================================== */
+
+document.getElementById("attachments").addEventListener(
+    "change",
+    function() {
+
+        const names = Array.from(this.files)
+            .map(file => file.name)
+            .join(", ");
+
+        document.getElementById("attachmentNames").value = names;
+    }
+);
+
+/* =====================================
+   RESET FORM
+===================================== */
+
+function resetForm() {
+
+    const confirmReset = confirm(
+        "Are you sure you want to reset this entire Service Request Form? All entered information will be cleared."
+    );
+
+    if (!confirmReset) return;
+
+    const form = document.getElementById("formContainer");
+
+    // Clear text, number, date, email, telephone and file inputs
+    form.querySelectorAll("input").forEach(input => {
+
+        if (input.type === "checkbox" ||
+            input.type === "radio") {
+            input.checked = false;
+        } else {
+            input.value = "";
+        }
+
+        input.classList.remove("invalid");
+    });
+
+    // Reset dropdowns
+    form.querySelectorAll("select").forEach(select => {
+        select.selectedIndex = 0;
+        select.classList.remove("invalid");
+    });
+
+    // Clear textareas
+    form.querySelectorAll("textarea").forEach(textarea => {
+        textarea.value = "";
+        textarea.classList.remove("invalid");
+    });
+
+    // Restore logo placeholder
+    if (logoURL) {
+        URL.revokeObjectURL(logoURL);
+        logoURL = null;
+    }
+
+    document.getElementById("logoBox").innerHTML =
+        '<span class="logo-placeholder">COMPANY<br>LOGO</span>';
+
+    // Reset service rows
+    document.getElementById("serviceTableBody").innerHTML = "";
+
+    addServiceRow();
+
+    // Hide error
+    document.getElementById("errorMessage").style.display = "none";
+
+    // Restore current date
+    setDefaultDates();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+/* =====================================
+   DEFAULT DATE VALUES
+===================================== */
+
+function setDefaultDates() {
+
+    const today = new Date();
+
+    const localDate = new Date(
+        today.getTime() - today.getTimezoneOffset() * 60000
+    ).toISOString().split("T")[0];
+
+    document.getElementById("requestDate").value = localDate;
+
+}
+
+/* =====================================
+   INITIALIZATION
+===================================== */
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    addServiceRow();
+
+    setDefaultDates();
+
+    changePaperSize();
+
+});
+
+/* =====================================
+   PRINT SAFETY
+===================================== */
+
+window.addEventListener("beforeprint", function() {
+
+    // Ensure row numbers are current
+    updateRowNumbers();
+
+});
+
+</script>
+
+</body>
+</html>

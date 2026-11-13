@@ -1,0 +1,1234 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Feedback Form</title>
+
+<style>
+:root {
+    --navy:#17365D;
+    --blue:#285B91;
+    --light:#EAF1F8;
+    --border:#CBD5E1;
+    --text:#263445;
+    --muted:#64748B;
+}
+
+* { box-sizing:border-box; }
+
+body {
+    margin:0;
+    padding:25px 14px;
+    background:#F1F4F8;
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:13px;
+}
+
+.toolbar {
+    max-width:850px;
+    margin:0 auto 15px;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:9px;
+}
+
+button,.upload-label {
+    border:0;
+    border-radius:4px;
+    padding:10px 16px;
+    font-size:12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.print-btn {
+    background:var(--navy);
+    color:white;
+}
+
+.reset-btn {
+    background:#E2E8F0;
+    color:#263445;
+}
+
+.upload-label {
+    display:inline-block;
+    background:var(--light);
+    color:var(--navy);
+    border:1px solid var(--border);
+}
+
+.paper-setting {
+    padding:9px;
+    border:1px solid var(--border);
+    border-radius:4px;
+    background:white;
+}
+
+.form-container {
+    width:100%;
+    max-width:850px;
+    margin:auto;
+    padding:32px 38px;
+    background:white;
+    border:1px solid #D9E0E8;
+    box-shadow:0 4px 20px rgba(0,0,0,.07);
+}
+
+.company-header {
+    display:grid;
+    grid-template-columns:155px 1fr;
+    gap:25px;
+    align-items:center;
+    padding-bottom:20px;
+    border-bottom:2px solid var(--navy);
+}
+
+.logo-area {
+    min-height:110px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    border:1px dashed #AAB8C8;
+    padding:10px;
+    text-align:center;
+    background:#FAFCFE;
+}
+
+.logo-area img {
+    max-width:125px;
+    max-height:85px;
+    object-fit:contain;
+}
+
+.logo-placeholder {
+    color:#94A3B8;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.company-fields {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px 14px;
+}
+
+.field { min-width:0; }
+
+.field.full { grid-column:1/-1; }
+
+label {
+    display:block;
+    margin-bottom:5px;
+    color:#475569;
+    font-size:11px;
+    font-weight:bold;
+}
+
+input,select,textarea {
+    width:100%;
+    min-width:0;
+    min-height:34px;
+    padding:7px 9px;
+    border:1px solid var(--border);
+    border-radius:3px;
+    background:white;
+    color:var(--text);
+    font-family:inherit;
+    font-size:12px;
+}
+
+textarea {
+    min-height:75px;
+    resize:vertical;
+    line-height:1.5;
+}
+
+input:focus,select:focus,textarea:focus {
+    outline:1px solid var(--blue);
+    border-color:var(--blue);
+}
+
+input[type=radio],input[type=checkbox] {
+    width:14px;
+    min-height:auto;
+    height:14px;
+    accent-color:var(--navy);
+    vertical-align:middle;
+    margin:0 5px 0 0;
+}
+
+.document-heading {
+    text-align:center;
+    padding:22px 0 17px;
+}
+
+.document-heading h1 {
+    margin:0 0 7px;
+    color:var(--navy);
+    font-size:24px;
+    letter-spacing:.7px;
+    text-transform:uppercase;
+}
+
+.document-heading p {
+    margin:0;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.document-meta {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:18px;
+    padding:12px;
+    background:#F5F8FC;
+    border:1px solid var(--border);
+}
+
+.section { margin-top:19px; }
+
+.section-heading {
+    margin:0 0 12px;
+    padding:9px 12px;
+    color:white;
+    background:var(--navy);
+    font-size:13px;
+    font-weight:bold;
+    letter-spacing:.3px;
+    break-after:avoid;
+    page-break-after:avoid;
+}
+
+.grid-2 {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:13px 16px;
+}
+
+.grid-3 {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:13px;
+}
+
+.rating-box {
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:12px;
+    margin-bottom:10px;
+    break-inside:avoid;
+    page-break-inside:avoid;
+}
+
+.rating-title {
+    font-weight:bold;
+    font-size:12px;
+    margin-bottom:11px;
+    color:var(--navy);
+}
+
+.rating-options {
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 17px;
+}
+
+.rating-options label,.choice label {
+    display:inline-flex;
+    align-items:center;
+    margin:0;
+    font-weight:normal;
+    color:var(--text);
+    font-size:12px;
+    cursor:pointer;
+}
+
+.rating-scale {
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:7px;
+}
+
+.scale-option {
+    border:1px solid var(--border);
+    border-radius:4px;
+    text-align:center;
+    padding:9px 3px;
+    background:#FAFCFE;
+}
+
+.scale-option label {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:7px;
+    margin:0;
+    cursor:pointer;
+}
+
+.scale-option input {
+    width:15px;
+    height:15px;
+    min-height:auto;
+}
+
+.scale-number {
+    font-weight:bold;
+    color:var(--navy);
+    font-size:16px;
+}
+
+.scale-caption {
+    font-size:10px;
+    color:var(--muted);
+}
+
+.choice-grid {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px 18px;
+}
+
+.choice {
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px 20px;
+}
+
+.note {
+    padding:11px;
+    background:#F5F8FC;
+    border-left:3px solid var(--blue);
+    color:#475569;
+    font-size:11px;
+    line-height:1.6;
+}
+
+.signature-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+    margin-top:20px;
+}
+
+.signature-box {
+    padding-top:35px;
+    border-bottom:1px solid #475569;
+    min-height:58px;
+}
+
+.signature-caption {
+    color:var(--muted);
+    font-size:11px;
+    margin-top:7px;
+}
+
+.footer {
+    margin-top:25px;
+    padding-top:12px;
+    border-top:1px solid var(--border);
+    color:var(--muted);
+    font-size:10px;
+    text-align:center;
+}
+
+@media(max-width:600px) {
+    body { padding:10px 5px; }
+
+    .form-container { padding:19px 14px; }
+
+    .company-header {
+        grid-template-columns:1fr;
+    }
+
+    .logo-area {
+        max-width:180px;
+        width:100%;
+        margin:auto;
+    }
+
+    .company-fields,.grid-2,.grid-3,
+    .document-meta,.signature-grid {
+        grid-template-columns:1fr;
+    }
+
+    .choice-grid { grid-template-columns:1fr; }
+
+    .document-heading h1 { font-size:20px; }
+
+    .rating-scale { gap:3px; }
+
+    .scale-option { padding:7px 1px; }
+
+    .scale-caption { font-size:9px; }
+
+    .toolbar { justify-content:center; }
+
+    .table-wrapper { overflow-x:auto; }
+}
+
+@page {
+    size:A4 portrait;
+    margin:12mm;
+}
+
+@media print {
+    html,body {
+        width:100%;
+        margin:0!important;
+        padding:0!important;
+        background:white!important;
+        color:#000!important;
+        font-size:11px;
+    }
+
+    .no-print,
+    button,
+    .upload-label {
+        display:none!important;
+    }
+
+    .form-container {
+        width:100%!important;
+        max-width:100%!important;
+        margin:0!important;
+        padding:0!important;
+        border:0!important;
+        box-shadow:none!important;
+    }
+
+    .company-header {
+        grid-template-columns:130px 1fr;
+    }
+
+    .logo-area {
+        background:white!important;
+    }
+
+    .logo-area img {
+        max-width:120px;
+        max-height:80px;
+        object-fit:contain;
+    }
+
+    input,select,textarea {
+        color:#000!important;
+        -webkit-text-fill-color:#000!important;
+        background:transparent!important;
+        box-shadow:none!important;
+        font-size:10px!important;
+        border-color:#AAB4C0!important;
+    }
+
+    input[type=radio],input[type=checkbox] {
+        appearance:auto;
+        -webkit-appearance:auto;
+        accent-color:#17365D;
+    }
+
+    .section-heading {
+        break-after:avoid;
+        page-break-after:avoid;
+    }
+
+    .rating-box,.signature-grid,.note,.document-meta {
+        break-inside:avoid;
+        page-break-inside:avoid;
+    }
+
+    table {
+        width:100%;
+        border-collapse:collapse;
+    }
+
+    thead { display:table-header-group; }
+
+    tr {
+        break-inside:avoid;
+        page-break-inside:avoid;
+    }
+
+    textarea {
+        resize:none;
+        overflow:visible;
+    }
+
+    .footer { color:#555; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ACTION TOOLBAR -->
+<div class="toolbar no-print">
+
+    <select class="paper-setting" id="paperSize">
+        <option value="A4">A4 Portrait</option>
+        <option value="Letter">US Letter</option>
+    </select>
+
+    <button type="button" class="reset-btn" onclick="resetForm()">
+        RESET FORM
+    </button>
+
+    <button type="button" class="print-btn" onclick="printForm()">
+        PRINT FORM
+    </button>
+
+</div>
+
+<main class="form-container" id="feedbackForm">
+
+<!-- COMPANY HEADER -->
+<header class="company-header">
+
+    <div class="logo-area">
+
+        <div id="logoPlaceholder" class="logo-placeholder">
+            COMPANY LOGO
+        </div>
+
+        <img id="logoPreview" alt="Company Logo"
+             style="display:none;">
+
+        <label class="upload-label no-print" for="logoUpload"
+               style="margin-top:9px;">
+            Upload Company Logo
+        </label>
+
+        <input class="no-print" type="file"
+               id="logoUpload"
+               accept=".jpg,.jpeg,.png,.svg,.webp"
+               style="display:none;">
+
+    </div>
+
+    <div class="company-fields">
+
+        <div class="field full">
+            <label>Company Name</label>
+            <input type="text" id="companyName"
+                   placeholder="Enter company name">
+        </div>
+
+        <div class="field full">
+            <label>Business Address</label>
+            <input type="text" id="companyAddress"
+                   placeholder="Street, City, Country">
+        </div>
+
+        <div class="field">
+            <label>Phone Number</label>
+            <input type="tel" id="companyPhone"
+                   placeholder="+00 000 0000000">
+        </div>
+
+        <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="companyEmail"
+                   placeholder="company@example.com">
+        </div>
+
+        <div class="field">
+            <label>Website</label>
+            <input type="text" id="companyWebsite"
+                   placeholder="www.example.com">
+        </div>
+
+        <div class="field">
+            <label>Business Registration Number</label>
+            <input type="text" id="registrationNumber"
+                   placeholder="If applicable">
+        </div>
+
+    </div>
+</header>
+
+<!-- TITLE -->
+<div class="document-heading">
+    <h1>Customer Feedback Form</h1>
+    <p>We value your feedback and appreciate your time.</p>
+</div>
+
+<!-- DOCUMENT INFORMATION -->
+<div class="document-meta">
+
+    <div class="field">
+        <label>Feedback Reference Number</label>
+        <input type="text" id="feedbackNumber"
+               placeholder="CF-0001">
+    </div>
+
+    <div class="field">
+        <label>Feedback Date</label>
+        <input type="date" id="feedbackDate">
+    </div>
+
+    <div class="field">
+        <label>Feedback Channel</label>
+        <select id="feedbackChannel">
+            <option value="">Select Channel</option>
+            <option>In Person</option>
+            <option>Website</option>
+            <option>Email</option>
+            <option>Telephone</option>
+            <option>Social Media</option>
+            <option>Online Survey</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Customer Type</label>
+        <select id="customerType">
+            <option value="">Select Customer Type</option>
+            <option>New Customer</option>
+            <option>Returning Customer</option>
+            <option>Regular Customer</option>
+            <option>Business / Corporate Customer</option>
+        </select>
+    </div>
+
+</div>
+
+<!-- CUSTOMER INFORMATION -->
+<section class="section">
+
+<h2 class="section-heading">01. Customer Information</h2>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>Customer Name</label>
+        <input type="text" id="customerName"
+               placeholder="Enter customer name">
+    </div>
+
+    <div class="field">
+        <label>Company / Organization</label>
+        <input type="text" id="customerCompany"
+               placeholder="If applicable">
+    </div>
+
+    <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="customerEmail"
+               placeholder="customer@example.com">
+    </div>
+
+    <div class="field">
+        <label>Contact Number</label>
+        <input type="tel" id="customerPhone"
+               placeholder="Enter phone number">
+    </div>
+
+    <div class="field">
+        <label>City / Location</label>
+        <input type="text" id="customerLocation"
+               placeholder="Enter location">
+    </div>
+
+    <div class="field">
+        <label>Customer ID (Optional)</label>
+        <input type="text" id="customerId"
+               placeholder="Customer reference">
+    </div>
+
+</div>
+</section>
+
+<!-- PRODUCT / SERVICE -->
+<section class="section">
+
+<h2 class="section-heading">02. Product / Service Information</h2>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>Product / Service Name</label>
+        <input type="text" id="productName">
+    </div>
+
+    <div class="field">
+        <label>Product / Service Category</label>
+        <select id="productCategory">
+            <option value="">Select Category</option>
+            <option>Product</option>
+            <option>Professional Service</option>
+            <option>Customer Support</option>
+            <option>Delivery / Installation</option>
+            <option>Consultation</option>
+            <option>Maintenance</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Order / Invoice Reference</label>
+        <input type="text" id="orderReference">
+    </div>
+
+    <div class="field">
+        <label>Date of Purchase / Service</label>
+        <input type="date" id="purchaseDate">
+    </div>
+
+    <div class="field">
+        <label>Staff Member / Representative</label>
+        <input type="text" id="staffMember">
+    </div>
+
+    <div class="field">
+        <label>Service Location</label>
+        <input type="text" id="serviceLocation">
+    </div>
+
+</div>
+</section>
+
+<!-- RATINGS -->
+<section class="section">
+
+<h2 class="section-heading">03. Customer Satisfaction Ratings</h2>
+
+<div class="note" style="margin-bottom:12px;">
+Please select one rating for each category.
+1 = Very Poor, 2 = Poor, 3 = Average,
+4 = Good, 5 = Excellent.
+</div>
+
+<div class="rating-box">
+    <div class="rating-title">1. Overall Experience</div>
+    <div class="rating-scale">
+        <div class="scale-option"><label><input type="radio" name="overall" value="1"><span class="scale-number">1</span><span class="scale-caption">Very Poor</span></label></div>
+        <div class="scale-option"><label><input type="radio" name="overall" value="2"><span class="scale-number">2</span><span class="scale-caption">Poor</span></label></div>
+        <div class="scale-option"><label><input type="radio" name="overall" value="3"><span class="scale-number">3</span><span class="scale-caption">Average</span></label></div>
+        <div class="scale-option"><label><input type="radio" name="overall" value="4"><span class="scale-number">4</span><span class="scale-caption">Good</span></label></div>
+        <div class="scale-option"><label><input type="radio" name="overall" value="5"><span class="scale-number">5</span><span class="scale-caption">Excellent</span></label></div>
+    </div>
+</div>
+
+<div class="rating-box">
+    <div class="rating-title">2. Product / Service Quality</div>
+    <div class="rating-options">
+        <label><input type="radio" name="quality" value="1">1 - Very Poor</label>
+        <label><input type="radio" name="quality" value="2">2 - Poor</label>
+        <label><input type="radio" name="quality" value="3">3 - Average</label>
+        <label><input type="radio" name="quality" value="4">4 - Good</label>
+        <label><input type="radio" name="quality" value="5">5 - Excellent</label>
+    </div>
+</div>
+
+<div class="rating-box">
+    <div class="rating-title">3. Staff Professionalism</div>
+    <div class="rating-options">
+        <label><input type="radio" name="staffRating" value="1">1 - Very Poor</label>
+        <label><input type="radio" name="staffRating" value="2">2 - Poor</label>
+        <label><input type="radio" name="staffRating" value="3">3 - Average</label>
+        <label><input type="radio" name="staffRating" value="4">4 - Good</label>
+        <label><input type="radio" name="staffRating" value="5">5 - Excellent</label>
+    </div>
+</div>
+
+<div class="rating-box">
+    <div class="rating-title">4. Communication & Responsiveness</div>
+    <div class="rating-options">
+        <label><input type="radio" name="communication" value="1">1 - Very Poor</label>
+        <label><input type="radio" name="communication" value="2">2 - Poor</label>
+        <label><input type="radio" name="communication" value="3">3 - Average</label>
+        <label><input type="radio" name="communication" value="4">4 - Good</label>
+        <label><input type="radio" name="communication" value="5">5 - Excellent</label>
+    </div>
+</div>
+
+<div class="rating-box">
+    <div class="rating-title">5. Value for Money</div>
+    <div class="rating-options">
+        <label><input type="radio" name="valueMoney" value="1">1 - Very Poor</label>
+        <label><input type="radio" name="valueMoney" value="2">2 - Poor</label>
+        <label><input type="radio" name="valueMoney" value="3">3 - Average</label>
+        <label><input type="radio" name="valueMoney" value="4">4 - Good</label>
+        <label><input type="radio" name="valueMoney" value="5">5 - Excellent</label>
+    </div>
+</div>
+
+<div class="rating-box">
+    <div class="rating-title">6. Timeliness / Delivery</div>
+    <div class="rating-options">
+        <label><input type="radio" name="timeliness" value="1">1 - Very Poor</label>
+        <label><input type="radio" name="timeliness" value="2">2 - Poor</label>
+        <label><input type="radio" name="timeliness" value="3">3 - Average</label>
+        <label><input type="radio" name="timeliness" value="4">4 - Good</label>
+        <label><input type="radio" name="timeliness" value="5">5 - Excellent</label>
+    </div>
+</div>
+
+</section>
+
+<!-- RECOMMENDATION -->
+<section class="section">
+
+<h2 class="section-heading">04. Recommendation & Loyalty</h2>
+
+<div class="rating-box">
+    <div class="rating-title">
+        How likely are you to recommend our company to others?
+    </div>
+
+    <div class="rating-scale">
+        <div class="scale-option"><label><input type="radio" name="recommend" value="1"><span class="scale-number">1</span><span class="scale-caption">Not Likely</span></label></div>
+        <div class="scale-option"><label><input type="radio" name="recommend" value="2"><span class="scale-number">2</span><span class="scale-caption">Unlikely</span></label></div>
+        <div class="scale-option"><label><input type="radio" name="recommend" value="3"><span class="scale-number">3</span><span class="scale-caption">Neutral</span></label></div>
+        <div class="scale-option"><label><input type="radio" name="recommend" value="4"><span class="scale-number">4</span><span class="scale-caption">Likely</span></label></div>
+        <div class="scale-option"><label><input type="radio" name="recommend" value="5"><span class="scale-number">5</span><span class="scale-caption">Very Likely</span></label></div>
+    </div>
+</div>
+
+<div class="field" style="margin-top:14px;">
+    <label>Would you use our products or services again?</label>
+    <div class="choice">
+        <label><input type="radio" name="reuse" value="Yes">Yes</label>
+        <label><input type="radio" name="reuse" value="No">No</label>
+        <label><input type="radio" name="reuse" value="Maybe">Maybe</label>
+    </div>
+</div>
+
+</section>
+
+<!-- FEEDBACK CATEGORIES -->
+<section class="section">
+
+<h2 class="section-heading">05. Feedback Categories</h2>
+
+<div class="field">
+    <label>What aspects of your experience would you like to comment on?</label>
+
+    <div class="choice-grid" style="margin-top:10px;">
+        <label class="choice"><input type="checkbox" name="feedbackCategory" value="Product Quality">Product Quality</label>
+        <label class="choice"><input type="checkbox" name="feedbackCategory" value="Customer Service">Customer Service</label>
+        <label class="choice"><input type="checkbox" name="feedbackCategory" value="Pricing">Pricing</label>
+        <label class="choice"><input type="checkbox" name="feedbackCategory" value="Delivery Time">Delivery Time</label>
+        <label class="choice"><input type="checkbox" name="feedbackCategory" value="Communication">Communication</label>
+        <label class="choice"><input type="checkbox" name="feedbackCategory" value="Staff Behaviour">Staff Behaviour</label>
+        <label class="choice"><input type="checkbox" name="feedbackCategory" value="Website Experience">Website Experience</label>
+        <label class="choice"><input type="checkbox" name="feedbackCategory" value="After-Sales Support">After-Sales Support</label>
+        <label class="choice"><input type="checkbox" name="feedbackCategory" value="Other">Other</label>
+    </div>
+</div>
+
+</section>
+
+<!-- COMMENTS -->
+<section class="section">
+
+<h2 class="section-heading">06. Comments & Suggestions</h2>
+
+<div class="field" style="margin-bottom:13px;">
+    <label>What did you like most about our product or service?</label>
+    <textarea id="likedMost" placeholder="Share what you appreciated..."></textarea>
+</div>
+
+<div class="field" style="margin-bottom:13px;">
+    <label>What could we improve?</label>
+    <textarea id="improvements" placeholder="Tell us how we can improve..."></textarea>
+</div>
+
+<div class="field">
+    <label>Additional Comments / Suggestions</label>
+    <textarea id="additionalComments" placeholder="Enter additional feedback..."></textarea>
+</div>
+
+</section>
+
+<!-- COMPLAINT -->
+<section class="section">
+
+<h2 class="section-heading">07. Complaint & Follow-Up Information</h2>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>Did you experience any problem?</label>
+        <select id="problemExperienced">
+            <option value="">Select Option</option>
+            <option>No Problem</option>
+            <option>Yes - Product Related</option>
+            <option>Yes - Service Related</option>
+            <option>Yes - Delivery Related</option>
+            <option>Yes - Communication Related</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Priority Level</label>
+        <select id="priorityLevel">
+            <option value="">Select Priority</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+            <option>Urgent</option>
+        </select>
+    </div>
+
+    <div class="field full">
+        <label>Describe the Issue (If Applicable)</label>
+        <textarea id="issueDescription" placeholder="Describe the problem..."></textarea>
+    </div>
+
+    <div class="field">
+        <label>Would you like us to contact you?</label>
+        <div class="choice" style="margin-top:10px;">
+            <label><input type="radio" name="contactPermission" value="Yes">Yes</label>
+            <label><input type="radio" name="contactPermission" value="No">No</label>
+        </div>
+    </div>
+
+    <div class="field">
+        <label>Preferred Contact Method</label>
+        <select id="preferredContact">
+            <option value="">Select Method</option>
+            <option>Phone Call</option>
+            <option>Email</option>
+            <option>SMS</option>
+            <option>WhatsApp</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Best Time to Contact</label>
+        <select id="contactTime">
+            <option value="">Select Time</option>
+            <option>Morning</option>
+            <option>Afternoon</option>
+            <option>Evening</option>
+            <option>Anytime</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Preferred Follow-Up Date</label>
+        <input type="date" id="followUpDate">
+    </div>
+
+</div>
+</section>
+
+<!-- CUSTOMER CONFIRMATION -->
+<section class="section">
+
+<h2 class="section-heading">08. Customer Confirmation</h2>
+
+<div class="note">
+I confirm that the feedback provided in this form reflects my genuine
+experience with the company's products or services. Providing contact
+information and requesting follow-up are optional.
+</div>
+
+<div class="field" style="margin-top:14px;">
+    <label>
+        <input type="checkbox" id="confirmation">
+        I confirm that the information provided is accurate.
+    </label>
+</div>
+
+<div class="field" style="margin-top:12px;">
+    <label>
+        <input type="checkbox" id="testimonialPermission">
+        I give permission for the company to use my feedback as a testimonial,
+        without publishing my private contact details.
+    </label>
+</div>
+
+<div class="signature-grid">
+    <div>
+        <div class="signature-box"></div>
+        <div class="signature-caption">Customer Signature (Optional)</div>
+    </div>
+
+    <div>
+        <div class="signature-box"></div>
+        <div class="signature-caption">Date</div>
+        <input type="date" id="signatureDate">
+    </div>
+</div>
+
+</section>
+
+<!-- INTERNAL USE -->
+<section class="section">
+
+<h2 class="section-heading">09. Internal Use Only</h2>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>Received By</label>
+        <input type="text" id="receivedBy" placeholder="Staff member name">
+    </div>
+
+    <div class="field">
+        <label>Review Status</label>
+        <select id="reviewStatus">
+            <option value="">Select Status</option>
+            <option>Pending Review</option>
+            <option>Under Review</option>
+            <option>Resolved</option>
+            <option>Closed</option>
+            <option>Escalated</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Action Taken</label>
+        <select id="actionTaken">
+            <option value="">Select Action</option>
+            <option>No Action Required</option>
+            <option>Customer Contacted</option>
+            <option>Replacement Provided</option>
+            <option>Refund Processed</option>
+            <option>Service Improved</option>
+            <option>Escalated to Management</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Resolution Date</label>
+        <input type="date" id="resolutionDate">
+    </div>
+
+    <div class="field full">
+        <label>Internal Notes / Management Remarks</label>
+        <textarea id="internalNotes" placeholder="For internal company use only..."></textarea>
+    </div>
+
+</div>
+
+<div class="signature-grid">
+    <div>
+        <div class="signature-box"></div>
+        <div class="signature-caption">Reviewed By</div>
+    </div>
+
+    <div>
+        <div class="signature-box"></div>
+        <div class="signature-caption">Authorized Signature</div>
+    </div>
+</div>
+
+</section>
+
+<div class="footer">
+    Thank you for sharing your feedback. Your opinion helps us improve
+    our products and services.
+    <br><br>
+    Customer Feedback Form | Confidential Customer Information
+</div>
+
+</main>
+
+<script>
+"use strict";
+
+/* ==================================
+   1. DEFAULT FEEDBACK DATE
+================================== */
+
+function getLocalDate() {
+    const date = new Date();
+    const local = new Date(
+        date.getTime() - date.getTimezoneOffset() * 60000
+    );
+    return local.toISOString().slice(0,10);
+}
+
+const todayDate = getLocalDate();
+
+document.getElementById("feedbackDate").value = todayDate;
+
+
+/* ==================================
+   2. COMPANY LOGO UPLOAD
+================================== */
+
+const logoUpload = document.getElementById("logoUpload");
+const logoPreview = document.getElementById("logoPreview");
+const logoPlaceholder = document.getElementById("logoPlaceholder");
+
+let logoObjectURL = null;
+
+logoUpload.addEventListener("change", function() {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please select JPG, PNG, SVG or WebP logo.");
+        this.value = "";
+        return;
+    }
+
+    if (logoObjectURL) {
+        URL.revokeObjectURL(logoObjectURL);
+    }
+
+    logoObjectURL = URL.createObjectURL(file);
+
+    logoPreview.onload = function() {
+        logoPreview.style.display = "block";
+        logoPlaceholder.style.display = "none";
+    };
+
+    logoPreview.onerror = function() {
+        alert("Unable to display logo. Please select another image.");
+        logoPreview.style.display = "none";
+        logoPlaceholder.style.display = "block";
+    };
+
+    logoPreview.src = logoObjectURL;
+
+});
+
+
+/* ==================================
+   3. PRINT FORM - FIXED
+================================== */
+
+function printForm() {
+
+    const paperSize = document.getElementById("paperSize").value;
+
+    // Remove previously applied dynamic print settings.
+    const previousStyle = document.getElementById("printPageStyle");
+
+    if (previousStyle) {
+        previousStyle.remove();
+    }
+
+    // Apply selected paper size.
+    const printStyle = document.createElement("style");
+
+    printStyle.id = "printPageStyle";
+
+    printStyle.textContent =
+        "@page { size: " + paperSize + " portrait; margin: 12mm; }";
+
+    document.head.appendChild(printStyle);
+
+    // Print directly. No required-field validation or confirmation
+    // is imposed on a blank printable business form.
+    window.print();
+}
+
+
+/* ==================================
+   4. RESET FORM
+================================== */
+
+function resetForm() {
+
+    const confirmed = window.confirm(
+        "Are you sure you want to reset the complete Customer Feedback Form? " +
+        "All entered information will be cleared."
+    );
+
+    if (!confirmed) return;
+
+    const form = document.getElementById("feedbackForm");
+
+    form.querySelectorAll("input, textarea, select").forEach(function(element) {
+
+        if (element.type === "checkbox" || element.type === "radio") {
+            element.checked = false;
+        } else {
+            element.value = "";
+        }
+
+    });
+
+    // Clear uploaded logo.
+    if (logoObjectURL) {
+        URL.revokeObjectURL(logoObjectURL);
+        logoObjectURL = null;
+    }
+
+    logoPreview.removeAttribute("src");
+    logoPreview.style.display = "none";
+    logoPlaceholder.style.display = "block";
+
+    // Restore today's date.
+    document.getElementById("feedbackDate").value = getLocalDate();
+
+    // Restore A4 paper setting.
+    document.getElementById("paperSize").value = "A4";
+
+    // Remove dynamic print styling.
+    const printStyle = document.getElementById("printPageStyle");
+
+    if (printStyle) {
+        printStyle.remove();
+    }
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* ==================================
+   5. PRINT TEXTAREA CONTENT
+================================== */
+
+window.addEventListener("beforeprint", function() {
+
+    document.querySelectorAll("textarea").forEach(function(textarea) {
+
+        textarea.style.height = "auto";
+
+        textarea.style.height =
+            Math.max(textarea.scrollHeight, 75) + "px";
+
+    });
+
+});
+
+
+/* ==================================
+   6. RESTORE SCREEN AFTER PRINT
+================================== */
+
+window.addEventListener("afterprint", function() {
+
+    const printStyle = document.getElementById("printPageStyle");
+
+    if (printStyle) {
+        printStyle.remove();
+    }
+
+});
+
+</script>
+
+</body>
+</html>

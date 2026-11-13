@@ -1,0 +1,1338 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document Request Form</title>
+
+<style>
+:root {
+    --navy: #17365d;
+    --blue: #245b91;
+    --light: #edf3f8;
+    --border: #cbd5df;
+    --text: #263445;
+    --muted: #64748b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 12px;
+    background: #eef2f6;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+.form-container {
+    max-width: 900px;
+    width: 100%;
+    margin: auto;
+    padding: 28px;
+    background: #fff;
+    border: 1px solid #dce3ea;
+    box-shadow: 0 4px 20px rgba(20,40,60,.08);
+}
+
+.toolbar {
+    max-width: 900px;
+    margin: 0 auto 12px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+button {
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    transition: .2s;
+}
+
+button:hover {
+    opacity: .85;
+}
+
+.print-btn {
+    background: var(--navy);
+    color: white;
+}
+
+.reset-btn {
+    background: #e8edf2;
+    color: #334155;
+    border: 1px solid #cbd5df;
+}
+
+.add-btn {
+    background: var(--blue);
+    color: white;
+}
+
+.remove-btn {
+    background: #fff0f0;
+    color: #b42318;
+    padding: 7px 10px;
+    border: 1px solid #efcaca;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 155px 1fr;
+    gap: 25px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid var(--navy);
+    align-items: center;
+}
+
+.logo-area {
+    text-align: center;
+}
+
+.logo-preview {
+    width: 135px;
+    height: 105px;
+    border: 1px dashed #9aabbc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto auto 9px;
+    overflow: hidden;
+    color: #8996a5;
+    font-size: 12px;
+    text-align: center;
+    padding: 5px;
+}
+
+.logo-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.upload-btn {
+    background: #edf3f8;
+    color: var(--navy);
+    border: 1px solid #cbd5df;
+    padding: 7px 10px;
+}
+
+.company-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 14px;
+}
+
+.field {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.field label,
+.cell-label {
+    font-weight: 700;
+    color: #334155;
+    font-size: 11px;
+}
+
+input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    min-height: 34px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 7px 9px;
+    color: #263445;
+    font-family: inherit;
+    font-size: 12px;
+    background: #fff;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 65px;
+    line-height: 1.5;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid rgba(36,91,145,.15);
+    border-color: var(--blue);
+}
+
+input:required:invalid:not(:placeholder-shown),
+select:required:invalid {
+    border-color: #d92d20;
+}
+
+.form-title {
+    text-align: center;
+    padding: 22px 0 18px;
+}
+
+.form-title h1 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 25px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.form-title p {
+    color: var(--muted);
+    margin: 7px 0 0;
+    font-size: 11px;
+}
+
+.document-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.section {
+    margin-top: 20px;
+}
+
+.section-heading {
+    background: var(--navy);
+    color: #fff;
+    padding: 9px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: 13px;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px 16px;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+.inline-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    min-height: 34px;
+}
+
+.inline-options label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.inline-options input {
+    width: auto;
+    min-height: auto;
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th {
+    background: #edf2f7;
+    color: var(--navy);
+    font-size: 11px;
+    text-align: left;
+    padding: 9px 7px;
+    border: 1px solid var(--border);
+}
+
+td {
+    border: 1px solid var(--border);
+    padding: 5px;
+    vertical-align: middle;
+}
+
+td input, td select {
+    border: none;
+    min-height: 32px;
+    padding: 5px;
+}
+
+td input:focus, td select:focus {
+    border: 1px solid var(--blue);
+}
+
+.doc-table th:nth-child(1) { width: 7%; }
+.doc-table th:nth-child(2) { width: 35%; }
+.doc-table th:nth-child(3) { width: 18%; }
+.doc-table th:nth-child(4) { width: 18%; }
+.doc-table th:nth-child(5) { width: 22%; }
+
+.row-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 9px;
+}
+
+.note {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 6px;
+}
+
+.approval-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    margin-top: 15px;
+}
+
+.signature-box {
+    border: 1px solid var(--border);
+    min-height: 100px;
+    padding: 10px;
+}
+
+.signature-box textarea {
+    border: none;
+    border-bottom: 1px solid #9ca3af;
+    border-radius: 0;
+    height: 55px;
+    resize: none;
+}
+
+.footer {
+    margin-top: 24px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.error-message {
+    display: none;
+    color: #b42318;
+    background: #fff1f0;
+    border: 1px solid #f0c4c0;
+    padding: 10px;
+    margin-bottom: 12px;
+    font-size: 12px;
+}
+
+@media(max-width:650px) {
+    body {
+        padding: 10px 5px;
+    }
+
+    .form-container {
+        padding: 15px 11px;
+    }
+
+    .header {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .company-grid,
+    .field-grid,
+    .approval-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .document-meta {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .form-title h1 {
+        font-size: 21px;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .toolbar button {
+        flex: 1;
+    }
+}
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        font-size: 10pt;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .header {
+        grid-template-columns: 125px 1fr;
+        gap: 15px;
+    }
+
+    .logo-preview {
+        width: 110px;
+        height: 85px;
+        border: none;
+    }
+
+    input, textarea, select {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    input, select {
+        border: none;
+        border-bottom: 1px solid #b8c2cc;
+        border-radius: 0;
+    }
+
+    textarea {
+        border: 1px solid #cbd5df;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+        background: #17365d !important;
+        color: white !important;
+    }
+
+    .table-wrap {
+        overflow: visible;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    th, td {
+        border: 1px solid #8996a5 !important;
+    }
+
+    th {
+        background: #edf2f7 !important;
+        color: #17365d !important;
+    }
+
+    .section {
+        break-inside: auto;
+    }
+
+    .signature-box {
+        break-inside: avoid;
+    }
+
+    .form-title {
+        padding: 15px 0;
+    }
+
+    .footer {
+        margin-top: 18px;
+    }
+}
+
+@media print {
+    @page {
+        size: var(--paper-size, A4) portrait;
+        margin: 12mm;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+    <label style="display:flex;align-items:center;gap:6px;font-size:12px;">
+        Paper Size
+        <select id="paperSize" style="width:auto;">
+            <option value="A4">A4 Portrait</option>
+            <option value="Letter">US Letter</option>
+        </select>
+    </label>
+
+    <button type="button" class="reset-btn" id="resetBtn">
+        RESET FORM
+    </button>
+
+    <button type="button" class="print-btn" id="printBtn">
+        PRINT FORM / SAVE PDF
+    </button>
+</div>
+
+<form id="documentRequestForm" class="form-container" novalidate>
+
+    <div class="error-message" id="errorMessage" role="alert"></div>
+
+    <!-- COMPANY HEADER -->
+    <div class="header">
+
+        <div class="logo-area">
+            <div class="logo-preview" id="logoPreview">
+                COMPANY<br>LOGO
+            </div>
+
+            <label class="upload-btn no-print" for="logoUpload"
+                   style="display:inline-block;cursor:pointer;">
+                UPLOAD LOGO
+            </label>
+
+            <input type="file" id="logoUpload"
+                   accept=".jpg,.jpeg,.png,.svg,.webp"
+                   class="no-print" style="display:none;">
+        </div>
+
+        <div class="company-grid">
+
+            <div class="field">
+                <label for="companyName">Company Name</label>
+                <input id="companyName" type="text"
+                       placeholder="Enter company name">
+            </div>
+
+            <div class="field">
+                <label for="businessPhone">Phone Number</label>
+                <input id="businessPhone" type="tel"
+                       placeholder="Enter phone number">
+            </div>
+
+            <div class="field">
+                <label for="businessAddress">Business Address</label>
+                <input id="businessAddress" type="text"
+                       placeholder="Enter business address">
+            </div>
+
+            <div class="field">
+                <label for="businessEmail">Email Address</label>
+                <input id="businessEmail" type="email"
+                       placeholder="Enter email address">
+            </div>
+
+            <div class="field">
+                <label for="businessWebsite">Website</label>
+                <input id="businessWebsite" type="text"
+                       placeholder="www.company.com">
+            </div>
+
+            <div class="field">
+                <label for="registrationNumber">Business Registration No.</label>
+                <input id="registrationNumber" type="text"
+                       placeholder="Enter registration number">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FORM TITLE -->
+    <div class="form-title">
+        <h1>Document Request Form</h1>
+        <p>Official Request for Business Documents, Records and Information</p>
+    </div>
+
+    <!-- DOCUMENT META -->
+    <div class="document-meta">
+
+        <div class="field">
+            <label for="requestNumber">Request Number *</label>
+            <input id="requestNumber" type="text"
+                   placeholder="DRF-001" required>
+        </div>
+
+        <div class="field">
+            <label for="requestDate">Request Date *</label>
+            <input id="requestDate" type="date" required>
+        </div>
+
+        <div class="field">
+            <label for="requiredDate">Required By Date *</label>
+            <input id="requiredDate" type="date" required>
+        </div>
+
+    </div>
+
+    <!-- REQUESTER INFORMATION -->
+    <div class="section">
+
+        <div class="section-heading">01. Requester Information</div>
+
+        <div class="field-grid">
+
+            <div class="field">
+                <label for="requesterName">Requester Full Name *</label>
+                <input id="requesterName" type="text"
+                       placeholder="Enter full name" required>
+            </div>
+
+            <div class="field">
+                <label for="employeeId">Employee / Staff ID</label>
+                <input id="employeeId" type="text"
+                       placeholder="Enter employee ID">
+            </div>
+
+            <div class="field">
+                <label for="department">Department *</label>
+                <select id="department" required>
+                    <option value="">Select Department</option>
+                    <option>Administration</option>
+                    <option>Accounting & Finance</option>
+                    <option>Human Resources</option>
+                    <option>Sales & Marketing</option>
+                    <option>Operations</option>
+                    <option>Procurement</option>
+                    <option>Customer Service</option>
+                    <option>IT & Technology</option>
+                    <option>Legal & Compliance</option>
+                    <option>Management</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="jobTitle">Job Title / Position</label>
+                <input id="jobTitle" type="text"
+                       placeholder="Enter job title">
+            </div>
+
+            <div class="field">
+                <label for="requesterEmail">Email Address *</label>
+                <input id="requesterEmail" type="email"
+                       placeholder="name@example.com" required>
+            </div>
+
+            <div class="field">
+                <label for="requesterPhone">Contact Number</label>
+                <input id="requesterPhone" type="tel"
+                       placeholder="Enter contact number">
+            </div>
+
+            <div class="field">
+                <label for="requestType">Request Type *</label>
+                <select id="requestType" required>
+                    <option value="">Select Request Type</option>
+                    <option>New Document</option>
+                    <option>Existing Document Copy</option>
+                    <option>Updated / Revised Document</option>
+                    <option>Certified Document Copy</option>
+                    <option>Replacement Document</option>
+                    <option>Digital Document</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="requestPriority">Request Priority *</label>
+                <select id="requestPriority" required>
+                    <option value="">Select Priority</option>
+                    <option>Normal</option>
+                    <option>High</option>
+                    <option>Urgent</option>
+                    <option>Critical</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- DOCUMENT DETAILS -->
+    <div class="section">
+
+        <div class="section-heading">02. Requested Document Details</div>
+
+        <p style="margin:0 0 10px;color:#64748b;font-size:11px;">
+            List each document or record you need. Specify its format,
+            quantity and relevant details.
+        </p>
+
+        <div class="table-wrap">
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Document / Record Name *</th>
+                        <th>Format *</th>
+                        <th>Quantity</th>
+                        <th>Period / Reference</th>
+                    </tr>
+                </thead>
+
+                <tbody id="documentRows">
+
+                    <tr>
+                        <td class="row-number" style="text-align:center;">1</td>
+                        <td>
+                            <input type="text" class="doc-name"
+                                   placeholder="Document name" required>
+                        </td>
+                        <td>
+                            <select class="doc-format" required>
+                                <option value="">Select</option>
+                                <option>PDF</option>
+                                <option>Word</option>
+                                <option>Excel</option>
+                                <option>Printed Copy</option>
+                                <option>Original</option>
+                                <option>Certified Copy</option>
+                                <option>Other</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" class="doc-quantity"
+                                   min="1" step="1" value="1">
+                        </td>
+                        <td>
+                            <input type="text" class="doc-reference"
+                                   placeholder="Date / Ref.">
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row-actions no-print">
+            <button type="button" class="add-btn" id="addRowBtn">
+                + ADD DOCUMENT
+            </button>
+        </div>
+
+        <div class="note">
+            Add additional rows for multiple document requests.
+        </div>
+
+    </div>
+
+    <!-- PURPOSE -->
+    <div class="section">
+
+        <div class="section-heading">03. Purpose & Justification</div>
+
+        <div class="field-grid">
+
+            <div class="field">
+                <label for="purpose">Purpose of Request *</label>
+                <select id="purpose" required>
+                    <option value="">Select Purpose</option>
+                    <option>Internal Business Operations</option>
+                    <option>Audit & Compliance</option>
+                    <option>Financial Reporting</option>
+                    <option>Legal / Regulatory Requirement</option>
+                    <option>Customer / Client Requirement</option>
+                    <option>Project / Contract Work</option>
+                    <option>Employee Administration</option>
+                    <option>Record Keeping</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="projectReference">Project / Case Reference</label>
+                <input id="projectReference" type="text"
+                       placeholder="Enter reference if applicable">
+            </div>
+
+            <div class="field full">
+                <label for="justification">Detailed Reason / Justification *</label>
+                <textarea id="justification" required
+                          placeholder="Explain why these documents are required and how they will be used."></textarea>
+            </div>
+
+            <div class="field full">
+                <label for="additionalInstructions">Additional Instructions</label>
+                <textarea id="additionalInstructions"
+                          placeholder="Enter any special instructions, document specifications or other requirements."></textarea>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- DELIVERY -->
+    <div class="section">
+
+        <div class="section-heading">04. Delivery & Access Preferences</div>
+
+        <div class="field-grid">
+
+            <div class="field">
+                <label for="deliveryMethod">Preferred Delivery Method *</label>
+                <select id="deliveryMethod" required>
+                    <option value="">Select Delivery Method</option>
+                    <option>Email Attachment</option>
+                    <option>Shared Cloud Link</option>
+                    <option>Printed Hard Copy</option>
+                    <option>Physical Collection</option>
+                    <option>Internal Document Portal</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="deliveryEmail">Delivery Email / Recipient</label>
+                <input id="deliveryEmail" type="email"
+                       placeholder="Enter recipient email">
+            </div>
+
+            <div class="field">
+                <label for="deliveryLocation">Collection / Delivery Location</label>
+                <input id="deliveryLocation" type="text"
+                       placeholder="Enter location if applicable">
+            </div>
+
+            <div class="field">
+                <label for="confidentiality">Confidentiality Level *</label>
+                <select id="confidentiality" required>
+                    <option value="">Select Level</option>
+                    <option>Public</option>
+                    <option>Internal Use Only</option>
+                    <option>Confidential</option>
+                    <option>Highly Confidential</option>
+                </select>
+            </div>
+
+            <div class="field full">
+                <label>Requested Access Type</label>
+                <div class="inline-options">
+                    <label><input type="checkbox" name="accessType" value="View Only"> View Only</label>
+                    <label><input type="checkbox" name="accessType" value="Download"> Download</label>
+                    <label><input type="checkbox" name="accessType" value="Edit"> Edit</label>
+                    <label><input type="checkbox" name="accessType" value="Print"> Print</label>
+                    <label><input type="checkbox" name="accessType" value="Physical Copy"> Physical Copy</label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- DECLARATION -->
+    <div class="section">
+
+        <div class="section-heading">05. Requester Declaration</div>
+
+        <div style="border:1px solid #cbd5df;padding:12px;line-height:1.7;">
+            I confirm that the requested documents are required for
+            legitimate business purposes. I agree to handle all supplied
+            documents responsibly, maintain confidentiality where applicable,
+            and use the information only for the stated purpose. I understand
+            that access to restricted documents may require additional
+            authorization.
+            <div style="margin-top:12px;">
+                <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;">
+                    <input type="checkbox" id="declaration" required
+                           style="width:auto;min-height:auto;margin-top:2px;">
+                    <span>I have read and agree to the above declaration. *</span>
+                </label>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- APPROVAL -->
+    <div class="section">
+
+        <div class="section-heading">06. Review & Approval</div>
+
+        <div class="field-grid">
+
+            <div class="field">
+                <label for="reviewerName">Reviewed By</label>
+                <input id="reviewerName" type="text"
+                       placeholder="Enter reviewer name">
+            </div>
+
+            <div class="field">
+                <label for="reviewerDepartment">Reviewer Department</label>
+                <input id="reviewerDepartment" type="text"
+                       placeholder="Enter department">
+            </div>
+
+            <div class="field">
+                <label for="approvalStatus">Approval Status</label>
+                <select id="approvalStatus">
+                    <option value="">Pending Review</option>
+                    <option>Approved</option>
+                    <option>Rejected</option>
+                    <option>Returned for Clarification</option>
+                    <option>On Hold</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="approvalDate">Approval Date</label>
+                <input id="approvalDate" type="date">
+            </div>
+
+            <div class="field full">
+                <label for="reviewComments">Reviewer Comments</label>
+                <textarea id="reviewComments"
+                          placeholder="Enter review comments or reasons for rejection."></textarea>
+            </div>
+
+            <div class="field">
+                <label for="processedBy">Processed / Prepared By</label>
+                <input id="processedBy" type="text"
+                       placeholder="Enter name">
+            </div>
+
+            <div class="field">
+                <label for="processingDate">Processing Date</label>
+                <input id="processingDate" type="date">
+            </div>
+
+        </div>
+
+        <div class="approval-grid">
+
+            <div class="signature-box">
+                <strong>Requester Signature</strong>
+                <textarea aria-label="Requester signature"
+                          placeholder="Sign here"></textarea>
+                <div class="field">
+                    <label for="requesterSignDate">Date</label>
+                    <input id="requesterSignDate" type="date">
+                </div>
+            </div>
+
+            <div class="signature-box">
+                <strong>Authorized Approver Signature</strong>
+                <textarea aria-label="Approver signature"
+                          placeholder="Sign here"></textarea>
+                <div class="field">
+                    <label for="approverSignDate">Date</label>
+                    <input id="approverSignDate" type="date">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- INTERNAL USE -->
+    <div class="section">
+
+        <div class="section-heading">07. For Office Use Only</div>
+
+        <div class="field-grid">
+
+            <div class="field">
+                <label for="trackingNumber">Document Tracking Number</label>
+                <input id="trackingNumber" type="text"
+                       placeholder="Enter tracking number">
+            </div>
+
+            <div class="field">
+                <label for="completionDate">Completion / Fulfillment Date</label>
+                <input id="completionDate" type="date">
+            </div>
+
+            <div class="field">
+                <label for="documentsProvided">Documents Provided</label>
+                <select id="documentsProvided">
+                    <option value="">Select Status</option>
+                    <option>All Documents Provided</option>
+                    <option>Partially Provided</option>
+                    <option>Not Yet Provided</option>
+                    <option>Unable to Provide</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="officeHandler">Handled By</label>
+                <input id="officeHandler" type="text"
+                       placeholder="Enter responsible person">
+            </div>
+
+            <div class="field full">
+                <label for="officeNotes">Internal Notes</label>
+                <textarea id="officeNotes"
+                          placeholder="Enter internal processing notes or outstanding actions."></textarea>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        DOCUMENT REQUEST FORM | Official Business Record
+        <br>
+        Please retain a copy of this form for your records.
+    </div>
+
+</form>
+
+<script>
+(function () {
+    "use strict";
+
+    const form = document.getElementById("documentRequestForm");
+    const printBtn = document.getElementById("printBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const addRowBtn = document.getElementById("addRowBtn");
+    const documentRows = document.getElementById("documentRows");
+    const errorMessage = document.getElementById("errorMessage");
+    const logoUpload = document.getElementById("logoUpload");
+    const logoPreview = document.getElementById("logoPreview");
+    const paperSize = document.getElementById("paperSize");
+
+    // Set today's date
+    function setToday() {
+        const today = new Date();
+        const localDate = new Date(
+            today.getTime() - today.getTimezoneOffset() * 60000
+        ).toISOString().split("T")[0];
+
+        document.getElementById("requestDate").value = localDate;
+    }
+
+    setToday();
+
+    // Document row numbering
+    function updateRowNumbers() {
+        const rows = documentRows.querySelectorAll("tr");
+
+        rows.forEach((row, index) => {
+            row.querySelector(".row-number").textContent = index + 1;
+        });
+    }
+
+    // Add document row
+    addRowBtn.addEventListener("click", function () {
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td class="row-number" style="text-align:center;"></td>
+
+            <td>
+                <input type="text" class="doc-name"
+                       placeholder="Document name" required>
+            </td>
+
+            <td>
+                <select class="doc-format" required>
+                    <option value="">Select</option>
+                    <option>PDF</option>
+                    <option>Word</option>
+                    <option>Excel</option>
+                    <option>Printed Copy</option>
+                    <option>Original</option>
+                    <option>Certified Copy</option>
+                    <option>Other</option>
+                </select>
+            </td>
+
+            <td>
+                <input type="number" class="doc-quantity"
+                       min="1" step="1" value="1">
+            </td>
+
+            <td>
+                <div style="display:flex;gap:3px;align-items:center;">
+                    <input type="text" class="doc-reference"
+                           placeholder="Date / Ref.">
+                    <button type="button" class="remove-btn no-print"
+                            aria-label="Remove document row">X</button>
+                </div>
+            </td>
+        `;
+
+        documentRows.appendChild(row);
+        updateRowNumbers();
+        row.querySelector(".doc-name").focus();
+    });
+
+    // Remove document row using event delegation
+    documentRows.addEventListener("click", function (event) {
+        const button = event.target.closest(".remove-btn");
+
+        if (!button) return;
+
+        const rows = documentRows.querySelectorAll("tr");
+
+        if (rows.length <= 1) {
+            alert("At least one document row is required.");
+            return;
+        }
+
+        button.closest("tr").remove();
+        updateRowNumbers();
+    });
+
+    // Logo upload and preview
+    logoUpload.addEventListener("change", function () {
+
+        const file = this.files[0];
+
+        if (!file) return;
+
+        const allowedTypes = [
+            "image/jpeg",
+            "image/png",
+            "image/svg+xml",
+            "image/webp"
+        ];
+
+        if (!allowedTypes.includes(file.type)) {
+            alert("Please upload a JPG, PNG, SVG or WebP image.");
+            this.value = "";
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            logoPreview.innerHTML = "";
+
+            const image = document.createElement("img");
+            image.src = event.target.result;
+            image.alt = "Company Logo";
+
+            logoPreview.appendChild(image);
+        };
+
+        reader.onerror = function () {
+            alert("Unable to read this logo file.");
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+    // Paper size selection
+    paperSize.addEventListener("change", function () {
+        document.documentElement.style.setProperty(
+            "--paper-size",
+            this.value
+        );
+    });
+
+    // Date validation
+    function validateDates() {
+
+        const requestDate = document.getElementById("requestDate");
+        const requiredDate = document.getElementById("requiredDate");
+
+        if (requestDate.value && requiredDate.value) {
+            if (requiredDate.value < requestDate.value) {
+                requiredDate.setCustomValidity(
+                    "Required By Date cannot be earlier than Request Date."
+                );
+                return false;
+            }
+        }
+
+        requiredDate.setCustomValidity("");
+        return true;
+    }
+
+    // Form validation
+    function validateForm() {
+
+        errorMessage.style.display = "none";
+        errorMessage.textContent = "";
+
+        form.querySelectorAll("input, select, textarea").forEach(field => {
+            field.setCustomValidity("");
+        });
+
+        let valid = true;
+        let firstInvalid = null;
+
+        const requiredFields = form.querySelectorAll(
+            "input[required], select[required], textarea[required]"
+        );
+
+        requiredFields.forEach(field => {
+
+            if (!field.checkValidity()) {
+                valid = false;
+                if (!firstInvalid) firstInvalid = field;
+            }
+        });
+
+        // Document quantity validation
+        const quantities = documentRows.querySelectorAll(".doc-quantity");
+
+        quantities.forEach(input => {
+            const value = Number(input.value);
+
+            if (!Number.isInteger(value) || value < 1) {
+                input.setCustomValidity(
+                    "Quantity must be a whole number of at least 1."
+                );
+                valid = false;
+                if (!firstInvalid) firstInvalid = input;
+            }
+        });
+
+        if (!validateDates()) {
+            valid = false;
+            if (!firstInvalid) firstInvalid = document.getElementById("requiredDate");
+        }
+
+        if (!valid) {
+
+            errorMessage.textContent =
+                "Please complete all required fields and correct the highlighted information before printing.";
+
+            errorMessage.style.display = "block";
+
+            firstInvalid.focus();
+            firstInvalid.reportValidity();
+
+            return false;
+        }
+
+        return true;
+    }
+
+    // Print form / Save PDF
+    printBtn.addEventListener("click", function () {
+
+        if (!validateForm()) return;
+
+        // Close any editing control and open browser print dialog.
+        window.print();
+    });
+
+    // Reset form
+    resetBtn.addEventListener("click", function () {
+
+        const confirmed = confirm(
+            "Are you sure you want to reset this form? All entered information will be cleared."
+        );
+
+        if (!confirmed) return;
+
+        form.reset();
+
+        // Restore one document row
+        documentRows.innerHTML = `
+            <tr>
+                <td class="row-number" style="text-align:center;">1</td>
+                <td>
+                    <input type="text" class="doc-name"
+                           placeholder="Document name" required>
+                </td>
+                <td>
+                    <select class="doc-format" required>
+                        <option value="">Select</option>
+                        <option>PDF</option>
+                        <option>Word</option>
+                        <option>Excel</option>
+                        <option>Printed Copy</option>
+                        <option>Original</option>
+                        <option>Certified Copy</option>
+                        <option>Other</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="number" class="doc-quantity"
+                           min="1" step="1" value="1">
+                </td>
+                <td>
+                    <input type="text" class="doc-reference"
+                           placeholder="Date / Ref.">
+                </td>
+            </tr>
+        `;
+
+        // Restore logo placeholder
+        logoPreview.textContent = "COMPANY LOGO";
+        logoUpload.value = "";
+
+        // Reset paper selection
+        paperSize.value = "A4";
+        document.documentElement.style.setProperty("--paper-size", "A4");
+
+        // Clear error messages and validation highlights
+        errorMessage.textContent = "";
+        errorMessage.style.display = "none";
+
+        form.querySelectorAll("input, select, textarea").forEach(field => {
+            field.setCustomValidity("");
+        });
+
+        setToday();
+        updateRowNumbers();
+    });
+
+    // Clear custom validation after user edits a field
+    form.addEventListener("input", function (event) {
+        event.target.setCustomValidity("");
+
+        if (errorMessage.style.display === "block") {
+            errorMessage.style.display = "none";
+        }
+    });
+
+    form.addEventListener("change", function (event) {
+        event.target.setCustomValidity("");
+
+        if (errorMessage.style.display === "block") {
+            errorMessage.style.display = "none";
+        }
+    });
+
+    // Revalidate when the user returns from print dialog
+    window.addEventListener("afterprint", function () {
+        errorMessage.style.display = "none";
+    });
+
+})();
+</script>
+
+</body>
+</html>

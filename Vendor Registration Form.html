@@ -1,0 +1,1951 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendor Registration Form</title>
+
+<style>
+:root {
+    --navy: #17365d;
+    --blue: #286090;
+    --light-blue: #eaf1f8;
+    --border: #cbd5e1;
+    --text: #263445;
+    --muted: #64748b;
+    --paper-width: 210mm;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 12px;
+    background: #edf1f5;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.toolbar {
+    max-width: 950px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.btn {
+    border: none;
+    border-radius: 4px;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    opacity: 0.88;
+}
+
+.btn-primary {
+    background: var(--navy);
+    color: white;
+}
+
+.btn-secondary {
+    background: #e1e8f0;
+    color: var(--navy);
+}
+
+.btn-add {
+    background: #e8f0fa;
+    color: var(--navy);
+    border: 1px solid #b9cbe0;
+    padding: 6px 11px;
+}
+
+.btn-remove {
+    background: #fff0f0;
+    color: #b42318;
+    border: 1px solid #efcaca;
+    padding: 5px 9px;
+}
+
+.paper-setting {
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: white;
+    color: var(--text);
+    font-size: 12px;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 950px;
+    margin: auto;
+    padding: 34px 38px;
+    background: white;
+    border: 1px solid #d5dce5;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 25px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid var(--navy);
+}
+
+.logo-section {
+    width: 155px;
+    min-width: 125px;
+    text-align: center;
+}
+
+.logo-area {
+    height: 105px;
+    width: 145px;
+    border: 1px dashed #aab7c7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 8px;
+    background: #fafbfd;
+}
+
+.logo-area img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    color: #94a3b8;
+    font-size: 12px;
+    text-align: center;
+    padding: 8px;
+}
+
+.upload-btn {
+    display: inline-block;
+    background: var(--navy);
+    color: white;
+    padding: 7px 10px;
+    border-radius: 3px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.company-info {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 14px;
+}
+
+.company-info .field {
+    margin: 0;
+}
+
+.company-info .full {
+    grid-column: 1 / -1;
+}
+
+.document-title {
+    text-align: center;
+    padding: 22px 0 17px;
+}
+
+.document-title h1 {
+    font-size: 24px;
+    letter-spacing: 1px;
+    color: var(--navy);
+    margin: 0 0 5px;
+    font-weight: 700;
+}
+
+.document-title p {
+    color: var(--muted);
+    font-size: 12px;
+    margin: 0;
+}
+
+.document-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+    padding: 13px;
+    background: #f5f8fc;
+    border: 1px solid var(--border);
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section-heading {
+    background: var(--navy);
+    color: white;
+    padding: 9px 12px;
+    margin-bottom: 13px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.subheading {
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: 700;
+    border-bottom: 1px solid #d7e0ea;
+    padding-bottom: 6px;
+    margin: 13px 0 11px;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 18px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px 15px;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.field {
+    min-width: 0;
+    margin-bottom: 2px;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #344256;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.required {
+    color: #c62828;
+}
+
+input,
+select,
+textarea {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    background: #fff;
+    padding: 8px 9px;
+    min-height: 34px;
+    color: #263445;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #3b82b5;
+    box-shadow: 0 0 0 2px rgba(59,130,181,0.10);
+}
+
+textarea {
+    min-height: 65px;
+    resize: vertical;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    min-height: auto;
+    margin: 0;
+    accent-color: var(--navy);
+}
+
+.choice-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text);
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 11px;
+}
+
+th {
+    background: #eaf0f7;
+    color: var(--navy);
+    text-align: left;
+    font-weight: 700;
+    padding: 9px 7px;
+    border: 1px solid #bdcad9;
+}
+
+td {
+    border: 1px solid #cbd5e1;
+    padding: 5px;
+    vertical-align: middle;
+}
+
+td input,
+td select {
+    border: none;
+    background: transparent;
+    padding: 6px 4px;
+    min-height: 29px;
+    font-size: 11px;
+}
+
+td input:focus,
+td select:focus {
+    background: #f4f8fd;
+    box-shadow: none;
+}
+
+.center {
+    text-align: center;
+}
+
+.action-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.document-checklist {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px 20px;
+    padding: 5px 0;
+}
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.signature-box {
+    min-width: 0;
+}
+
+.signature-line {
+    height: 52px;
+    border-bottom: 1px solid #64748b;
+    margin-bottom: 7px;
+}
+
+.signature-box label {
+    color: var(--muted);
+}
+
+.notice {
+    background: #f4f7fb;
+    border-left: 3px solid var(--blue);
+    padding: 10px 12px;
+    font-size: 11px;
+    color: #526174;
+    margin-top: 12px;
+}
+
+.footer {
+    margin-top: 24px;
+    padding-top: 10px;
+    border-top: 1px solid #cbd5e1;
+    text-align: center;
+    font-size: 10px;
+    color: #64748b;
+}
+
+.error-message {
+    display: none;
+    color: #b42318;
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+input.invalid,
+select.invalid,
+textarea.invalid {
+    border-color: #d92d20 !important;
+    background-color: #fff8f7 !important;
+}
+
+.validation-summary {
+    display: none;
+    margin: 0 0 15px;
+    padding: 10px;
+    border: 1px solid #f0b6b2;
+    background: #fff5f4;
+    color: #b42318;
+    font-size: 12px;
+}
+
+@media (max-width: 650px) {
+    body {
+        padding: 10px 5px;
+    }
+
+    .form-container {
+        padding: 20px 14px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .company-info {
+        width: 100%;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4,
+    .document-meta {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .document-title h1 {
+        font-size: 20px;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .document-checklist {
+        grid-template-columns: 1fr;
+    }
+
+    .signature-grid {
+        gap: 15px;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 650px;
+    }
+}
+
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 12mm;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        color: #000;
+        font-size: 10px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .toolbar,
+    .no-print,
+    .upload-btn,
+    .action-row,
+    .row-action,
+    .error-message,
+    .validation-summary {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .header {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .logo-area {
+        background: white;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+        background: var(--navy) !important;
+        color: white !important;
+    }
+
+    .section {
+        break-inside: auto;
+    }
+
+    .field,
+    .grid-2,
+    .grid-3,
+    .grid-4,
+    .document-meta {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    input,
+    textarea,
+    select {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border-color: #aab4c0;
+        font-size: 10px;
+        padding: 5px;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        appearance: auto;
+        -webkit-appearance: auto;
+        width: 12px;
+        height: 12px;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 9px;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    th, td {
+        border: 1px solid #aeb9c7 !important;
+    }
+
+    th {
+        background: #eaf0f7 !important;
+        color: #17365d !important;
+    }
+
+    .signature-grid {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .footer {
+        break-inside: avoid;
+    }
+
+    .table-wrapper {
+        overflow: visible;
+    }
+
+    .document-title {
+        padding-top: 15px;
+    }
+
+    .notice {
+        break-inside: avoid;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+    <label style="margin:0;">Paper Size:</label>
+    <select id="paperSize" class="paper-setting">
+        <option value="A4">A4 Portrait</option>
+        <option value="Letter">US Letter Portrait</option>
+    </select>
+
+    <button type="button" class="btn btn-secondary" onclick="resetForm()">
+        RESET FORM
+    </button>
+
+    <button type="button" class="btn btn-primary" onclick="printForm()">
+        PRINT FORM / SAVE PDF
+    </button>
+</div>
+
+<form id="vendorForm" class="form-container" novalidate>
+
+    <!-- COMPANY HEADER -->
+
+    <div class="header">
+
+        <div class="logo-section">
+
+            <div class="logo-area" id="logoArea">
+                <div class="logo-placeholder" id="logoPlaceholder">
+                    COMPANY<br>LOGO
+                </div>
+                <img id="logoPreview" alt="Company Logo"
+                     style="display:none;">
+            </div>
+
+            <label class="upload-btn no-print" for="logoUpload">
+                UPLOAD COMPANY LOGO
+            </label>
+
+            <input type="file" id="logoUpload"
+                   accept=".jpg,.jpeg,.png,.svg,.webp"
+                   style="display:none;">
+
+            <button type="button" id="removeLogo"
+                    class="btn btn-remove no-print"
+                    style="margin-top:6px;display:none;">
+                Remove Logo
+            </button>
+
+        </div>
+
+        <div class="company-info">
+
+            <div class="field full">
+                <label>Company Name</label>
+                <input type="text" name="companyName"
+                       placeholder="Enter company name">
+            </div>
+
+            <div class="field full">
+                <label>Business Address</label>
+                <input type="text" name="companyAddress"
+                       placeholder="Enter complete business address">
+            </div>
+
+            <div class="field">
+                <label>Phone Number</label>
+                <input type="tel" name="companyPhone"
+                       placeholder="+1 000 000 0000">
+            </div>
+
+            <div class="field">
+                <label>Email Address</label>
+                <input type="email" name="companyEmail"
+                       placeholder="company@example.com">
+            </div>
+
+            <div class="field">
+                <label>Website</label>
+                <input type="url" name="companyWebsite"
+                       placeholder="www.example.com">
+            </div>
+
+            <div class="field">
+                <label>Business Registration No.</label>
+                <input type="text" name="companyRegistration"
+                       placeholder="Registration number">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- DOCUMENT TITLE -->
+
+    <div class="document-title">
+        <h1>VENDOR REGISTRATION FORM</h1>
+        <p>Vendor Information & Supplier Onboarding Record</p>
+    </div>
+
+    <div class="validation-summary" id="validationSummary">
+        Please complete all required fields and correct highlighted information.
+    </div>
+
+    <!-- DOCUMENT INFORMATION -->
+
+    <div class="document-meta">
+
+        <div class="field">
+            <label>Vendor ID / Reference No.</label>
+            <input type="text" name="vendorId"
+                   placeholder="Assigned by company">
+        </div>
+
+        <div class="field">
+            <label>Registration Date <span class="required">*</span></label>
+            <input type="date" name="registrationDate" required>
+        </div>
+
+        <div class="field">
+            <label>Registration Status</label>
+            <select name="registrationStatus">
+                <option value="">Select Status</option>
+                <option>New Application</option>
+                <option>Under Review</option>
+                <option>Approved</option>
+                <option>Rejected</option>
+                <option>On Hold</option>
+            </select>
+        </div>
+
+    </div>
+
+    <!-- SECTION 1 -->
+
+    <section class="section">
+
+        <div class="section-heading">
+            01. Vendor / Business Information
+        </div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Legal Business Name <span class="required">*</span></label>
+                <input type="text" name="legalBusinessName"
+                       required placeholder="Enter registered business name">
+            </div>
+
+            <div class="field">
+                <label>Trading / DBA Name</label>
+                <input type="text" name="tradingName"
+                       placeholder="Enter trading name">
+            </div>
+
+            <div class="field">
+                <label>Business Type <span class="required">*</span></label>
+                <select name="businessType" required>
+                    <option value="">Select Business Type</option>
+                    <option>Sole Proprietorship</option>
+                    <option>Partnership</option>
+                    <option>Private Limited Company</option>
+                    <option>Public Limited Company</option>
+                    <option>Limited Liability Company (LLC)</option>
+                    <option>Corporation</option>
+                    <option>Non-Profit Organization</option>
+                    <option>Individual / Freelancer</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Year Established</label>
+                <input type="number" name="yearEstablished"
+                       min="1800" max="2100"
+                       placeholder="YYYY">
+            </div>
+
+            <div class="field">
+                <label>Country of Registration <span class="required">*</span></label>
+                <input type="text" name="country" required
+                       placeholder="Enter country">
+            </div>
+
+            <div class="field">
+                <label>Business Registration Number</label>
+                <input type="text" name="businessRegistration"
+                       placeholder="Enter registration number">
+            </div>
+
+            <div class="field">
+                <label>Registered Business Address <span class="required">*</span></label>
+                <input type="text" name="registeredAddress" required
+                       placeholder="Street, building, city">
+            </div>
+
+            <div class="field">
+                <label>Mailing Address</label>
+                <input type="text" name="mailingAddress"
+                       placeholder="Enter mailing address">
+            </div>
+
+            <div class="field">
+                <label>City</label>
+                <input type="text" name="city">
+            </div>
+
+            <div class="field">
+                <label>State / Province</label>
+                <input type="text" name="state">
+            </div>
+
+            <div class="field">
+                <label>Postal / ZIP Code</label>
+                <input type="text" name="postalCode">
+            </div>
+
+            <div class="field">
+                <label>Country of Operation</label>
+                <input type="text" name="operationCountry">
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 2 -->
+
+    <section class="section">
+
+        <div class="section-heading">
+            02. Primary Contact Information
+        </div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Contact Person Name <span class="required">*</span></label>
+                <input type="text" name="contactName" required>
+            </div>
+
+            <div class="field">
+                <label>Job Title / Designation</label>
+                <input type="text" name="contactTitle">
+            </div>
+
+            <div class="field">
+                <label>Primary Phone Number <span class="required">*</span></label>
+                <input type="tel" name="contactPhone" required
+                       placeholder="+1 000 000 0000">
+            </div>
+
+            <div class="field">
+                <label>Alternative Phone Number</label>
+                <input type="tel" name="alternatePhone">
+            </div>
+
+            <div class="field">
+                <label>Email Address <span class="required">*</span></label>
+                <input type="email" name="contactEmail" required
+                       placeholder="contact@example.com">
+            </div>
+
+            <div class="field">
+                <label>Website</label>
+                <input type="url" name="vendorWebsite"
+                       placeholder="https://www.example.com">
+            </div>
+
+        </div>
+
+        <div class="subheading">Additional Contact Persons</div>
+
+        <div class="table-wrapper">
+            <table id="contactsTable">
+                <thead>
+                    <tr>
+                        <th style="width:7%;">No.</th>
+                        <th style="width:25%;">Contact Name</th>
+                        <th style="width:23%;">Designation</th>
+                        <th style="width:25%;">Email Address</th>
+                        <th style="width:20%;">Phone Number</th>
+                        <th class="no-print row-action" style="width:65px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="contactsBody">
+                    <tr>
+                        <td class="center row-number">1</td>
+                        <td><input type="text" aria-label="Additional contact name"></td>
+                        <td><input type="text" aria-label="Additional contact designation"></td>
+                        <td><input type="email" aria-label="Additional contact email"></td>
+                        <td><input type="tel" aria-label="Additional contact phone"></td>
+                        <td class="center no-print row-action">
+                            <button type="button" class="btn btn-remove"
+                                    onclick="removeRow(this)">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="action-row no-print">
+            <button type="button" class="btn btn-add"
+                    onclick="addContactRow()">+ Add Contact</button>
+        </div>
+
+    </section>
+
+    <!-- SECTION 3 -->
+
+    <section class="section">
+
+        <div class="section-heading">
+            03. Tax & Financial Registration Details
+        </div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Tax Identification Number (TIN)</label>
+                <input type="text" name="tin">
+            </div>
+
+            <div class="field">
+                <label>VAT / GST Registration Number</label>
+                <input type="text" name="vatNumber">
+            </div>
+
+            <div class="field">
+                <label>Tax Registration Country</label>
+                <input type="text" name="taxCountry">
+            </div>
+
+            <div class="field">
+                <label>Taxpayer Classification</label>
+                <select name="taxClassification">
+                    <option value="">Select Classification</option>
+                    <option>Individual</option>
+                    <option>Business Entity</option>
+                    <option>Corporation</option>
+                    <option>Tax Exempt</option>
+                    <option>Non-Profit</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field full">
+                <label>Tax Exemption Details (If Applicable)</label>
+                <textarea name="taxExemption"
+                          placeholder="Enter exemption certificate details or reference"></textarea>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 4 -->
+
+    <section class="section">
+
+        <div class="section-heading">
+            04. Banking & Payment Information
+        </div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Bank Name</label>
+                <input type="text" name="bankName">
+            </div>
+
+            <div class="field">
+                <label>Bank Branch</label>
+                <input type="text" name="bankBranch">
+            </div>
+
+            <div class="field">
+                <label>Account Holder Name</label>
+                <input type="text" name="accountHolder">
+            </div>
+
+            <div class="field">
+                <label>Account Number</label>
+                <input type="text" name="accountNumber">
+            </div>
+
+            <div class="field">
+                <label>IBAN</label>
+                <input type="text" name="iban">
+            </div>
+
+            <div class="field">
+                <label>SWIFT / BIC Code</label>
+                <input type="text" name="swiftCode">
+            </div>
+
+            <div class="field">
+                <label>Bank Account Currency</label>
+                <select name="bankCurrency">
+                    <option value="">Select Currency</option>
+                    <option>USD - US Dollar</option>
+                    <option>EUR - Euro</option>
+                    <option>GBP - British Pound</option>
+                    <option>PKR - Pakistani Rupee</option>
+                    <option>AED - UAE Dirham</option>
+                    <option>SAR - Saudi Riyal</option>
+                    <option>CAD - Canadian Dollar</option>
+                    <option>AUD - Australian Dollar</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Preferred Payment Method</label>
+                <select name="paymentMethod">
+                    <option value="">Select Payment Method</option>
+                    <option>Bank Transfer</option>
+                    <option>Wire Transfer</option>
+                    <option>Cheque</option>
+                    <option>Electronic Funds Transfer (EFT)</option>
+                    <option>Cash</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="notice">
+            Please ensure that all banking details are accurate. A bank
+            verification document or cancelled cheque may be attached
+            where required by the registering organization.
+        </div>
+
+    </section>
+
+    <!-- SECTION 5 -->
+
+    <section class="section">
+
+        <div class="section-heading">
+            05. Products & Services Offered
+        </div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Primary Business Category <span class="required">*</span></label>
+                <select name="primaryCategory" required>
+                    <option value="">Select Category</option>
+                    <option>Office Supplies & Stationery</option>
+                    <option>IT & Technology</option>
+                    <option>Construction & Building Materials</option>
+                    <option>Manufacturing</option>
+                    <option>Wholesale & Distribution</option>
+                    <option>Transportation & Logistics</option>
+                    <option>Professional Services</option>
+                    <option>Consulting</option>
+                    <option>Maintenance & Repair</option>
+                    <option>Marketing & Advertising</option>
+                    <option>Cleaning & Facility Management</option>
+                    <option>Food & Beverages</option>
+                    <option>Healthcare & Medical Supplies</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Vendor Classification</label>
+                <select name="vendorClassification">
+                    <option value="">Select Classification</option>
+                    <option>Manufacturer</option>
+                    <option>Distributor</option>
+                    <option>Wholesaler</option>
+                    <option>Retailer</option>
+                    <option>Service Provider</option>
+                    <option>Contractor</option>
+                    <option>Consultant</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="subheading">Products / Services Details</div>
+
+        <div class="table-wrapper">
+            <table id="productsTable">
+                <thead>
+                    <tr>
+                        <th style="width:7%;">No.</th>
+                        <th style="width:31%;">Product / Service Description</th>
+                        <th style="width:22%;">Category</th>
+                        <th style="width:17%;">Unit</th>
+                        <th style="width:23%;">Remarks</th>
+                        <th class="no-print row-action" style="width:65px;">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="productsBody">
+                    <tr>
+                        <td class="center row-number">1</td>
+                        <td><input type="text" aria-label="Product or service description"></td>
+                        <td>
+                            <select aria-label="Product or service category">
+                                <option value="">Select</option>
+                                <option>Product</option>
+                                <option>Service</option>
+                                <option>Raw Material</option>
+                                <option>Equipment</option>
+                                <option>Other</option>
+                            </select>
+                        </td>
+                        <td><input type="text" aria-label="Unit"></td>
+                        <td><input type="text" aria-label="Remarks"></td>
+                        <td class="center no-print row-action">
+                            <button type="button" class="btn btn-remove"
+                                    onclick="removeRow(this)">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="action-row no-print">
+            <button type="button" class="btn btn-add"
+                    onclick="addProductRow()">+ Add Product / Service</button>
+        </div>
+
+        <div class="subheading">Service & Supply Capabilities</div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Geographical Service Coverage</label>
+                <input type="text" name="serviceCoverage"
+                       placeholder="Cities, regions or countries">
+            </div>
+
+            <div class="field">
+                <label>Estimated Delivery / Service Lead Time</label>
+                <input type="text" name="leadTime"
+                       placeholder="e.g. 3-5 business days">
+            </div>
+
+            <div class="field">
+                <label>Minimum Order Quantity (If Applicable)</label>
+                <input type="text" name="minimumOrder">
+            </div>
+
+            <div class="field">
+                <label>Warranty / Service Guarantee</label>
+                <input type="text" name="warranty">
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SECTION 6 -->
+
+    <section class="section">
+
+        <div class="section-heading">
+            06. Business Credentials & Compliance
+        </div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Years of Industry Experience</label>
+                <input type="number" name="experienceYears" min="0"
+                       placeholder="Number of years">
+            </div>
+
+            <div class="field">
+                <label>Number of Employees</label>
+                <select name="employeeCount">
+                    <option value="">Select Employee Count</option>
+                    <option>1-5</option>
+                    <option>6-10</option>
+                    <option>11-50</option>
+                    <option>51-100</option>
+                    <option>101-250</option>
+                    <option>251-500</option>
+                    <option>500+</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Quality Certification</label>
+                <input type="text" name="qualityCertification"
+                       placeholder="e.g. ISO 9001">
+            </div>
+
+            <div class="field">
+                <label>Insurance Coverage</label>
+                <select name="insurance">
+                    <option value="">Select Status</option>
+                    <option>Yes - Active</option>
+                    <option>No</option>
+                    <option>Not Applicable</option>
+                </select>
+            </div>
+
+            <div class="field full">
+                <label>Certifications / Licenses / Memberships</label>
+                <textarea name="certifications"
+                          placeholder="List relevant licenses, professional memberships and certifications"></textarea>
+            </div>
+
+            <div class="field full">
+                <label>Previous Clients / Business References</label>
+                <textarea name="references"
+                          placeholder="Provide names of previous clients or business references, including contact details if appropriate"></textarea>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 7 -->
+
+    <section class="section">
+
+        <div class="section-heading">
+            07. Required Supporting Documents
+        </div>
+
+        <p style="font-size:11px;color:#64748b;margin-top:0;">
+            Please indicate the documents submitted along with this registration.
+        </p>
+
+        <div class="document-checklist">
+
+            <label class="choice">
+                <input type="checkbox" name="documents" value="Business Registration Certificate">
+                Business Registration Certificate
+            </label>
+
+            <label class="choice">
+                <input type="checkbox" name="documents" value="Tax Registration Certificate">
+                Tax Registration Certificate
+            </label>
+
+            <label class="choice">
+                <input type="checkbox" name="documents" value="VAT / GST Certificate">
+                VAT / GST Certificate
+            </label>
+
+            <label class="choice">
+                <input type="checkbox" name="documents" value="Bank Account Verification">
+                Bank Account Verification / Cancelled Cheque
+            </label>
+
+            <label class="choice">
+                <input type="checkbox" name="documents" value="Company Profile">
+                Company Profile
+            </label>
+
+            <label class="choice">
+                <input type="checkbox" name="documents" value="Business License">
+                Business License / Trade Permit
+            </label>
+
+            <label class="choice">
+                <input type="checkbox" name="documents" value="Insurance Certificate">
+                Insurance Certificate
+            </label>
+
+            <label class="choice">
+                <input type="checkbox" name="documents" value="Quality Certification">
+                Quality Certification
+            </label>
+
+            <label class="choice">
+                <input type="checkbox" name="documents" value="Product Catalogue">
+                Product Catalogue / Service Brochure
+            </label>
+
+            <label class="choice">
+                <input type="checkbox" name="documents" value="Other Supporting Documents">
+                Other Supporting Documents
+            </label>
+
+        </div>
+
+        <div class="field" style="margin-top:14px;">
+            <label>Other Documents / Additional Details</label>
+            <textarea name="otherDocuments"
+                      placeholder="List any additional supporting documents submitted"></textarea>
+        </div>
+
+    </section>
+
+    <!-- SECTION 8 -->
+
+    <section class="section">
+
+        <div class="section-heading">
+            08. Vendor Declaration & Authorization
+        </div>
+
+        <p style="font-size:11px;line-height:1.8;text-align:justify;">
+            I/We hereby declare that the information provided in this Vendor
+            Registration Form is true, complete and accurate to the best of
+            my/our knowledge. I/We confirm that the submitted documents and
+            business information are genuine and valid. I/We agree to notify
+            the registering organization of any changes to our business,
+            contact, tax or banking information.
+        </p>
+
+        <p style="font-size:11px;line-height:1.8;text-align:justify;">
+            I/We authorize the registering organization to verify the
+            information and documents provided and acknowledge that vendor
+            registration does not automatically guarantee any purchase order,
+            contract or business engagement.
+        </p>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Authorized Representative Name <span class="required">*</span></label>
+                <input type="text" name="authorizedName" required>
+            </div>
+
+            <div class="field">
+                <label>Designation <span class="required">*</span></label>
+                <input type="text" name="authorizedDesignation" required>
+            </div>
+
+            <div class="field">
+                <label>Date of Declaration <span class="required">*</span></label>
+                <input type="date" name="declarationDate" required>
+            </div>
+
+            <div class="field">
+                <label>Place of Declaration</label>
+                <input type="text" name="declarationPlace">
+            </div>
+
+        </div>
+
+        <div class="signature-grid">
+
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <label>Authorized Signature</label>
+            </div>
+
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <label>Company Stamp / Official Seal</label>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SECTION 9 -->
+
+    <section class="section">
+
+        <div class="section-heading">
+            09. Internal Use Only – Vendor Approval
+        </div>
+
+        <div class="grid-2">
+
+            <div class="field">
+                <label>Application Reviewed By</label>
+                <input type="text" name="reviewedBy">
+            </div>
+
+            <div class="field">
+                <label>Review Date</label>
+                <input type="date" name="reviewDate">
+            </div>
+
+            <div class="field">
+                <label>Vendor Risk Assessment</label>
+                <select name="riskAssessment">
+                    <option value="">Select Assessment</option>
+                    <option>Low Risk</option>
+                    <option>Medium Risk</option>
+                    <option>High Risk</option>
+                    <option>Not Assessed</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Vendor Approval Decision</label>
+                <select name="approvalDecision">
+                    <option value="">Select Decision</option>
+                    <option>Approved</option>
+                    <option>Rejected</option>
+                    <option>Pending Review</option>
+                    <option>Additional Information Required</option>
+                </select>
+            </div>
+
+            <div class="field full">
+                <label>Review Comments / Remarks</label>
+                <textarea name="reviewComments"
+                          placeholder="Enter internal review comments and approval notes"></textarea>
+            </div>
+
+            <div class="field">
+                <label>Approved By</label>
+                <input type="text" name="approvedBy">
+            </div>
+
+            <div class="field">
+                <label>Approval Date</label>
+                <input type="date" name="approvalDate">
+            </div>
+
+            <div class="field">
+                <label>Vendor Category / Assigned Code</label>
+                <input type="text" name="assignedCode">
+            </div>
+
+            <div class="field">
+                <label>Next Review Date</label>
+                <input type="date" name="nextReviewDate">
+            </div>
+
+        </div>
+
+        <div class="signature-grid">
+
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <label>Reviewer Signature</label>
+            </div>
+
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <label>Approving Authority Signature</label>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ADDITIONAL NOTES -->
+
+    <section class="section">
+
+        <div class="section-heading">
+            10. Additional Notes
+        </div>
+
+        <div class="field">
+            <label>Additional Information / Special Instructions</label>
+            <textarea name="additionalNotes"
+                      style="min-height:80px;"
+                      placeholder="Enter any additional information relevant to vendor registration"></textarea>
+        </div>
+
+    </section>
+
+    <div class="footer">
+        VENDOR REGISTRATION FORM &nbsp; | &nbsp;
+        Confidential Business Information
+        <br>
+        Please retain a copy of this completed form for your records.
+    </div>
+
+</form>
+
+<script>
+
+// ======================================
+// LOGO UPLOAD AND PREVIEW
+// ======================================
+
+const logoUpload = document.getElementById("logoUpload");
+const logoPreview = document.getElementById("logoPreview");
+const logoPlaceholder = document.getElementById("logoPlaceholder");
+const removeLogoBtn = document.getElementById("removeLogo");
+
+let logoObjectURL = null;
+
+logoUpload.addEventListener("change", function() {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP logo.");
+        this.value = "";
+        return;
+    }
+
+    if (logoObjectURL) {
+        URL.revokeObjectURL(logoObjectURL);
+    }
+
+    logoObjectURL = URL.createObjectURL(file);
+
+    logoPreview.onload = function() {
+        logoPreview.style.display = "block";
+        logoPlaceholder.style.display = "none";
+        removeLogoBtn.style.display = "inline-block";
+    };
+
+    logoPreview.onerror = function() {
+        alert("Unable to preview this logo file.");
+        removeLogo();
+    };
+
+    logoPreview.src = logoObjectURL;
+
+});
+
+function removeLogo() {
+
+    logoPreview.removeAttribute("src");
+    logoPreview.style.display = "none";
+    logoPlaceholder.style.display = "block";
+    logoUpload.value = "";
+    removeLogoBtn.style.display = "none";
+
+    if (logoObjectURL) {
+        URL.revokeObjectURL(logoObjectURL);
+        logoObjectURL = null;
+    }
+}
+
+removeLogoBtn.addEventListener("click", removeLogo);
+
+
+// ======================================
+// ADD CONTACT ROW
+// ======================================
+
+function addContactRow() {
+
+    const tbody = document.getElementById("contactsBody");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="center row-number"></td>
+        <td><input type="text" aria-label="Additional contact name"></td>
+        <td><input type="text" aria-label="Additional contact designation"></td>
+        <td><input type="email" aria-label="Additional contact email"></td>
+        <td><input type="tel" aria-label="Additional contact phone"></td>
+        <td class="center no-print row-action">
+            <button type="button" class="btn btn-remove"
+                onclick="removeRow(this)">Remove</button>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+    updateNumbers(tbody);
+}
+
+
+// ======================================
+// ADD PRODUCT / SERVICE ROW
+// ======================================
+
+function addProductRow() {
+
+    const tbody = document.getElementById("productsBody");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="center row-number"></td>
+        <td><input type="text" aria-label="Product or service description"></td>
+        <td>
+            <select aria-label="Product or service category">
+                <option value="">Select</option>
+                <option>Product</option>
+                <option>Service</option>
+                <option>Raw Material</option>
+                <option>Equipment</option>
+                <option>Other</option>
+            </select>
+        </td>
+        <td><input type="text" aria-label="Unit"></td>
+        <td><input type="text" aria-label="Remarks"></td>
+        <td class="center no-print row-action">
+            <button type="button" class="btn btn-remove"
+                onclick="removeRow(this)">Remove</button>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+    updateNumbers(tbody);
+}
+
+
+// ======================================
+// REMOVE ROW
+// ======================================
+
+function removeRow(button) {
+
+    const tbody = button.closest("tbody");
+
+    if (!tbody) return;
+
+    const rows = tbody.querySelectorAll("tr");
+
+    if (rows.length <= 1) {
+        alert("At least one row must remain in the table.");
+        return;
+    }
+
+    button.closest("tr").remove();
+
+    updateNumbers(tbody);
+}
+
+
+// ======================================
+// AUTOMATIC ROW NUMBERING
+// ======================================
+
+function updateNumbers(tbody) {
+
+    const rows = tbody.querySelectorAll("tr");
+
+    rows.forEach((row, index) => {
+
+        const numberCell = row.querySelector(".row-number");
+
+        if (numberCell) {
+            numberCell.textContent = index + 1;
+        }
+
+    });
+}
+
+
+// ======================================
+// VALIDATION
+// ======================================
+
+const form = document.getElementById("vendorForm");
+
+function validateForm() {
+
+    let isValid = true;
+    let firstInvalid = null;
+
+    const requiredFields = form.querySelectorAll(
+        "input[required], select[required], textarea[required]"
+    );
+
+    requiredFields.forEach(field => {
+
+        field.classList.remove("invalid");
+
+        if (!field.checkValidity() || !field.value.trim()) {
+
+            field.classList.add("invalid");
+            isValid = false;
+
+            if (!firstInvalid) {
+                firstInvalid = field;
+            }
+        }
+
+    });
+
+    // Validate optional email fields when populated.
+    const emailFields = form.querySelectorAll('input[type="email"]');
+
+    emailFields.forEach(field => {
+
+        if (field.value.trim() && !field.validity.valid) {
+
+            field.classList.add("invalid");
+            isValid = false;
+
+            if (!firstInvalid) {
+                firstInvalid = field;
+            }
+        }
+
+    });
+
+    // Validate optional year and experience fields.
+    const numberFields = form.querySelectorAll('input[type="number"]');
+
+    numberFields.forEach(field => {
+
+        if (field.value !== "" && !field.checkValidity()) {
+
+            field.classList.add("invalid");
+            isValid = false;
+
+            if (!firstInvalid) {
+                firstInvalid = field;
+            }
+        }
+
+    });
+
+    // Validate additional contact email addresses.
+    const contactEmails = document.querySelectorAll(
+        "#contactsBody input[type='email']"
+    );
+
+    contactEmails.forEach(field => {
+
+        if (field.value.trim() && !field.validity.valid) {
+
+            field.classList.add("invalid");
+            isValid = false;
+
+            if (!firstInvalid) {
+                firstInvalid = field;
+            }
+        }
+
+    });
+
+    const summary = document.getElementById("validationSummary");
+
+    summary.style.display = isValid ? "none" : "block";
+
+    if (!isValid && firstInvalid) {
+
+        firstInvalid.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+        firstInvalid.focus({
+            preventScroll: true
+        });
+    }
+
+    return isValid;
+}
+
+
+// Remove red validation highlight when a field is corrected.
+
+form.addEventListener("input", function(event) {
+
+    const field = event.target;
+
+    if (
+        field.matches("input, select, textarea") &&
+        field.checkValidity() &&
+        field.value.trim()
+    ) {
+        field.classList.remove("invalid");
+    }
+
+    updateValidationSummary();
+
+});
+
+form.addEventListener("change", function(event) {
+
+    const field = event.target;
+
+    if (
+        field.matches("input, select, textarea") &&
+        field.checkValidity() &&
+        field.value.trim()
+    ) {
+        field.classList.remove("invalid");
+    }
+
+    updateValidationSummary();
+
+});
+
+function updateValidationSummary() {
+
+    const invalidFields = form.querySelectorAll(".invalid");
+
+    if (invalidFields.length === 0) {
+        document.getElementById("validationSummary").style.display = "none";
+    }
+}
+
+
+// ======================================
+// PRINT FORM / SAVE AS PDF
+// ======================================
+
+function printForm() {
+
+    if (!validateForm()) {
+
+        alert(
+            "Please complete all required fields and correct the highlighted information before printing."
+        );
+
+        return;
+    }
+
+    window.print();
+}
+
+
+// ======================================
+// A4 / US LETTER PAPER SELECTION
+// ======================================
+
+const paperSize = document.getElementById("paperSize");
+
+let printStyle = document.createElement("style");
+
+document.head.appendChild(printStyle);
+
+function updatePaperSize() {
+
+    const size = paperSize.value;
+
+    printStyle.textContent = `
+        @media print {
+            @page {
+                size: ${size} portrait;
+                margin: 12mm;
+            }
+        }
+    `;
+}
+
+paperSize.addEventListener("change", updatePaperSize);
+
+updatePaperSize();
+
+
+// ======================================
+// RESET FORM
+// ======================================
+
+function resetForm() {
+
+    const confirmed = confirm(
+        "Are you sure you want to reset the entire Vendor Registration Form? All entered information will be cleared."
+    );
+
+    if (!confirmed) return;
+
+    form.reset();
+
+    // Remove validation highlights.
+    form.querySelectorAll(".invalid").forEach(field => {
+        field.classList.remove("invalid");
+    });
+
+    // Hide validation summary.
+    document.getElementById("validationSummary").style.display = "none";
+
+    // Reset logo.
+    removeLogo();
+
+    // Restore default contact rows.
+    document.getElementById("contactsBody").innerHTML = `
+        <tr>
+            <td class="center row-number">1</td>
+            <td><input type="text" aria-label="Additional contact name"></td>
+            <td><input type="text" aria-label="Additional contact designation"></td>
+            <td><input type="email" aria-label="Additional contact email"></td>
+            <td><input type="tel" aria-label="Additional contact phone"></td>
+            <td class="center no-print row-action">
+                <button type="button" class="btn btn-remove"
+                    onclick="removeRow(this)">Remove</button>
+            </td>
+        </tr>
+    `;
+
+    // Restore default product rows.
+    document.getElementById("productsBody").innerHTML = `
+        <tr>
+            <td class="center row-number">1</td>
+            <td><input type="text" aria-label="Product or service description"></td>
+            <td>
+                <select aria-label="Product or service category">
+                    <option value="">Select</option>
+                    <option>Product</option>
+                    <option>Service</option>
+                    <option>Raw Material</option>
+                    <option>Equipment</option>
+                    <option>Other</option>
+                </select>
+            </td>
+            <td><input type="text" aria-label="Unit"></td>
+            <td><input type="text" aria-label="Remarks"></td>
+            <td class="center no-print row-action">
+                <button type="button" class="btn btn-remove"
+                    onclick="removeRow(this)">Remove</button>
+            </td>
+        </tr>
+    `;
+
+    updateNumbers(document.getElementById("contactsBody"));
+    updateNumbers(document.getElementById("productsBody"));
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+// ======================================
+// PREVENT FAKE FORM SUBMISSION
+// ======================================
+
+form.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    alert(
+        "This is an offline registration form. No information has been submitted to a server."
+    );
+
+});
+
+</script>
+
+</body>
+</html>

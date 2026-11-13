@@ -1,0 +1,1194 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visitor Registration Form</title>
+
+<style>
+:root {
+    --navy: #183653;
+    --blue: #28577e;
+    --border: #cbd5df;
+    --text: #263746;
+    --muted: #637386;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 25px 12px;
+    background: #eef1f5;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+    font-size: 13px;
+}
+
+.toolbar {
+    max-width: 1100px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+button, .upload-label {
+    border: none;
+    border-radius: 4px;
+    padding: 10px 17px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.print-btn, .add-btn, .upload-label {
+    background: var(--navy);
+    color: white;
+}
+
+.reset-btn {
+    background: #e4e9ef;
+    color: #34465a;
+}
+
+.remove-btn {
+    background: #fbe9e9;
+    color: #a32d2d;
+    padding: 6px 9px;
+}
+
+.paper-setting {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+}
+
+.paper-setting select {
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: white;
+}
+
+.form-container {
+    max-width: 1100px;
+    margin: auto;
+    background: white;
+    padding: 30px 34px;
+    border: 1px solid #dce2e9;
+    box-shadow: 0 3px 15px rgba(0,0,0,.07);
+}
+
+input, select, textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 12px;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 7px 8px;
+    background: white;
+    min-width: 0;
+}
+
+input, select { min-height: 31px; }
+
+textarea {
+    min-height: 58px;
+    resize: vertical;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #4779a4;
+    box-shadow: 0 0 0 2px rgba(71,121,164,.10);
+}
+
+input[type="checkbox"], input[type="radio"] {
+    width: 13px;
+    height: 13px;
+    min-height: auto;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    accent-color: var(--navy);
+}
+
+label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #405367;
+    margin-bottom: 5px;
+}
+
+.required { color: #bd3535; }
+
+.header {
+    display: grid;
+    grid-template-columns: 165px 1fr;
+    gap: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--navy);
+}
+
+.logo-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-box {
+    width: 145px;
+    height: 105px;
+    border: 1px dashed #aebdcb;
+    background: #f8fafc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color: #8291a0;
+    text-align: center;
+    padding: 8px;
+}
+
+.logo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: none;
+}
+
+.logo-placeholder {
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.upload-label {
+    display: inline-block;
+    padding: 8px 12px;
+    margin-top: 8px;
+}
+
+.company-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 14px;
+}
+
+.company-fields .full { grid-column: 1 / -1; }
+
+.form-title {
+    text-align: center;
+    padding: 19px 0 15px;
+}
+
+.form-title h1 {
+    font-size: 24px;
+    color: var(--navy);
+    letter-spacing: .7px;
+    margin: 0 0 6px;
+}
+
+.form-title p {
+    font-size: 11px;
+    color: var(--muted);
+    margin: 0;
+}
+
+.document-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    background: #f5f8fb;
+    border: 1px solid var(--border);
+    padding: 12px;
+    margin-bottom: 17px;
+}
+
+.section-heading {
+    background: var(--navy);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 9px 11px;
+    margin: 18px 0 12px;
+    letter-spacing: .3px;
+    break-after: avoid;
+    page-break-after: avoid;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.field-grid.two { grid-template-columns: repeat(2, 1fr); }
+.field-grid.four { grid-template-columns: repeat(4, 1fr); }
+.field { min-width: 0; }
+.field.full { grid-column: 1 / -1; }
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 10px;
+}
+
+th {
+    background: #eaf0f6;
+    color: #263f58;
+    border: 1px solid #b9c7d4;
+    padding: 8px 5px;
+    text-align: left;
+    font-size: 10px;
+    line-height: 1.35;
+}
+
+td {
+    border: 1px solid #cbd5df;
+    padding: 5px;
+    vertical-align: middle;
+}
+
+td input {
+    width: 100%;
+    border: none;
+    padding: 5px 3px;
+    min-height: 29px;
+    font-size: 10px;
+    border-radius: 0;
+}
+
+.visitor-table th:nth-child(1) { width: 4%; }
+.visitor-table th:nth-child(2) { width: 10%; }
+.visitor-table th:nth-child(3) { width: 10%; }
+.visitor-table th:nth-child(4) { width: 16%; }
+.visitor-table th:nth-child(5) { width: 16%; }
+.visitor-table th:nth-child(6) { width: 15%; }
+.visitor-table th:nth-child(7) { width: 9%; }
+.visitor-table th:nth-child(8) { width: 9%; }
+.visitor-table th:nth-child(9) { width: 11%; }
+
+.visitor-table td:first-child {
+    text-align: center;
+    font-weight: bold;
+    color: var(--navy);
+}
+
+.row-controls {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.record-count {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.check-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px 24px;
+}
+
+.check-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    font-weight: normal;
+    color: var(--text);
+    margin: 0;
+}
+
+.declaration {
+    border: 1px solid var(--border);
+    padding: 12px;
+    background: #fafbfd;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 20px;
+}
+
+.signature-box { min-width: 0; }
+
+.signature-line {
+    border-bottom: 1px solid #64778a;
+    height: 39px;
+    margin-bottom: 7px;
+}
+
+.footer {
+    border-top: 1px solid var(--border);
+    margin-top: 23px;
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: #6c7b8b;
+    font-size: 9px;
+}
+
+.error-message {
+    display: none;
+    background: #fff0f0;
+    color: #a32d2d;
+    border: 1px solid #e8baba;
+    padding: 9px;
+    margin-bottom: 12px;
+    font-size: 12px;
+}
+
+@media(max-width:700px) {
+    body { padding: 10px 5px; }
+
+    .form-container { padding: 17px 12px; }
+
+    .header { grid-template-columns: 1fr; }
+
+    .logo-area { align-items: flex-start; }
+
+    .company-fields { grid-template-columns: 1fr; }
+
+    .company-fields .full { grid-column: auto; }
+
+    .document-info,
+    .field-grid,
+    .field-grid.two,
+    .field-grid.four {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    .signature-grid { grid-template-columns: 1fr; }
+
+    .toolbar { justify-content: center; }
+
+    .form-title h1 { font-size: 20px; }
+
+    .visitor-table { min-width: 900px; }
+}
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        font-size: 10px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print { display: none !important; }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+    }
+
+    input, textarea, select {
+        color: black !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border-color: transparent !important;
+        appearance: none;
+        -webkit-appearance: none;
+    }
+
+    input::placeholder, textarea::placeholder {
+        color: transparent !important;
+    }
+
+    input[type="checkbox"], input[type="radio"] {
+        appearance: auto;
+        -webkit-appearance: auto;
+    }
+
+    .header { grid-template-columns: 145px 1fr; }
+
+    .logo-box { background: transparent; }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    thead { display: table-header-group; }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    td, th { border: 1px solid #9ba9b7 !important; }
+
+    .visitor-table td { padding: 4px 2px; }
+
+    .visitor-table td input {
+        font-size: 8px;
+        padding: 3px 1px;
+    }
+
+    .declaration { background: transparent; }
+
+    .footer {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+
+    <div class="paper-setting">
+        <label for="paperSize" style="margin:0;">Paper Size:</label>
+        <select id="paperSize" onchange="changePaperSize()">
+            <option value="A4">A4 Portrait</option>
+            <option value="Letter">US Letter</option>
+        </select>
+    </div>
+
+    <button type="button" class="print-btn" onclick="printForm()">
+        PRINT FORM
+    </button>
+
+    <button type="button" class="reset-btn" onclick="resetForm()">
+        RESET FORM
+    </button>
+
+</div>
+
+<div class="form-container" id="visitorForm">
+
+    <div id="errorMessage" class="error-message no-print"></div>
+
+    <!-- COMPANY HEADER -->
+
+    <div class="header">
+
+        <div class="logo-area">
+
+            <div class="logo-box">
+
+                <img id="logoPreview" alt="Company Logo">
+
+                <div class="logo-placeholder" id="logoPlaceholder">
+                    COMPANY<br>LOGO
+                </div>
+
+            </div>
+
+            <label class="upload-label no-print" for="logoUpload">
+                Upload Company Logo
+            </label>
+
+            <input
+                type="file"
+                id="logoUpload"
+                accept=".jpg,.jpeg,.png,.svg,.webp"
+                hidden
+                onchange="uploadLogo(event)"
+            >
+
+        </div>
+
+        <div class="company-fields">
+
+            <div class="full">
+                <label>Company Name <span class="required">*</span></label>
+                <input type="text" id="companyName"
+                       placeholder="Enter Company / Organization Name" required>
+            </div>
+
+            <div class="full">
+                <label>Business Address</label>
+                <input type="text" id="companyAddress"
+                       placeholder="Enter Complete Business Address">
+            </div>
+
+            <div>
+                <label>Phone Number</label>
+                <input type="tel" id="companyPhone"
+                       placeholder="+00 000 0000000">
+            </div>
+
+            <div>
+                <label>Email Address</label>
+                <input type="email" id="companyEmail"
+                       placeholder="company@example.com">
+            </div>
+
+            <div>
+                <label>Website</label>
+                <input type="text" id="companyWebsite"
+                       placeholder="www.example.com">
+            </div>
+
+            <div>
+                <label>Business Registration Number</label>
+                <input type="text" id="companyRegistration"
+                       placeholder="Registration Number">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-title">
+        <h1>VISITOR REGISTRATION FORM</h1>
+        <p>Visitor Log | Reception & Security Management</p>
+    </div>
+
+    <div class="document-info">
+
+        <div class="field">
+            <label>Register / Document No.</label>
+            <input type="text" id="documentNumber" placeholder="VRF-001">
+        </div>
+
+        <div class="field">
+            <label>Registration Date <span class="required">*</span></label>
+            <input type="date" id="registrationDate" required>
+        </div>
+
+        <div class="field">
+            <label>Location / Branch</label>
+            <input type="text" id="branch" placeholder="Office / Branch Name">
+        </div>
+
+    </div>
+
+    <div class="section-heading">
+        01 &nbsp; VISITOR ENTRY REGISTER
+    </div>
+
+    <p style="font-size:11px;color:#647589;margin:0 0 10px;">
+        Record each visitor upon arrival. Complete departure time and badge return details before the visitor leaves.
+    </p>
+
+    <div class="table-wrap">
+
+        <table class="visitor-table" id="visitorTable">
+
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Date</th>
+                    <th>Time In</th>
+                    <th>Visitor Name</th>
+                    <th>Company / Organization</th>
+                    <th>Person / Department to Visit</th>
+                    <th>Time Out</th>
+                    <th>Badge No.</th>
+                    <th>Visitor Signature</th>
+                    <th class="no-print">Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="visitorBody"></tbody>
+
+        </table>
+
+    </div>
+
+    <div class="row-controls no-print">
+
+        <button type="button" class="add-btn" onclick="addVisitorRow()">
+            + ADD VISITOR
+        </button>
+
+        <span class="record-count" id="recordCount">
+            6 visitor records
+        </span>
+
+    </div>
+
+    <div class="section-heading">
+        02 &nbsp; VISIT INFORMATION
+    </div>
+
+    <div class="field-grid">
+
+        <div class="field">
+            <label>Visit Purpose</label>
+            <select id="visitPurpose">
+                <option value="">Select Purpose</option>
+                <option>Business Meeting</option>
+                <option>Client Consultation</option>
+                <option>Interview</option>
+                <option>Delivery / Collection</option>
+                <option>Maintenance / Repair</option>
+                <option>Official Inspection</option>
+                <option>Vendor / Supplier Visit</option>
+                <option>Personal Visit</option>
+                <option>Training / Workshop</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Host / Employee Name</label>
+            <input type="text" id="hostName"
+                   placeholder="Name of Receiving Employee">
+        </div>
+
+        <div class="field">
+            <label>Host Department</label>
+            <select id="hostDepartment">
+                <option value="">Select Department</option>
+                <option>Administration</option>
+                <option>Accounts & Finance</option>
+                <option>Human Resources</option>
+                <option>Management</option>
+                <option>Sales & Marketing</option>
+                <option>Operations</option>
+                <option>IT Department</option>
+                <option>Customer Service</option>
+                <option>Security</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Expected Visit Duration</label>
+            <select id="visitDuration">
+                <option value="">Select Duration</option>
+                <option>Less than 30 Minutes</option>
+                <option>30 Minutes - 1 Hour</option>
+                <option>1 - 2 Hours</option>
+                <option>2 - 4 Hours</option>
+                <option>More than 4 Hours</option>
+                <option>Full Day</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Access Area / Floor</label>
+            <input type="text" id="accessArea"
+                   placeholder="Authorized Floor / Office">
+        </div>
+
+        <div class="field">
+            <label>Escort Required?</label>
+            <select id="escortRequired">
+                <option value="">Select</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="section-heading">
+        03 &nbsp; VISITOR IDENTIFICATION & SECURITY
+    </div>
+
+    <div class="field-grid four">
+
+        <div class="field">
+            <label>Identification Type</label>
+            <select id="idType">
+                <option value="">Select ID Type</option>
+                <option>National ID Card</option>
+                <option>Passport</option>
+                <option>Driving License</option>
+                <option>Employee ID</option>
+                <option>Company ID</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>ID Reference (Optional)</label>
+            <input type="text" id="idReference"
+                   placeholder="Last 4 Digits / Reference">
+        </div>
+
+        <div class="field">
+            <label>Visitor Type</label>
+            <select id="visitorType">
+                <option value="">Select Visitor Type</option>
+                <option>Client / Customer</option>
+                <option>Business Partner</option>
+                <option>Supplier / Vendor</option>
+                <option>Contractor</option>
+                <option>Job Applicant</option>
+                <option>Government Official</option>
+                <option>Guest</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Vehicle Registration No.</label>
+            <input type="text" id="vehicleNumber"
+                   placeholder="Vehicle Number (if applicable)">
+        </div>
+
+    </div>
+
+    <div class="field-grid two" style="margin-top:13px;">
+
+        <div class="field">
+            <label>Belongings / Equipment Carried</label>
+            <input type="text" id="belongings"
+                   placeholder="Laptop, tools, equipment, bags, etc.">
+        </div>
+
+        <div class="field">
+            <label>Safety / Security Instructions</label>
+            <input type="text" id="securityInstructions"
+                   placeholder="Special instructions, if any">
+        </div>
+
+    </div>
+
+    <div class="section-heading">
+        04 &nbsp; ACCESS CONTROL CHECKLIST
+    </div>
+
+    <div class="check-list">
+
+        <label class="check-item">
+            <input type="checkbox" id="idVerified">
+            Identity Verified
+        </label>
+
+        <label class="check-item">
+            <input type="checkbox" id="badgeIssued">
+            Visitor Badge Issued
+        </label>
+
+        <label class="check-item">
+            <input type="checkbox" id="hostNotified">
+            Host Notified
+        </label>
+
+        <label class="check-item">
+            <input type="checkbox" id="safetyBriefing">
+            Safety Briefing Completed
+        </label>
+
+        <label class="check-item">
+            <input type="checkbox" id="escortAssigned">
+            Escort Assigned
+        </label>
+
+        <label class="check-item">
+            <input type="checkbox" id="badgeReturned">
+            Visitor Badge Returned
+        </label>
+
+    </div>
+
+    <div class="section-heading">
+        05 &nbsp; VISITOR DECLARATION
+    </div>
+
+    <div class="declaration">
+        I acknowledge that I am visiting the above-mentioned premises for the stated
+        purpose. I agree to follow all applicable company policies, safety instructions,
+        security procedures, and authorized access restrictions during my visit.
+        I understand that I must remain within permitted areas, comply with staff
+        instructions, and return any visitor badge or access card before departure.
+        I confirm that the information provided by me is accurate to the best of my knowledge.
+    </div>
+
+    <div class="field-grid two" style="margin-top:14px;">
+
+        <div class="field">
+            <label>Additional Visitor Comments</label>
+            <textarea id="visitorComments"
+                      placeholder="Enter any additional comments or special requirements..."></textarea>
+        </div>
+
+        <div class="field">
+            <label>Reception / Security Remarks</label>
+            <textarea id="securityRemarks"
+                      placeholder="Enter security observations, incidents or other remarks..."></textarea>
+        </div>
+
+    </div>
+
+    <div class="section-heading">
+        06 &nbsp; AUTHORIZATION & SIGNATURES
+    </div>
+
+    <div class="signature-grid">
+
+        <div class="signature-box">
+            <div class="signature-line"></div>
+            <label>Visitor Signature</label>
+            <input type="text" id="visitorSignatureName" placeholder="Visitor Name">
+            <div style="margin-top:9px;">
+                <label>Signature Date</label>
+                <input type="date" id="visitorSignatureDate">
+            </div>
+        </div>
+
+        <div class="signature-box">
+            <div class="signature-line"></div>
+            <label>Reception / Security Officer</label>
+            <input type="text" id="securityOfficer" placeholder="Officer Name">
+            <div style="margin-top:9px;">
+                <label>Signature Date</label>
+                <input type="date" id="securitySignatureDate">
+            </div>
+        </div>
+
+        <div class="signature-box">
+            <div class="signature-line"></div>
+            <label>Authorized Host / Approver</label>
+            <input type="text" id="authorizedHost" placeholder="Authorized Person Name">
+            <div style="margin-top:9px;">
+                <label>Approval Date</label>
+                <input type="date" id="approvalDate">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <span>VISITOR REGISTRATION FORM</span>
+        <span>Confidential Business Record</span>
+        <span>For Internal Office Use</span>
+    </div>
+
+</div>
+
+<script>
+
+/* VISITOR ROW MANAGEMENT */
+
+const visitorBody = document.getElementById("visitorBody");
+
+function addVisitorRow() {
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="row-number"></td>
+        <td><input type="date" class="visitor-date" aria-label="Visitor date"></td>
+        <td><input type="time" aria-label="Visitor arrival time"></td>
+        <td><input type="text" placeholder="Full name" aria-label="Visitor name"></td>
+        <td><input type="text" placeholder="Company" aria-label="Visitor company"></td>
+        <td><input type="text" placeholder="Host / Department" aria-label="Person or department to visit"></td>
+        <td><input type="time" aria-label="Visitor departure time"></td>
+        <td><input type="text" placeholder="Badge ID" aria-label="Badge number"></td>
+        <td><input type="text" placeholder="Sign" aria-label="Visitor signature"></td>
+        <td class="no-print">
+            <button type="button" class="remove-btn" onclick="removeVisitorRow(this)">X</button>
+        </td>
+    `;
+
+    visitorBody.appendChild(row);
+    updateRows();
+    setDefaultVisitorDate(row);
+}
+
+function removeVisitorRow(button) {
+
+    if (visitorBody.querySelectorAll("tr").length <= 1) {
+        alert("At least one visitor record row must remain.");
+        return;
+    }
+
+    button.closest("tr").remove();
+    updateRows();
+}
+
+function updateRows() {
+
+    const rows = visitorBody.querySelectorAll("tr");
+
+    rows.forEach((row, index) => {
+        row.querySelector(".row-number").textContent = index + 1;
+    });
+
+    document.getElementById("recordCount").textContent =
+        rows.length + (rows.length === 1
+        ? " visitor record"
+        : " visitor records");
+}
+
+/* INITIAL SIX ROWS */
+
+for (let i = 0; i < 6; i++) {
+    addVisitorRow();
+}
+
+/* LOGO UPLOAD - NO REMOVE BUTTON */
+
+function uploadLogo(event) {
+
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please upload JPG, PNG, SVG or WebP image.");
+        event.target.value = "";
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert("Logo size must be less than 5 MB.");
+        event.target.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        const preview = document.getElementById("logoPreview");
+
+        preview.onload = function() {
+            preview.style.display = "block";
+            document.getElementById("logoPlaceholder").style.display = "none";
+        };
+
+        preview.onerror = function() {
+            alert("Unable to display this logo. Please select another image.");
+            preview.removeAttribute("src");
+            preview.style.display = "none";
+            document.getElementById("logoPlaceholder").style.display = "block";
+            document.getElementById("logoUpload").value = "";
+        };
+
+        preview.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+}
+
+/* DEFAULT DATES */
+
+function getToday() {
+
+    const today = new Date();
+
+    return new Date(
+        today.getTime() - today.getTimezoneOffset() * 60000
+    ).toISOString().split("T")[0];
+}
+
+function setDefaultVisitorDate(row) {
+
+    const input = row.querySelector(".visitor-date");
+
+    if (input && !input.value) {
+        input.value = getToday();
+    }
+}
+
+function setDefaultDates() {
+
+    document.getElementById("registrationDate").value = getToday();
+
+    visitorBody.querySelectorAll("tr").forEach(row => {
+        setDefaultVisitorDate(row);
+    });
+}
+
+setDefaultDates();
+
+/* PAPER SIZE */
+
+function changePaperSize() {
+
+    const size = document.getElementById("paperSize").value;
+
+    let style = document.getElementById("dynamicPageStyle");
+
+    if (!style) {
+        style = document.createElement("style");
+        style.id = "dynamicPageStyle";
+        document.head.appendChild(style);
+    }
+
+    style.textContent = size === "Letter"
+        ? "@page { size: Letter portrait; margin: 0.45in; }"
+        : "@page { size: A4 portrait; margin: 12mm; }";
+}
+
+/* VALIDATION */
+
+function showError(message) {
+
+    const box = document.getElementById("errorMessage");
+
+    box.textContent = message;
+    box.style.display = "block";
+
+    box.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+}
+
+function validateForm() {
+
+    const errorBox = document.getElementById("errorMessage");
+
+    errorBox.style.display = "none";
+    errorBox.textContent = "";
+
+    const company = document.getElementById("companyName");
+    const date = document.getElementById("registrationDate");
+    const email = document.getElementById("companyEmail");
+
+    if (!company.value.trim()) {
+        showError("Please enter the Company Name.");
+        company.focus();
+        return false;
+    }
+
+    if (!date.value) {
+        showError("Please select the Registration Date.");
+        date.focus();
+        return false;
+    }
+
+    if (email.value.trim() && !email.checkValidity()) {
+        showError("Please enter a valid company email address.");
+        email.focus();
+        return false;
+    }
+
+    const rows = visitorBody.querySelectorAll("tr");
+
+    let hasVisitor = false;
+
+    for (const row of rows) {
+
+        const inputs = row.querySelectorAll("input");
+
+        const visitorName = inputs[3].value.trim();
+        const timeIn = inputs[1].value;
+        const timeOut = inputs[6].value;
+
+        if (visitorName) hasVisitor = true;
+
+        if (timeIn && timeOut && timeOut < timeIn) {
+            showError("Departure time cannot be earlier than arrival time. Please check the visitor record.");
+            return false;
+        }
+    }
+
+    if (!hasVisitor) {
+        showError("Please enter at least one visitor name before printing.");
+        return false;
+    }
+
+    return true;
+}
+
+/* PRINT */
+
+function printForm() {
+
+    if (!validateForm()) return;
+
+    changePaperSize();
+    window.print();
+}
+
+/* RESET FORM */
+
+function resetForm() {
+
+    if (!confirm(
+        "Are you sure you want to reset the entire Visitor Registration Form? All entered information will be cleared."
+    )) {
+        return;
+    }
+
+    document.getElementById("visitorForm")
+        .querySelectorAll("input, select, textarea")
+        .forEach(element => {
+
+            if (element.type === "checkbox" ||
+                element.type === "radio") {
+
+                element.checked = false;
+
+            } else if (element.type !== "file") {
+
+                element.value = "";
+            }
+        });
+
+    /* Reset logo preview */
+
+    const preview = document.getElementById("logoPreview");
+
+    preview.removeAttribute("src");
+    preview.style.display = "none";
+
+    document.getElementById("logoPlaceholder").style.display = "block";
+    document.getElementById("logoUpload").value = "";
+
+    /* Rebuild visitor records */
+
+    visitorBody.innerHTML = "";
+
+    for (let i = 0; i < 6; i++) {
+        addVisitorRow();
+    }
+
+    document.getElementById("errorMessage").style.display = "none";
+
+    setDefaultDates();
+
+    alert("Visitor Registration Form has been successfully reset.");
+}
+
+</script>
+
+</body>
+</html>

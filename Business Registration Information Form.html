@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Business Registration Information Form</title>
+<style>
+:root{--navy:#17365d;--blue:#2f75b5;--ink:#202833;--muted:#667384;--line:#cbd3dc;--pale:#eef3f8}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#edf1f5;color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.4}
+button,input,select,textarea{font:inherit}
+.toolbar{max-width:210mm;margin:18px auto 10px;display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;padding:0 8px}
+.btn{border:0;border-radius:4px;padding:9px 14px;font-weight:700;cursor:pointer}
+.btn-primary{background:var(--navy);color:#fff}.btn-secondary{background:#e3e9ef;color:var(--navy);border:1px solid #c5ced8}
+.page{width:210mm;min-height:297mm;margin:0 auto 22px;padding:12mm;background:#fff;box-shadow:0 2px 14px #00000012}
+.topline{height:5px;background:var(--navy);margin:-12mm -12mm 12px}
+.doc-title{font-size:22px;color:var(--navy);font-weight:800;letter-spacing:.3px;margin:0 0 3px}
+.subtitle{color:var(--muted);font-size:11px;margin-bottom:14px}
+.header-grid{display:grid;grid-template-columns:145px 1fr;gap:18px;align-items:start;border-bottom:2px solid var(--navy);padding-bottom:14px;margin-bottom:14px}
+.logo-box{height:108px;border:1px dashed #9aa8b7;border-radius:5px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fafbfd;text-align:center;color:#7b8794;padding:8px}
+.logo-box img{max-width:100%;max-height:100%;object-fit:contain}
+.logo-actions{margin-top:6px;text-align:center}
+.logo-actions label{display:inline-block;background:#e8eef5;color:var(--navy);padding:6px 9px;border-radius:4px;cursor:pointer;font-size:11px;font-weight:700}
+.logo-actions input{display:none}
+.company-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}
+.field{min-width:0}
+.field label,.field-label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.45px;font-weight:700;color:#526174;margin-bottom:4px}
+input[type=text],input[type=email],input[type=tel],input[type=url],input[type=date],input[type=number],select,textarea{width:100%;border:1px solid var(--line);border-radius:3px;padding:7px 8px;min-height:31px;background:#fff;color:var(--ink);outline:none}
+textarea{resize:vertical;min-height:58px}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 2px #2f75b51a}
+.full{grid-column:1/-1}
+.section{margin:15px 0 0}
+.section-heading{background:var(--pale);border-left:4px solid var(--blue);padding:7px 9px;color:var(--navy);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.45px;margin-bottom:9px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:9px 12px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px 12px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:9px 12px}
+.choice-row{display:flex;flex-wrap:wrap;gap:8px 18px;padding:5px 0}
+.choice{display:inline-flex;align-items:center;gap:6px;font-size:12px}
+.choice input{accent-color:var(--navy)}
+.hint{font-size:10px;color:var(--muted);margin-top:3px}
+table{width:100%;border-collapse:collapse;margin:5px 0 8px;table-layout:fixed}
+th{background:#edf2f7;color:var(--navy);font-size:10px;text-transform:uppercase;letter-spacing:.3px;text-align:left}
+th,td{border:1px solid var(--line);padding:6px;vertical-align:top}
+td input,td select{border:0!important;box-shadow:none!important;padding:4px!important;min-height:27px!important}
+.row-actions{display:flex;gap:6px;margin:5px 0 10px}
+.small-btn{border:1px solid #b9c6d4;background:#f5f8fb;color:var(--navy);padding:5px 9px;border-radius:3px;cursor:pointer;font-size:11px;font-weight:700}
+.signature-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:12px}
+.signature-line{border-bottom:1px solid #536171;height:36px}
+.signature-caption{font-size:10px;color:var(--muted);margin-top:4px}
+.notice{border:1px solid #d5dde6;background:#fafbfd;padding:9px 10px;font-size:11px;color:#455365;border-radius:3px}
+.footer-note{border-top:1px solid var(--line);margin-top:16px;padding-top:7px;color:#778391;font-size:9px;display:flex;justify-content:space-between;gap:10px}
+.error{color:#b42318;font-size:11px;display:none;margin:0 0 8px}
+.required-mark{color:#b42318}
+@media(max-width:800px){
+ html,body{background:#fff}.page{width:100%;min-height:0;margin:0;padding:16px;box-shadow:none}
+ .topline{margin:-16px -16px 12px}.header-grid{grid-template-columns:1fr}
+ .logo-box{max-width:180px}.company-grid,.grid-2,.grid-3,.grid-4{grid-template-columns:1fr 1fr}
+ .toolbar{margin:10px;justify-content:flex-start}
+ .table-wrap{overflow-x:auto}table{min-width:650px}
+}
+@media(max-width:480px){.company-grid,.grid-2,.grid-3,.grid-4,.signature-grid{grid-template-columns:1fr}.doc-title{font-size:19px}}
+@page{size:A4 portrait;margin:12mm}
+@page letter{size:Letter portrait;margin:0.5in}
+@media print{
+ html,body{background:#fff!important;margin:0!important;padding:0!important;font-size:10.5px}
+ body.paper-letter .page{page:letter}
+ .toolbar,.no-print,.logo-actions,.row-actions{display:none!important}
+ .page{width:auto;min-height:0;margin:0;padding:0;box-shadow:none;border:0}
+ .topline{margin:0 0 8px;height:4px}
+ .header-grid{grid-template-columns:125px 1fr;gap:12px;padding-bottom:9px;margin-bottom:8px}
+ .logo-box{height:78px}
+ .doc-title{font-size:18px}
+ .subtitle{margin-bottom:8px}
+ .section{margin-top:9px;break-inside:auto}
+ .section-heading{break-after:avoid;page-break-after:avoid;padding:5px 7px;margin-bottom:6px}
+ .grid-2,.grid-3,.grid-4{gap:6px 9px}
+ .field label,.field-label{font-size:8px;margin-bottom:2px}
+ input[type=text],input[type=email],input[type=tel],input[type=url],input[type=date],input[type=number],select,textarea{min-height:22px;padding:3px 5px;font-size:9.5px;border:1px solid #aeb7c2!important;border-radius:0;background:transparent!important;color:#000!important;box-shadow:none!important}
+ textarea{min-height:38px}
+ .choice-row{gap:4px 12px;padding:2px 0}
+ .choice{font-size:9px}
+ table{font-size:9px;margin:3px 0 5px}
+ th,td{padding:4px;border:1px solid #aeb7c2}
+ th{font-size:8px}
+ td input,td select{font-size:9px!important;min-height:19px!important;padding:2px!important}
+ tr{break-inside:avoid;page-break-inside:avoid}
+ thead{display:table-header-group}
+ .notice{padding:6px;font-size:9px}
+ .signature-grid{gap:16px;margin-top:7px}
+ .signature-line{height:28px}
+ .footer-note{margin-top:9px;padding-top:5px;font-size:8px}
+ input,textarea,select{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="toolbar no-print">
+  <label class="field" style="display:flex;align-items:center;gap:7px;margin-right:auto">
+    <span class="field-label" style="margin:0">Paper size</span>
+    <select id="paperSize" aria-label="Print paper size" style="width:auto;min-width:115px">
+      <option value="a4">A4</option><option value="letter">US Letter</option>
+    </select>
+  </label>
+  <button class="btn btn-secondary" type="button" id="resetBtn">Reset Form</button>
+  <button class="btn btn-primary" type="button" id="printBtn">PRINT FORM / SAVE PDF</button>
+</div>
+
+<main class="page" id="formPage">
+<div class="topline"></div>
+<h1 class="doc-title">BUSINESS REGISTRATION INFORMATION FORM</h1>
+<div class="subtitle">Business profile, ownership and registration details</div>
+
+<header class="header-grid">
+  <div>
+    <div class="logo-box" id="logoPreview"><span>COMPANY<br>LOGO</span></div>
+    <div class="logo-actions no-print">
+      <label for="logoUpload">Upload Company Logo</label>
+      <input id="logoUpload" type="file" accept=".jpg,.jpeg,.png,.svg,.webp,image/jpeg,image/png,image/svg+xml,image/webp">
+    </div>
+  </div>
+  <div class="company-grid">
+    <div class="field full"><label for="companyName">Company / Organization Name</label><input id="companyName" type="text" placeholder="Enter company name"></div>
+    <div class="field full"><label for="companyAddress">Business Address</label><input id="companyAddress" type="text" placeholder="Street, city, state / province, postal code, country"></div>
+    <div class="field"><label for="companyPhone">Phone Number</label><input id="companyPhone" type="tel" placeholder="+1 000 000 0000"></div>
+    <div class="field"><label for="companyEmail">Email Address</label><input id="companyEmail" type="email" placeholder="name@company.com"></div>
+    <div class="field"><label for="companyWebsite">Website</label><input id="companyWebsite" type="url" placeholder="https://www.example.com"></div>
+    <div class="field"><label for="companyRegNo">Business Registration Number</label><input id="companyRegNo" type="text" placeholder="If already assigned"></div>
+  </div>
+</header>
+
+<div id="validationError" class="error" role="alert">Please complete the required fields marked with an asterisk and correct any invalid email address.</div>
+
+<section class="section">
+  <div class="section-heading">1. Application & Registration Details</div>
+  <div class="grid-3">
+    <div class="field"><label for="applicationNo">Application / Reference No.</label><input id="applicationNo" type="text"></div>
+    <div class="field"><label for="applicationDate">Application Date <span class="required-mark">*</span></label><input id="applicationDate" type="date" required></div>
+    <div class="field"><label for="requestedDate">Requested Effective Date</label><input id="requestedDate" type="date"></div>
+    <div class="field"><label for="jurisdiction">Registration Jurisdiction <span class="required-mark">*</span></label><input id="jurisdiction" type="text" required placeholder="Country / state / province"></div>
+    <div class="field"><label for="registrationAuthority">Registration Authority</label><input id="registrationAuthority" type="text" placeholder="Government department / registry"></div>
+    <div class="field"><label for="registrationType">Application Type <span class="required-mark">*</span></label>
+      <select id="registrationType" required><option value="">Select type</option><option>New Registration</option><option>Renewal</option><option>Amendment / Update</option><option>Reinstatement</option><option>Other</option></select>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">2. Business Identity</div>
+  <div class="grid-2">
+    <div class="field"><label for="legalName">Proposed Legal Business Name <span class="required-mark">*</span></label><input id="legalName" type="text" required></div>
+    <div class="field"><label for="tradeName">Trade Name / DBA (if applicable)</label><input id="tradeName" type="text"></div>
+    <div class="field"><label for="previousName">Previous Business Name (if any)</label><input id="previousName" type="text"></div>
+    <div class="field"><label for="businessStructure">Legal Structure <span class="required-mark">*</span></label>
+      <select id="businessStructure" required><option value="">Select structure</option><option>Sole Proprietorship</option><option>Partnership</option><option>Limited Liability Company (LLC)</option><option>Private Limited Company</option><option>Public Limited Company</option><option>Corporation</option><option>Non-Profit Organization</option><option>Cooperative</option><option>Other</option></select>
+    </div>
+    <div class="field"><label for="taxId">Tax Identification Number</label><input id="taxId" type="text" placeholder="EIN / TIN / national tax number"></div>
+    <div class="field"><label for="formationDate">Date of Formation / Incorporation</label><input id="formationDate" type="date"></div>
+    <div class="field"><label for="fiscalYear">Financial Year End</label><input id="fiscalYear" type="text" placeholder="e.g. 31 December"></div>
+    <div class="field"><label for="employees">Expected Number of Employees</label><input id="employees" type="number" min="0" step="1" placeholder="0"></div>
+    <div class="field full"><label for="businessActivity">Primary Business Activity / Purpose <span class="required-mark">*</span></label><textarea id="businessActivity" required placeholder="Describe the main products, services or activities of the business"></textarea></div>
+    <div class="field full"><label for="secondaryActivity">Secondary Business Activities</label><textarea id="secondaryActivity" placeholder="List any additional activities, if applicable"></textarea></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">3. Business Location & Contact</div>
+  <div class="grid-2">
+    <div class="field full"><label for="physicalAddress">Principal / Physical Business Address <span class="required-mark">*</span></label><input id="physicalAddress" type="text" required></div>
+    <div class="field"><label for="city">City</label><input id="city" type="text"></div>
+    <div class="field"><label for="state">State / Province / Region</label><input id="state" type="text"></div>
+    <div class="field"><label for="postalCode">Postal / ZIP Code</label><input id="postalCode" type="text"></div>
+    <div class="field"><label for="country">Country</label><input id="country" type="text"></div>
+    <div class="field"><label for="mailingSame">Mailing Address</label><select id="mailingSame"><option value="same">Same as physical address</option><option value="different">Different mailing address</option></select></div>
+    <div class="field"><label for="businessPhone">Business Phone</label><input id="businessPhone" type="tel"></div>
+    <div class="field"><label for="businessEmail">Business Email <span class="required-mark">*</span></label><input id="businessEmail" type="email" required></div>
+    <div class="field"><label for="businessWebsite">Business Website</label><input id="businessWebsite" type="url"></div>
+    <div class="field"><label for="contactPerson">Primary Contact Person <span class="required-mark">*</span></label><input id="contactPerson" type="text" required></div>
+    <div class="field"><label for="contactRole">Contact Person's Position</label><input id="contactRole" type="text"></div>
+    <div class="field full"><label for="mailingAddress">Mailing Address (complete only if different)</label><textarea id="mailingAddress" placeholder="Street, city, region, postal code, country"></textarea></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">4. Owners, Partners & Key Officers</div>
+  <div class="hint">Add each owner, partner, director or authorized officer relevant to the selected legal structure.</div>
+  <div class="table-wrap">
+  <table id="ownersTable">
+    <thead><tr><th style="width:5%">#</th><th style="width:24%">Full Name</th><th style="width:18%">Role / Title</th><th style="width:18%">Ownership %</th><th style="width:20%">Email / Phone</th><th style="width:15%">Address</th></tr></thead>
+    <tbody>
+      <tr><td class="row-number">1</td><td><input type="text" aria-label="Owner full name"></td><td><input type="text" aria-label="Owner role"></td><td><input type="number" min="0" max="100" step="0.01" aria-label="Ownership percentage"></td><td><input type="text" aria-label="Owner contact"></td><td><input type="text" aria-label="Owner address"></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="row-actions no-print"><button class="small-btn" type="button" id="addOwner">+ Add Owner / Officer</button><button class="small-btn" type="button" id="removeOwner">Remove Last Row</button></div>
+</section>
+
+<section class="section">
+  <div class="section-heading">5. Licenses, Permits & Tax Information</div>
+  <div class="grid-2">
+    <div class="field"><label for="industry">Industry / Sector</label><input id="industry" type="text"></div>
+    <div class="field"><label for="industryCode">Industry Classification Code (if known)</label><input id="industryCode" type="text" placeholder="e.g. NAICS / SIC code"></div>
+    <div class="field"><label for="licenseRequired">Special License / Permit Required?</label><select id="licenseRequired"><option value="">Select</option><option>Yes</option><option>No</option><option>Not Sure</option></select></div>
+    <div class="field"><label for="taxRegistered">Registered for Tax / VAT / GST?</label><select id="taxRegistered"><option value="">Select</option><option>Yes</option><option>No</option><option>Application Pending</option><option>Not Applicable</option></select></div>
+    <div class="field"><label for="licenseNumber">License / Permit Number</label><input id="licenseNumber" type="text"></div>
+    <div class="field"><label for="taxRegistration">Tax / VAT / GST Registration No.</label><input id="taxRegistration" type="text"></div>
+    <div class="field full"><label for="licenseDetails">License / Permit Details and Issuing Authority</label><textarea id="licenseDetails"></textarea></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">6. Business Operations</div>
+  <div class="grid-3">
+    <div class="field"><label for="operatingStatus">Operating Status</label><select id="operatingStatus"><option value="">Select status</option><option>Not Yet Started</option><option>Currently Operating</option><option>Temporarily Closed</option><option>Seasonal</option></select></div>
+    <div class="field"><label for="startDate">Expected / Actual Start Date</label><input id="startDate" type="date"></div>
+    <div class="field"><label for="operatingHours">Operating Hours</label><input id="operatingHours" type="text" placeholder="e.g. Mon–Fri, 9 AM–5 PM"></div>
+    <div class="field"><label for="businessPremises">Business Premises</label><select id="businessPremises"><option value="">Select</option><option>Owned</option><option>Leased / Rented</option><option>Home-Based</option><option>Virtual / Online</option><option>Other</option></select></div>
+    <div class="field"><label for="businessScope">Business Scope</label><select id="businessScope"><option value="">Select</option><option>Local</option><option>State / Provincial</option><option>National</option><option>International</option><option>Online Only</option></select></div>
+    <div class="field"><label for="businessPhoneAlt">Alternate Contact Number</label><input id="businessPhoneAlt" type="tel"></div>
+    <div class="field full"><label for="additionalInfo">Additional Business Information</label><textarea id="additionalInfo"></textarea></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">7. Supporting Documents Checklist</div>
+  <div class="grid-2">
+    <div class="choice-row">
+      <label class="choice"><input type="checkbox"> Proof of business address</label>
+      <label class="choice"><input type="checkbox"> Owner / director identification</label>
+      <label class="choice"><input type="checkbox"> Formation / incorporation documents</label>
+      <label class="choice"><input type="checkbox"> Partnership / operating agreement</label>
+    </div>
+    <div class="choice-row">
+      <label class="choice"><input type="checkbox"> Tax registration document</label>
+      <label class="choice"><input type="checkbox"> Required licenses / permits</label>
+      <label class="choice"><input type="checkbox"> Proof of ownership / authorization</label>
+      <label class="choice"><input type="checkbox"> Other supporting documents</label>
+    </div>
+  </div>
+  <div class="field"><label for="documentsNotes">Document Notes / Items Still Required</label><textarea id="documentsNotes"></textarea></div>
+</section>
+
+<section class="section">
+  <div class="section-heading">8. Declaration & Authorization</div>
+  <div class="notice">I/We declare that the information provided in this form is true, complete and accurate to the best of my/our knowledge. I/We understand that additional documents or verification may be required by the relevant registration authority, and that submitting this form does not itself confirm or guarantee business registration.</div>
+  <div class="choice-row">
+    <label class="choice"><input type="checkbox" id="declaration" required> I confirm that I have read and agree with the declaration above. <span class="required-mark">*</span></label>
+  </div>
+  <div class="signature-grid">
+    <div><div class="signature-line"></div><div class="signature-caption">Authorized Person's Signature</div></div>
+    <div><div class="signature-line"></div><div class="signature-caption">Printed Name & Position</div></div>
+    <div><div class="signature-line"></div><div class="signature-caption">Date</div></div>
+    <div><div class="signature-line"></div><div class="signature-caption">Official Use / Received By</div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">9. For Office Use Only</div>
+  <div class="grid-3">
+    <div class="field"><label for="reviewedBy">Reviewed By</label><input id="reviewedBy" type="text"></div>
+    <div class="field"><label for="reviewDate">Review Date</label><input id="reviewDate" type="date"></div>
+    <div class="field"><label for="reviewStatus">Review Status</label><select id="reviewStatus"><option value="">Select</option><option>Pending</option><option>Approved</option><option>Rejected</option><option>More Information Required</option></select></div>
+    <div class="field full"><label for="officeNotes">Comments / Official Notes</label><textarea id="officeNotes"></textarea></div>
+  </div>
+</section>
+
+<div class="footer-note"><span>Business Registration Information Form</span><span>Complete all applicable fields. Attach supporting documents where required.</span></div>
+</main>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const logoInput = $('logoUpload');
+  let logoUrl = null;
+
+  logoInput.addEventListener('change', function(){
+    const file = this.files && this.files[0];
+    if(!file) return;
+    const allowed = ['image/jpeg','image/png','image/svg+xml','image/webp'];
+    if(!allowed.includes(file.type)){ alert('Please choose a JPG, PNG, SVG or WebP image.'); this.value=''; return; }
+    if(logoUrl) URL.revokeObjectURL(logoUrl);
+    logoUrl = URL.createObjectURL(file);
+    const img = document.createElement('img');
+    img.alt = 'Uploaded company logo';
+    img.src = logoUrl;
+    $('logoPreview').replaceChildren(img);
+  });
+
+  function renumber(){
+    document.querySelectorAll('#ownersTable tbody tr').forEach((tr,i)=>tr.querySelector('.row-number').textContent=i+1);
+  }
+  $('addOwner').addEventListener('click',()=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML='<td class="row-number"></td><td><input type="text" aria-label="Owner full name"></td><td><input type="text" aria-label="Owner role"></td><td><input type="number" min="0" max="100" step="0.01" aria-label="Ownership percentage"></td><td><input type="text" aria-label="Owner contact"></td><td><input type="text" aria-label="Owner address"></td>';
+    $('ownersTable').querySelector('tbody').appendChild(tr); renumber();
+  });
+  $('removeOwner').addEventListener('click',()=>{
+    const rows=$('ownersTable').querySelectorAll('tbody tr');
+    if(rows.length>1){rows[rows.length-1].remove();renumber();}
+  });
+
+  $('paperSize').addEventListener('change',function(){
+    document.body.classList.toggle('paper-letter',this.value==='letter');
+  });
+
+  $('printBtn').addEventListener('click',()=>{
+    const form=$('formPage');
+    const required=form.querySelectorAll('[required]');
+    let valid=true;
+    required.forEach(el=>{
+      if(el.type==='checkbox' ? !el.checked : !el.value.trim()){
+        valid=false;
+        el.setAttribute('aria-invalid','true');
+      }else{
+        el.removeAttribute('aria-invalid');
+      }
+      if(el.type==='email' && el.value && !el.checkValidity()) valid=false;
+    });
+    $('validationError').style.display=valid?'none':'block';
+    if(!valid){$('validationError').scrollIntoView({behavior:'smooth',block:'center'});return;}
+    window.print();
+  });
+
+  $('resetBtn').addEventListener('click',()=>{
+    if(!confirm('Reset all entered information? This action cannot be undone.')) return;
+    document.querySelectorAll('input,select,textarea').forEach(el=>{
+      if(el.type==='checkbox'||el.type==='radio') el.checked=false;
+      else if(el.type!=='file') el.value='';
+      el.removeAttribute('aria-invalid');
+    });
+    if(logoUrl){URL.revokeObjectURL(logoUrl);logoUrl=null;}
+    logoInput.value='';
+    $('logoPreview').innerHTML='<span>COMPANY<br>LOGO</span>';
+    $('validationError').style.display='none';
+    const body=$('ownersTable').querySelector('tbody');
+    body.innerHTML='<tr><td class="row-number">1</td><td><input type="text" aria-label="Owner full name"></td><td><input type="text" aria-label="Owner role"></td><td><input type="number" min="0" max="100" step="0.01" aria-label="Ownership percentage"></td><td><input type="text" aria-label="Owner contact"></td><td><input type="text" aria-label="Owner address"></td></tr>';
+    $('paperSize').value='a4';document.body.classList.remove('paper-letter');
+  });
+
+  window.addEventListener('beforeunload',()=>{if(logoUrl)URL.revokeObjectURL(logoUrl);});
+})();
+</script>
+</body>
+</html>

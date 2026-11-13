@@ -1,0 +1,1611 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Petty Cash Request Form</title>
+
+<style>
+:root {
+    --navy: #17365d;
+    --blue: #285a8e;
+    --light-blue: #eaf1f8;
+    --border: #cbd3dd;
+    --text: #263445;
+    --muted: #64748b;
+    --error: #c0392b;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 25px 15px;
+    background: #eef1f5;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.toolbar {
+    max-width: 950px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.btn {
+    border: none;
+    padding: 10px 17px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.btn-primary {
+    background: var(--navy);
+    color: white;
+}
+
+.btn-secondary {
+    background: #e1e8f0;
+    color: var(--navy);
+    border: 1px solid #c7d1df;
+}
+
+.btn-danger {
+    background: #fff0f0;
+    color: #a32626;
+    border: 1px solid #edc5c5;
+}
+
+.form-container {
+    max-width: 950px;
+    margin: auto;
+    padding: 32px 38px;
+    background: #fff;
+    border: 1px solid #dce1e8;
+    box-shadow: 0 4px 18px rgba(20,40,70,.08);
+}
+
+.document-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 25px;
+    margin-bottom: 22px;
+}
+
+.logo-area {
+    width: 155px;
+    min-width: 155px;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #aab7c6;
+    padding: 8px;
+    text-align: center;
+}
+
+.logo-area img {
+    max-width: 100%;
+    max-height: 82px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    color: #8190a1;
+    font-size: 11px;
+}
+
+.logo-controls { margin-top: 7px; }
+
+.company-details {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px 12px;
+}
+
+.company-details .full { grid-column: 1 / -1; }
+
+.document-title {
+    text-align: center;
+    border-top: 2px solid var(--navy);
+    border-bottom: 2px solid var(--navy);
+    padding: 12px 5px;
+    margin-bottom: 20px;
+}
+
+.document-title h1 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 23px;
+    text-transform: uppercase;
+    letter-spacing: 1.1px;
+}
+
+.document-title p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.section { margin-bottom: 20px; }
+
+.section-heading {
+    background: var(--navy);
+    color: #fff;
+    padding: 8px 11px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 17px;
+}
+
+.field-grid.three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.field.full { grid-column: 1 / -1; }
+
+.field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #45556a;
+    margin-bottom: 5px;
+}
+
+.required { color: #c0392b; }
+
+input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    min-height: 34px;
+    padding: 7px 9px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: #fff;
+    color: #263445;
+    font-family: inherit;
+    font-size: 12px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 65px;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid #d5e5f7;
+    border-color: var(--blue);
+}
+
+input[readonly] {
+    background: #f1f4f8;
+    font-weight: 700;
+}
+
+/* VALIDATION HIGHLIGHTS */
+
+.invalid {
+    border: 1.5px solid var(--error) !important;
+    background-color: #fff3f3 !important;
+}
+
+.invalid:focus {
+    outline: 2px solid #f4cccc !important;
+}
+
+.error-message {
+    display: none;
+    background: #fff0f0;
+    color: #a32626;
+    border: 1px solid #e9bcbc;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+
+.error-message ul {
+    margin-bottom: 0;
+}
+
+.helper {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th {
+    background: var(--light-blue);
+    color: var(--navy);
+    font-size: 10px;
+    text-transform: uppercase;
+    padding: 9px 6px;
+    border: 1px solid var(--border);
+    text-align: left;
+}
+
+td {
+    border: 1px solid var(--border);
+    padding: 5px;
+    vertical-align: middle;
+}
+
+td input {
+    border: 0;
+    border-radius: 0;
+    padding: 6px 4px;
+    min-height: 31px;
+    background: transparent;
+}
+
+td.amount {
+    text-align: right;
+    font-weight: 700;
+    padding-right: 9px;
+}
+
+.expense-table th:nth-child(1) { width: 7%; }
+.expense-table th:nth-child(2) { width: 43%; }
+.expense-table th:nth-child(3) { width: 15%; }
+.expense-table th:nth-child(4) { width: 15%; }
+.expense-table th:nth-child(5) { width: 20%; }
+
+.table-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 9px;
+    gap: 8px;
+}
+
+.small-btn {
+    padding: 7px 11px;
+    font-size: 10px;
+}
+
+.totals {
+    width: 310px;
+    max-width: 100%;
+    margin: 13px 0 0 auto;
+    border: 1px solid var(--border);
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+}
+
+.total-row:last-child { border-bottom: 0; }
+
+.total-row.grand {
+    background: var(--navy);
+    color: #fff;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.radio-group, .check-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    padding: 7px 0;
+}
+
+.radio-group label, .check-group label {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.radio-group input, .check-group input {
+    width: auto;
+    min-height: auto;
+    accent-color: var(--navy);
+}
+
+.approval-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.approval-card {
+    border: 1px solid var(--border);
+    padding: 12px;
+    break-inside: avoid;
+}
+
+.approval-card h3 {
+    margin: 0 0 12px;
+    color: var(--navy);
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.signature-line {
+    margin-top: 18px;
+    padding-top: 5px;
+    border-top: 1px solid #778596;
+    font-size: 10px;
+    color: var(--muted);
+}
+
+.acknowledgment {
+    padding: 12px;
+    background: #f5f7fa;
+    border: 1px solid var(--border);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.footer-note {
+    margin-top: 23px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+@media(max-width:650px) {
+    body { padding: 10px 5px; }
+
+    .form-container { padding: 19px 13px; }
+
+    .document-top { flex-direction: column; }
+
+    .company-details { width: 100%; }
+
+    .field-grid.three {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .approval-grid { grid-template-columns: 1fr; }
+
+    .toolbar { justify-content: center; }
+
+    .toolbar .btn { flex: 1 1 40%; }
+
+    .table-wrap { overflow-x: auto; }
+
+    .expense-table { min-width: 590px; }
+}
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        font-size: 10pt;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print, .toolbar, .logo-controls,
+    .table-actions, .row-action {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    input, textarea, select {
+        color: #000 !important;
+        box-shadow: none !important;
+        font-size: 9pt;
+    }
+
+    input[type="checkbox"], input[type="radio"] {
+        -webkit-appearance: auto;
+        appearance: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead { display: table-header-group; }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .approval-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .table-wrap { overflow: visible; }
+
+    .expense-table { min-width: 0; }
+
+    button { display: none !important; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+    <button class="btn btn-secondary" type="button" onclick="togglePaperSize()">
+        PAPER: <span id="paperLabel">A4</span>
+    </button>
+
+    <button class="btn btn-secondary" type="button" onclick="resetForm()">
+        RESET FORM
+    </button>
+
+    <button class="btn btn-primary" type="button" onclick="printForm()">
+        PRINT FORM / SAVE PDF
+    </button>
+</div>
+
+<div class="form-container" id="pettyCashForm">
+
+<div id="errorBox" class="error-message no-print" role="alert"></div>
+
+<header class="document-top">
+
+    <div>
+        <div class="logo-area">
+            <img id="logoPreview" alt="Company Logo" style="display:none;">
+            <div id="logoPlaceholder" class="logo-placeholder">
+                COMPANY LOGO
+            </div>
+        </div>
+
+        <div class="logo-controls no-print">
+            <input type="file" id="logoUpload"
+            accept=".jpg,.jpeg,.png,.svg,.webp,image/jpeg,image/png,image/svg+xml,image/webp" hidden>
+
+            <button type="button" class="btn btn-secondary small-btn"
+            onclick="document.getElementById('logoUpload').click()">
+                UPLOAD LOGO
+            </button>
+
+            <button type="button" class="btn btn-danger small-btn"
+            onclick="removeLogo()">
+                REMOVE
+            </button>
+        </div>
+    </div>
+
+    <div class="company-details">
+
+        <div class="field full">
+            <label>Company Name <span class="required">*</span></label>
+            <input type="text" id="companyName" placeholder="Enter Company Name" required>
+        </div>
+
+        <div class="field full">
+            <label>Business Address</label>
+            <input type="text" id="companyAddress" placeholder="Street Address, City, Country">
+        </div>
+
+        <div class="field">
+            <label>Phone Number</label>
+            <input type="tel" id="companyPhone" placeholder="+1 000 000 0000">
+        </div>
+
+        <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="companyEmail" placeholder="company@example.com">
+        </div>
+
+        <div class="field">
+            <label>Website</label>
+            <input type="text" id="companyWebsite" placeholder="www.company.com">
+        </div>
+
+        <div class="field">
+            <label>Business Registration No.</label>
+            <input type="text" id="registrationNo" placeholder="Registration Number">
+        </div>
+
+    </div>
+</header>
+
+<div class="document-title">
+    <h1>Petty Cash Request Form</h1>
+    <p>Petty Cash Authorization & Disbursement Record</p>
+</div>
+
+<section class="section">
+    <div class="section-heading">01. Request Information</div>
+
+    <div class="field-grid three">
+
+        <div class="field">
+            <label>Request Number <span class="required">*</span></label>
+            <input type="text" id="requestNumber" placeholder="PCR-001" required>
+        </div>
+
+        <div class="field">
+            <label>Request Date <span class="required">*</span></label>
+            <input type="date" id="requestDate" required>
+        </div>
+
+        <div class="field">
+            <label>Required By Date <span class="required">*</span></label>
+            <input type="date" id="requiredDate" required>
+        </div>
+
+        <div class="field">
+            <label>Department <span class="required">*</span></label>
+            <select id="department" required>
+                <option value="">Select Department</option>
+                <option>Administration</option>
+                <option>Accounts & Finance</option>
+                <option>Human Resources</option>
+                <option>Sales & Marketing</option>
+                <option>Operations</option>
+                <option>Purchasing & Procurement</option>
+                <option>IT & Technology</option>
+                <option>Maintenance</option>
+                <option>Customer Service</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Request Type <span class="required">*</span></label>
+            <select id="requestType" required>
+                <option value="">Select Type</option>
+                <option>Petty Cash Advance</option>
+                <option>Petty Cash Reimbursement</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Priority</label>
+            <select id="priority">
+                <option>Normal</option>
+                <option>Urgent</option>
+                <option>Emergency</option>
+            </select>
+        </div>
+
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">02. Employee / Requester Information</div>
+
+    <div class="field-grid">
+
+        <div class="field">
+            <label>Employee Name <span class="required">*</span></label>
+            <input type="text" id="employeeName" placeholder="Full Name" required>
+        </div>
+
+        <div class="field">
+            <label>Employee ID</label>
+            <input type="text" id="employeeId" placeholder="Employee ID">
+        </div>
+
+        <div class="field">
+            <label>Job Title / Position</label>
+            <input type="text" id="jobTitle" placeholder="Job Title">
+        </div>
+
+        <div class="field">
+            <label>Contact Number</label>
+            <input type="tel" id="employeePhone" placeholder="Contact Number">
+        </div>
+
+        <div class="field">
+            <label>Petty Cash Custodian</label>
+            <input type="text" id="custodian" placeholder="Custodian Name">
+        </div>
+
+        <div class="field">
+            <label>Cost Center / Project Code</label>
+            <input type="text" id="costCenter" placeholder="Cost Center or Project Code">
+        </div>
+
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">03. Purpose of Request</div>
+
+    <div class="field-grid">
+
+        <div class="field">
+            <label>Expense Category <span class="required">*</span></label>
+            <select id="expenseCategory" required>
+                <option value="">Select Expense Category</option>
+                <option>Office Supplies</option>
+                <option>Stationery & Printing</option>
+                <option>Transportation & Travel</option>
+                <option>Postage & Courier</option>
+                <option>Meals & Refreshments</option>
+                <option>Cleaning & Maintenance</option>
+                <option>Minor Repairs</option>
+                <option>Utilities</option>
+                <option>Emergency Expenses</option>
+                <option>Miscellaneous</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Expense Location</label>
+            <input type="text" id="expenseLocation" placeholder="Office / Branch / Site">
+        </div>
+
+        <div class="field full">
+            <label>Business Purpose / Reason <span class="required">*</span></label>
+            <textarea id="purpose" placeholder="Explain why petty cash is required and how the funds will be used..." required></textarea>
+        </div>
+
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">04. Petty Cash Expense Breakdown</div>
+
+    <div class="table-wrap">
+        <table class="expense-table" id="expenseTable">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Expense Description</th>
+                    <th>Quantity</th>
+                    <th>Unit Cost</th>
+                    <th>Line Total</th>
+                </tr>
+            </thead>
+            <tbody id="expenseBody"></tbody>
+        </table>
+    </div>
+
+    <div class="table-actions no-print">
+        <button type="button" class="btn btn-secondary small-btn" onclick="addExpenseRow()">
+            + ADD EXPENSE ROW
+        </button>
+        <span class="helper">Enter quantity and unit cost. Line totals calculate automatically.</span>
+    </div>
+
+    <div class="totals">
+        <div class="total-row">
+            <span>Subtotal</span>
+            <strong id="subtotal">0.00</strong>
+        </div>
+
+        <div class="total-row">
+            <span>Additional Charges</span>
+            <strong id="additionalTotal">0.00</strong>
+        </div>
+
+        <div class="total-row">
+            <span>Discount</span>
+            <strong id="discountTotal">0.00</strong>
+        </div>
+
+        <div class="total-row grand">
+            <span>Total Requested</span>
+            <strong id="grandTotal">0.00</strong>
+        </div>
+    </div>
+
+    <div class="field-grid" style="margin-top:14px;">
+
+        <div class="field">
+            <label>Currency</label>
+            <select id="currency" onchange="calculateTotals()">
+                <option value="PKR">PKR - Pakistani Rupee</option>
+                <option value="USD">USD - US Dollar</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="AED">AED - UAE Dirham</option>
+                <option value="SAR">SAR - Saudi Riyal</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="AUD">AUD - Australian Dollar</option>
+                <option value="INR">INR - Indian Rupee</option>
+                <option value="Other">Other Currency</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Additional Charges</label>
+            <input type="number" id="additionalCharges" min="0" step="0.01" value="0" oninput="calculateTotals()">
+        </div>
+
+        <div class="field">
+            <label>Discount Amount</label>
+            <input type="number" id="discount" min="0" step="0.01" value="0" oninput="calculateTotals()">
+        </div>
+
+        <div class="field">
+            <label>Estimated Total Amount</label>
+            <input type="text" id="amountSummary" readonly value="0.00">
+        </div>
+
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">05. Payment & Disbursement Details</div>
+
+    <div class="field-grid">
+
+        <div class="field">
+            <label>Requested Amount</label>
+            <input type="text" id="requestedAmount" readonly value="0.00">
+        </div>
+
+        <div class="field">
+            <label>Approved Amount</label>
+            <input type="number" id="approvedAmount" min="0" step="0.01" placeholder="Enter approved amount">
+        </div>
+
+        <div class="field">
+            <label>Disbursement Method</label>
+            <select id="disbursementMethod">
+                <option value="">Select Method</option>
+                <option>Cash</option>
+                <option>Bank Transfer</option>
+                <option>Company Cheque</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Expected Disbursement Date</label>
+            <input type="date" id="disbursementDate">
+        </div>
+
+        <div class="field">
+            <label>Voucher / Payment Reference</label>
+            <input type="text" id="paymentReference" placeholder="Voucher or transaction number">
+        </div>
+
+        <div class="field">
+            <label>Petty Cash Fund Reference</label>
+            <input type="text" id="fundReference" placeholder="Fund reference">
+        </div>
+
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">06. Supporting Documents</div>
+
+    <div class="field">
+        <label>Supporting Documents Attached</label>
+        <div class="check-group">
+            <label><input type="checkbox" id="quotationAttached"> Quotation</label>
+            <label><input type="checkbox" id="receiptAttached"> Receipt / Invoice</label>
+            <label><input type="checkbox" id="approvalAttached"> Prior Approval</label>
+            <label><input type="checkbox" id="otherAttached"> Other Documents</label>
+            <label><input type="checkbox" id="noDocuments"> None</label>
+        </div>
+    </div>
+
+    <div class="field" style="margin-top:10px;">
+        <label>Document References / Additional Notes</label>
+        <textarea id="documentNotes" placeholder="List attached document names or reference numbers..."></textarea>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">07. Requester Declaration</div>
+
+    <div class="acknowledgment">
+        I certify that the requested petty cash funds are intended exclusively
+        for legitimate business-related expenses. I agree to use the funds for
+        the stated purpose, retain all original receipts and supporting
+        documents, and submit an expense reconciliation within the company's
+        prescribed time limit. Any unused funds will be returned to the
+        designated petty cash custodian. I understand that unauthorized
+        expenditure or failure to provide supporting documentation may require
+        reimbursement to the company.
+
+        <div class="check-group">
+            <label>
+                <input type="checkbox" id="declaration" required>
+                I have read and agree to the declaration above.
+                <span class="required">*</span>
+            </label>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">08. Authorization & Approval</div>
+
+    <div class="approval-grid">
+
+        <div class="approval-card">
+            <h3>Requested By</h3>
+
+            <div class="field">
+                <label>Employee Name</label>
+                <input type="text" id="requesterSignature" placeholder="Requester Name">
+            </div>
+
+            <div class="field" style="margin-top:10px;">
+                <label>Signature / Initials</label>
+                <input type="text" id="requesterInitials" placeholder="Enter signature or initials">
+            </div>
+
+            <div class="field" style="margin-top:10px;">
+                <label>Date</label>
+                <input type="date" id="requesterDate">
+            </div>
+
+            <div class="signature-line">Requester Signature</div>
+        </div>
+
+        <div class="approval-card">
+            <h3>Department Manager</h3>
+
+            <div class="field">
+                <label>Approver Name</label>
+                <input type="text" id="managerName" placeholder="Manager Name">
+            </div>
+
+            <div class="field" style="margin-top:10px;">
+                <label>Approval Decision</label>
+                <select id="managerDecision">
+                    <option value="">Select Decision</option>
+                    <option>Approved</option>
+                    <option>Rejected</option>
+                    <option>Pending</option>
+                </select>
+            </div>
+
+            <div class="field" style="margin-top:10px;">
+                <label>Signature / Initials</label>
+                <input type="text" id="managerSignature" placeholder="Signature or initials">
+            </div>
+
+            <div class="field" style="margin-top:10px;">
+                <label>Date</label>
+                <input type="date" id="managerDate">
+            </div>
+
+            <div class="signature-line">Department Manager Signature</div>
+        </div>
+
+        <div class="approval-card">
+            <h3>Finance / Accounts</h3>
+
+            <div class="field">
+                <label>Finance Officer Name</label>
+                <input type="text" id="financeName" placeholder="Finance Officer Name">
+            </div>
+
+            <div class="field" style="margin-top:10px;">
+                <label>Approval Decision</label>
+                <select id="financeDecision">
+                    <option value="">Select Decision</option>
+                    <option>Approved</option>
+                    <option>Rejected</option>
+                    <option>Pending</option>
+                </select>
+            </div>
+
+            <div class="field" style="margin-top:10px;">
+                <label>Signature / Initials</label>
+                <input type="text" id="financeSignature" placeholder="Signature or initials">
+            </div>
+
+            <div class="field" style="margin-top:10px;">
+                <label>Date</label>
+                <input type="date" id="financeDate">
+            </div>
+
+            <div class="signature-line">Finance Officer Signature</div>
+        </div>
+
+        <div class="approval-card">
+            <h3>Petty Cash Custodian</h3>
+
+            <div class="field">
+                <label>Custodian Name</label>
+                <input type="text" id="custodianName" placeholder="Custodian Name">
+            </div>
+
+            <div class="field" style="margin-top:10px;">
+                <label>Amount Disbursed</label>
+                <input type="number" id="amountDisbursed" min="0" step="0.01" placeholder="Amount paid">
+            </div>
+
+            <div class="field" style="margin-top:10px;">
+                <label>Disbursement Date</label>
+                <input type="date" id="custodianDate">
+            </div>
+
+            <div class="field" style="margin-top:10px;">
+                <label>Signature / Initials</label>
+                <input type="text" id="custodianSignature" placeholder="Signature or initials">
+            </div>
+
+            <div class="signature-line">Custodian Signature</div>
+        </div>
+
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">09. Petty Cash Reconciliation</div>
+
+    <div class="field-grid">
+
+        <div class="field">
+            <label>Amount Advanced</label>
+            <input type="number" id="amountAdvanced" min="0" step="0.01" placeholder="0.00" oninput="calculateReconciliation()">
+        </div>
+
+        <div class="field">
+            <label>Actual Expenses Incurred</label>
+            <input type="number" id="actualExpenses" min="0" step="0.01" placeholder="0.00" oninput="calculateReconciliation()">
+        </div>
+
+        <div class="field">
+            <label>Unused Cash Returned</label>
+            <input type="text" id="unusedCash" readonly value="0.00">
+        </div>
+
+        <div class="field">
+            <label>Additional Amount Due to Employee</label>
+            <input type="text" id="additionalDue" readonly value="0.00">
+        </div>
+
+        <div class="field">
+            <label>Reconciliation Date</label>
+            <input type="date" id="reconciliationDate">
+        </div>
+
+        <div class="field">
+            <label>Reconciliation Status</label>
+            <select id="reconciliationStatus">
+                <option value="">Select Status</option>
+                <option>Not Started</option>
+                <option>Pending Receipts</option>
+                <option>Under Review</option>
+                <option>Reconciled</option>
+                <option>Closed</option>
+            </select>
+        </div>
+
+        <div class="field full">
+            <label>Reconciliation Notes</label>
+            <textarea id="reconciliationNotes" placeholder="Enter reconciliation details, discrepancies or remarks..."></textarea>
+        </div>
+
+    </div>
+
+    <div class="field" style="margin-top:12px;">
+        <label>Reconciliation Documents</label>
+        <div class="check-group">
+            <label><input type="checkbox" id="receiptsSubmitted"> Original Receipts Submitted</label>
+            <label><input type="checkbox" id="cashReturned"> Unused Cash Returned</label>
+            <label><input type="checkbox" id="reconciliationVerified"> Verified by Finance</label>
+        </div>
+    </div>
+</section>
+
+<div class="footer-note">
+    Petty Cash Request Form | Internal Business Document | Retain with supporting financial records
+</div>
+
+</div>
+
+<script>
+"use strict";
+
+/* LOGO UPLOAD */
+
+const logoUpload = document.getElementById("logoUpload");
+const logoPreview = document.getElementById("logoPreview");
+const logoPlaceholder = document.getElementById("logoPlaceholder");
+
+let logoObjectURL = null;
+
+logoUpload.addEventListener("change", function() {
+    const file = this.files[0];
+    if (!file) return;
+
+    const allowed = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowed.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP logo.");
+        this.value = "";
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert("Logo file must be smaller than 5 MB.");
+        this.value = "";
+        return;
+    }
+
+    if (logoObjectURL) URL.revokeObjectURL(logoObjectURL);
+
+    logoObjectURL = URL.createObjectURL(file);
+
+    logoPreview.onload = function() {
+        logoPreview.style.display = "block";
+        logoPlaceholder.style.display = "none";
+    };
+
+    logoPreview.onerror = function() {
+        removeLogo();
+        alert("Unable to display this logo file.");
+    };
+
+    logoPreview.src = logoObjectURL;
+});
+
+function removeLogo() {
+    if (logoObjectURL) {
+        URL.revokeObjectURL(logoObjectURL);
+        logoObjectURL = null;
+    }
+
+    logoPreview.removeAttribute("src");
+    logoPreview.style.display = "none";
+    logoPlaceholder.style.display = "block";
+    logoUpload.value = "";
+}
+
+/* EXPENSE TABLE */
+
+const expenseBody = document.getElementById("expenseBody");
+
+function addExpenseRow() {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="row-number" style="text-align:center;">1</td>
+        <td>
+            <input type="text" class="expense-description"
+            aria-label="Expense description" placeholder="Enter expense description">
+        </td>
+        <td>
+            <input type="number" class="expense-quantity"
+            aria-label="Quantity" min="0.01" step="0.01" value="1">
+        </td>
+        <td>
+            <input type="number" class="expense-cost"
+            aria-label="Unit cost" min="0" step="0.01" placeholder="0.00">
+        </td>
+        <td class="amount">
+            <span class="line-total">0.00</span>
+            <button type="button" class="row-action btn btn-danger small-btn"
+            onclick="removeExpenseRow(this)">X</button>
+        </td>
+    `;
+
+    expenseBody.appendChild(row);
+
+    row.querySelectorAll("input").forEach(input => {
+        input.addEventListener("input", function() {
+            if (this.classList.contains("expense-description")) {
+                this.classList.remove("invalid");
+            } else {
+                validateExpenseRow(row);
+            }
+            calculateTotals();
+        });
+    });
+
+    updateRowNumbers();
+    calculateTotals();
+}
+
+function removeExpenseRow(button) {
+    if (expenseBody.querySelectorAll("tr").length <= 1) {
+        alert("At least one expense row is required.");
+        return;
+    }
+
+    button.closest("tr").remove();
+    updateRowNumbers();
+    calculateTotals();
+}
+
+function updateRowNumbers() {
+    expenseBody.querySelectorAll("tr").forEach((row, index) => {
+        row.querySelector(".row-number").textContent = index + 1;
+    });
+}
+
+function validateExpenseRow(row) {
+    const description = row.querySelector(".expense-description");
+    const quantity = row.querySelector(".expense-quantity");
+    const cost = row.querySelector(".expense-cost");
+
+    if (description.value.trim()) {
+        description.classList.remove("invalid");
+    }
+
+    if (quantity.value !== "" && Number(quantity.value) > 0) {
+        quantity.classList.remove("invalid");
+    }
+
+    if (cost.value !== "" && Number(cost.value) >= 0) {
+        cost.classList.remove("invalid");
+    }
+}
+
+/* CURRENCY */
+
+function getCurrency() {
+    return document.getElementById("currency").value;
+}
+
+function formatMoney(value) {
+    const currency = getCurrency();
+
+    if (currency === "Other") {
+        return Number(value).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+
+    try {
+        return new Intl.NumberFormat(undefined, {
+            style: "currency",
+            currency: currency,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(value);
+    } catch (error) {
+        return Number(value).toFixed(2);
+    }
+}
+
+function safeNumber(id) {
+    const value = Number(document.getElementById(id).value);
+    return Number.isFinite(value) && value > 0 ? value : 0;
+}
+
+/* CALCULATIONS */
+
+function calculateTotals() {
+    let subtotal = 0;
+
+    expenseBody.querySelectorAll("tr").forEach(row => {
+        const quantity = Math.max(
+            0,
+            Number(row.querySelector(".expense-quantity").value) || 0
+        );
+
+        const cost = Math.max(
+            0,
+            Number(row.querySelector(".expense-cost").value) || 0
+        );
+
+        const lineTotal = quantity * cost;
+
+        row.querySelector(".line-total").textContent =
+            lineTotal.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+
+        subtotal += lineTotal;
+    });
+
+    const additional = safeNumber("additionalCharges");
+    const discount = safeNumber("discount");
+
+    const grandTotal = Math.max(0, subtotal + additional - discount);
+
+    document.getElementById("subtotal").textContent = formatMoney(subtotal);
+    document.getElementById("additionalTotal").textContent = formatMoney(additional);
+    document.getElementById("discountTotal").textContent = formatMoney(discount);
+    document.getElementById("grandTotal").textContent = formatMoney(grandTotal);
+
+    document.getElementById("requestedAmount").value = formatMoney(grandTotal);
+    document.getElementById("amountSummary").value = formatMoney(grandTotal);
+
+    return grandTotal;
+}
+
+function calculateReconciliation() {
+    const advanced = safeNumber("amountAdvanced");
+    const actual = safeNumber("actualExpenses");
+
+    document.getElementById("unusedCash").value =
+        formatMoney(Math.max(0, advanced - actual));
+
+    document.getElementById("additionalDue").value =
+        formatMoney(Math.max(0, actual - advanced));
+}
+
+/* VALIDATION HELPERS */
+
+function clearInvalid(element) {
+    element.classList.remove("invalid");
+}
+
+function showError(messages) {
+    const errorBox = document.getElementById("errorBox");
+
+    if (messages.length === 0) {
+        errorBox.style.display = "none";
+        errorBox.innerHTML = "";
+        return;
+    }
+
+    errorBox.innerHTML =
+        "<strong>Please correct the following:</strong><ul>" +
+        messages.map(message => "<li>" + escapeHTML(message) + "</li>").join("") +
+        "</ul>";
+
+    errorBox.style.display = "block";
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[character]);
+}
+
+/* LIVE VALIDATION
+   Red highlights disappear when corrected.
+*/
+
+function validateField(field) {
+    let valid = true;
+
+    if (field.required) {
+        if (field.type === "checkbox") {
+            valid = field.checked;
+        } else {
+            valid = field.value.trim() !== "";
+        }
+    }
+
+    if (valid && field.type === "email" && field.value.trim()) {
+        valid = field.checkValidity();
+    }
+
+    if (valid && field.type === "number" && field.value !== "") {
+        const number = Number(field.value);
+        valid = Number.isFinite(number) &&
+                number >= Number(field.min || 0);
+    }
+
+    if (valid && field.id === "requiredDate") {
+        const requestDate = document.getElementById("requestDate").value;
+        if (requestDate && field.value && field.value < requestDate) {
+            valid = false;
+        }
+    }
+
+    if (valid) {
+        clearInvalid(field);
+    } else {
+        field.classList.add("invalid");
+    }
+
+    return valid;
+}
+
+function setupLiveValidation() {
+    const form = document.getElementById("pettyCashForm");
+
+    form.querySelectorAll("input, select, textarea").forEach(field => {
+
+        if (field.type === "file" || field.readOnly) return;
+
+        const eventName = field.type === "checkbox" ||
+                          field.type === "radio" ||
+                          field.tagName === "SELECT"
+                          ? "change" : "input";
+
+        field.addEventListener(eventName, function() {
+            validateField(field);
+
+            // Clear the old validation message as the user corrects fields.
+            if (document.getElementById("errorBox").style.display !== "none") {
+                showError([]);
+            }
+        });
+
+        // Also validate when leaving a field after an earlier failed print.
+        field.addEventListener("blur", function() {
+            if (field.classList.contains("invalid")) {
+                validateField(field);
+            }
+        });
+    });
+}
+
+/* FULL FORM VALIDATION */
+
+function validateForm() {
+    const form = document.getElementById("pettyCashForm");
+    const messages = [];
+
+    form.querySelectorAll(".invalid").forEach(field => {
+        field.classList.remove("invalid");
+    });
+
+    const requiredIds = [
+        "companyName",
+        "requestNumber",
+        "requestDate",
+        "requiredDate",
+        "department",
+        "requestType",
+        "employeeName",
+        "expenseCategory",
+        "purpose",
+        "declaration"
+    ];
+
+    requiredIds.forEach(id => {
+        const field = document.getElementById(id);
+
+        if (!validateField(field)) {
+            field.classList.add("invalid");
+            messages.push(
+                field.id === "declaration"
+                ? "Please accept the requester declaration."
+                : "Please complete " + field.previousElementSibling.textContent.replace("*", "").trim() + "."
+            );
+        }
+    });
+
+    const requestDate = document.getElementById("requestDate").value;
+    const requiredDate = document.getElementById("requiredDate").value;
+
+    if (requestDate && requiredDate && requiredDate < requestDate) {
+        document.getElementById("requiredDate").classList.add("invalid");
+        messages.push("Required By Date cannot be earlier than Request Date.");
+    }
+
+    const email = document.getElementById("companyEmail");
+
+    if (email.value.trim() && !email.checkValidity()) {
+        email.classList.add("invalid");
+        messages.push("Please enter a valid company email address.");
+    }
+
+    let hasDescription = false;
+
+    expenseBody.querySelectorAll("tr").forEach((row, index) => {
+        const description = row.querySelector(".expense-description");
+        const quantity = row.querySelector(".expense-quantity");
+        const cost = row.querySelector(".expense-cost");
+
+        const hasAnyEntry =
+            description.value.trim() !== "" ||
+            cost.value !== "" ||
+            quantity.value !== "1";
+
+        if (description.value.trim()) {
+            hasDescription = true;
+
+            if (quantity.value === "" || Number(quantity.value) <= 0) {
+                quantity.classList.add("invalid");
+                messages.push("Enter a valid quantity in expense row " + (index + 1) + ".");
+            }
+
+            if (cost.value === "" || !Number.isFinite(Number(cost.value)) || Number(cost.value) < 0) {
+                cost.classList.add("invalid");
+                messages.push("Enter a valid unit cost in expense row " + (index + 1) + ".");
+            }
+        } else if (hasAnyEntry) {
+            description.classList.add("invalid");
+            messages.push("Enter an expense description in row " + (index + 1) + ".");
+        }
+    });
+
+    if (!hasDescription) {
+        messages.push("Enter at least one expense description.");
+    }
+
+    ["additionalCharges", "discount", "approvedAmount",
+     "amountDisbursed", "amountAdvanced", "actualExpenses"].forEach(id => {
+        const field = document.getElementById(id);
+
+        if (field.value !== "" &&
+            (!Number.isFinite(Number(field.value)) || Number(field.value) < 0)) {
+            field.classList.add("invalid");
+            messages.push(field.previousElementSibling.textContent + " cannot be negative.");
+        }
+    });
+
+    showError(messages);
+
+    if (messages.length) {
+        const firstInvalid = form.querySelector(".invalid");
+
+        if (firstInvalid) {
+            firstInvalid.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
+
+        return false;
+    }
+
+    return true;
+}
+
+/* PRINT */
+
+function printForm() {
+    calculateTotals();
+    calculateReconciliation();
+
+    if (!validateForm()) return;
+
+    window.print();
+}
+
+/* PAPER SIZE */
+
+let paperSize = "A4";
+
+function togglePaperSize() {
+    paperSize = paperSize === "A4" ? "Letter" : "A4";
+
+    document.getElementById("paperLabel").textContent = paperSize;
+
+    let style = document.getElementById("dynamicPageSize");
+
+    if (!style) {
+        style = document.createElement("style");
+        style.id = "dynamicPageSize";
+        document.head.appendChild(style);
+    }
+
+    style.textContent = paperSize === "Letter"
+        ? "@page { size: Letter portrait; margin: 0.47in; }"
+        : "@page { size: A4 portrait; margin: 12mm; }";
+}
+
+/* RESET - CLEAR ALL VALIDATION STATES */
+
+function resetForm() {
+    if (!confirm(
+        "Are you sure you want to reset the entire Petty Cash Request Form? All entered information will be cleared."
+    )) {
+        return;
+    }
+
+    const form = document.getElementById("pettyCashForm");
+
+    // Clear all values and selections.
+    form.querySelectorAll("input, textarea, select").forEach(field => {
+        if (field.type === "checkbox" || field.type === "radio") {
+            field.checked = false;
+        } else if (field.type !== "file" && !field.readOnly) {
+            field.value = "";
+        }
+    });
+
+    // Explicitly remove every validation highlight.
+    form.querySelectorAll(".invalid").forEach(field => {
+        field.classList.remove("invalid");
+    });
+
+    // Clear error messages completely.
+    const errorBox = document.getElementById("errorBox");
+    errorBox.innerHTML = "";
+    errorBox.style.display = "none";
+
+    // Restore default values.
+    document.getElementById("additionalCharges").value = "0";
+    document.getElementById("discount").value = "0";
+    document.getElementById("currency").value = "PKR";
+
+    // Remove logo.
+    removeLogo();
+
+    // Restore one empty expense row.
+    expenseBody.innerHTML = "";
+    addExpenseRow();
+
+    // Restore default dates.
+    const today = new Date().toISOString().slice(0, 10);
+
+    document.getElementById("requestDate").value = today;
+    document.getElementById("requesterDate").value = today;
+
+    // Remove any remaining highlights.
+    form.querySelectorAll(".invalid").forEach(field => {
+        field.classList.remove("invalid");
+    });
+
+    calculateTotals();
+    calculateReconciliation();
+
+    // Return to A4.
+    paperSize = "A4";
+    document.getElementById("paperLabel").textContent = "A4";
+
+    const dynamicStyle = document.getElementById("dynamicPageSize");
+    if (dynamicStyle) dynamicStyle.remove();
+}
+
+/* INITIALIZE */
+
+setupLiveValidation();
+
+document.getElementById("requestDate").value =
+    new Date().toISOString().slice(0, 10);
+
+document.getElementById("requesterDate").value =
+    new Date().toISOString().slice(0, 10);
+
+addExpenseRow();
+
+calculateTotals();
+calculateReconciliation();
+
+</script>
+
+</body>
+</html>

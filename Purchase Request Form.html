@@ -1,0 +1,1651 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Purchase Request Form</title>
+
+<style>
+:root {
+    --navy: #17365d;
+    --blue: #245b91;
+    --light-blue: #eaf1f8;
+    --border: #cbd4df;
+    --text: #263445;
+    --muted: #667589;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 15px;
+    background: #edf1f5;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+.toolbar {
+    max-width: 900px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+button, .upload-label {
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.print-btn {
+    background: var(--navy);
+    color: white;
+}
+
+.reset-btn {
+    background: #e3e8ee;
+    color: #263445;
+}
+
+.add-btn {
+    background: var(--blue);
+    color: white;
+}
+
+.remove-btn {
+    background: #fff0f0;
+    color: #a52c2c;
+    padding: 6px 9px;
+}
+
+.upload-label {
+    display: inline-block;
+    background: var(--light-blue);
+    color: var(--navy);
+    margin-top: 8px;
+}
+
+.form-container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 32px 38px;
+    box-shadow: 0 3px 16px rgba(0,0,0,.09);
+    border: 1px solid #dce2e9;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 165px 1fr;
+    gap: 25px;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--navy);
+}
+
+.logo-area {
+    text-align: center;
+}
+
+.logo-box {
+    width: 145px;
+    height: 105px;
+    border: 1px dashed #aebdce;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin: auto;
+    background: #fafbfd;
+}
+
+.logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    color: #8a98a9;
+    font-size: 12px;
+    text-align: center;
+    padding: 10px;
+}
+
+.company-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 15px;
+}
+
+.company-fields .full {
+    grid-column: 1 / -1;
+}
+
+.document-title {
+    text-align: center;
+    padding: 22px 0 16px;
+}
+
+.document-title h1 {
+    color: var(--navy);
+    font-size: 25px;
+    margin: 0 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+.document-title p {
+    color: var(--muted);
+    margin: 0;
+    font-size: 11px;
+    letter-spacing: .5px;
+}
+
+.section {
+    margin-top: 19px;
+}
+
+.section-heading {
+    background: var(--navy);
+    color: white;
+    padding: 9px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: 12px;
+}
+
+.fields-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 13px 15px;
+}
+
+.field {
+    min-width: 0;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+.field.half {
+    grid-column: span 2;
+}
+
+label {
+    display: block;
+    color: #435267;
+    font-weight: 600;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.required {
+    color: #bd3535;
+}
+
+input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 8px 9px;
+    font-family: inherit;
+    font-size: 12px;
+    color: #243348;
+    background: #fff;
+    outline: none;
+}
+
+input, select {
+    height: 34px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 66px;
+    line-height: 1.5;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 2px rgba(36,91,145,.10);
+}
+
+input::placeholder, textarea::placeholder {
+    color: #a5afbb;
+}
+
+.inline-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 7px 0;
+}
+
+.inline-options label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.inline-options input {
+    width: auto;
+    height: auto;
+    accent-color: var(--navy);
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th {
+    background: #eaf0f6;
+    color: var(--navy);
+    border: 1px solid var(--border);
+    padding: 9px 5px;
+    font-size: 10px;
+    text-align: center;
+}
+
+td {
+    border: 1px solid var(--border);
+    padding: 5px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+td input, td select {
+    border: none;
+    box-shadow: none;
+    padding: 6px 4px;
+    height: 32px;
+    font-size: 11px;
+    border-radius: 0;
+    text-align: center;
+}
+
+td input:focus {
+    border: 1px solid var(--blue);
+}
+
+td input[type="number"] {
+    min-width: 55px;
+}
+
+.item-number {
+    font-weight: bold;
+    color: var(--navy);
+    font-size: 11px;
+}
+
+.item-total {
+    font-weight: bold;
+    color: var(--navy);
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.table-actions {
+    margin-top: 9px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.summary {
+    width: 290px;
+    max-width: 100%;
+    margin: 14px 0 0 auto;
+    border: 1px solid var(--border);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 12px;
+    border-bottom: 1px solid #e0e5eb;
+    gap: 10px;
+}
+
+.summary-row:last-child {
+    border-bottom: none;
+}
+
+.summary-row strong {
+    color: var(--navy);
+}
+
+.summary-row.total {
+    background: var(--navy);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.summary-row.total strong {
+    color: white;
+}
+
+.summary input {
+    width: 115px;
+    height: 29px;
+    text-align: right;
+}
+
+.amount {
+    font-weight: bold;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.approval-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 15px;
+}
+
+.approval-box {
+    min-width: 0;
+}
+
+.approval-box h4 {
+    margin: 0 0 12px;
+    font-size: 12px;
+    color: var(--navy);
+}
+
+.signature-line {
+    border-bottom: 1px solid #6d7b8b;
+    height: 40px;
+    margin-bottom: 7px;
+}
+
+.signature-caption {
+    color: var(--muted);
+    font-size: 10px;
+    margin-bottom: 12px;
+}
+
+.signature-box {
+    width: 100%;
+    min-height: 65px;
+    border: 1px dashed var(--border);
+    border-radius: 3px;
+    padding: 6px;
+    resize: vertical;
+}
+
+.notice {
+    margin-top: 18px;
+    background: #f4f7fa;
+    border-left: 3px solid var(--blue);
+    padding: 10px 12px;
+    color: #526276;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.footer {
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+    margin-top: 23px;
+    text-align: center;
+    font-size: 10px;
+    color: #778597;
+}
+
+.error-message {
+    display: none;
+    color: #b42318;
+    font-size: 11px;
+    margin: 10px 0;
+    padding: 9px;
+    background: #fff2f0;
+    border: 1px solid #f2c2bd;
+}
+
+.invalid {
+    border: 1px solid #c62828 !important;
+    background: #fff6f5 !important;
+}
+
+@media(max-width:650px) {
+    body {
+        padding: 10px 5px;
+    }
+
+    .form-container {
+        padding: 20px 14px;
+    }
+
+    .header {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .company-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .company-fields .full {
+        grid-column: auto;
+    }
+
+    .fields-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 9px;
+    }
+
+    .field.full {
+        grid-column: 1 / -1;
+    }
+
+    .field.half {
+        grid-column: span 2;
+    }
+
+    .document-title h1 {
+        font-size: 21px;
+    }
+
+    .approval-grid {
+        gap: 15px;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .toolbar button {
+        flex: 1;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+    }
+
+    table.items-table {
+        min-width: 690px;
+    }
+}
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        font-size: 10px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+    }
+
+    .header {
+        grid-template-columns: 140px 1fr;
+        gap: 15px;
+    }
+
+    .logo-box {
+        width: 125px;
+        height: 85px;
+    }
+
+    input, textarea, select {
+        color: #000000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    input::placeholder, textarea::placeholder {
+        color: transparent !important;
+    }
+
+    select {
+        background-image: none !important;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .section {
+        break-inside: auto;
+        page-break-inside: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    td, th {
+        border: 1px solid #9aa7b5 !important;
+    }
+
+    .table-wrap {
+        overflow: visible;
+    }
+
+    .summary, .approval-box, .notice {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .signature-box {
+        color: #000;
+    }
+
+    .footer {
+        break-inside: avoid;
+    }
+
+    .document-title {
+        padding: 14px 0 10px;
+    }
+
+    .section {
+        margin-top: 13px;
+    }
+
+    .section-heading {
+        padding: 7px 9px;
+    }
+
+    .fields-grid {
+        gap: 9px 12px;
+    }
+
+    input, select {
+        height: 29px;
+        padding: 5px;
+    }
+
+    textarea {
+        min-height: 48px;
+    }
+
+    .approval-grid {
+        gap: 18px;
+    }
+
+    .logo-placeholder {
+        color: #666;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+    <button type="button" class="reset-btn" onclick="resetForm()">Reset Form</button>
+    <button type="button" class="print-btn" onclick="printForm()">PRINT FORM / SAVE PDF</button>
+</div>
+
+<main class="form-container">
+
+    <!-- COMPANY HEADER -->
+
+    <header class="header">
+
+        <div class="logo-area">
+            <div class="logo-box" id="logoBox">
+                <span class="logo-placeholder">COMPANY<br>LOGO</span>
+            </div>
+
+            <label class="upload-label no-print" for="logoUpload">
+                Upload Company Logo
+            </label>
+
+            <input
+                type="file"
+                id="logoUpload"
+                accept=".jpg,.jpeg,.png,.svg,.webp,image/jpeg,image/png,image/svg+xml,image/webp"
+                hidden
+            >
+        </div>
+
+        <div class="company-fields">
+
+            <div class="field full">
+                <label>Company Name</label>
+                <input type="text" placeholder="Enter company name">
+            </div>
+
+            <div class="field full">
+                <label>Business Address</label>
+                <input type="text" placeholder="Enter business address">
+            </div>
+
+            <div class="field">
+                <label>Phone Number</label>
+                <input type="tel" placeholder="+1 000 000 0000">
+            </div>
+
+            <div class="field">
+                <label>Email Address</label>
+                <input type="email" placeholder="company@example.com">
+            </div>
+
+            <div class="field">
+                <label>Website</label>
+                <input type="text" placeholder="www.company.com">
+            </div>
+
+            <div class="field">
+                <label>Registration Number</label>
+                <input type="text" placeholder="Registration number">
+            </div>
+
+        </div>
+    </header>
+
+    <div class="document-title">
+        <h1>Purchase Request Form</h1>
+        <p>INTERNAL PROCUREMENT & PURCHASE AUTHORIZATION</p>
+    </div>
+
+    <div id="errorMessage" class="error-message" role="alert"></div>
+
+    <!-- REQUEST INFORMATION -->
+
+    <section class="section">
+
+        <div class="section-heading">01. Purchase Request Information</div>
+
+        <div class="fields-grid">
+
+            <div class="field">
+                <label>Request Number <span class="required">*</span></label>
+                <input type="text" id="requestNumber" required placeholder="PR-0001">
+            </div>
+
+            <div class="field">
+                <label>Request Date <span class="required">*</span></label>
+                <input type="date" id="requestDate" required>
+            </div>
+
+            <div class="field">
+                <label>Required Delivery Date <span class="required">*</span></label>
+                <input type="date" id="deliveryDate" required>
+            </div>
+
+            <div class="field">
+                <label>Request Type</label>
+                <select id="requestType">
+                    <option value="New Purchase">New Purchase</option>
+                    <option value="Replacement">Replacement</option>
+                    <option value="Replenishment">Stock Replenishment</option>
+                    <option value="Emergency">Emergency Purchase</option>
+                    <option value="Recurring">Recurring Purchase</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Purchase Priority</label>
+                <select id="priority">
+                    <option value="Normal">Normal</option>
+                    <option value="Low">Low</option>
+                    <option value="High">High</option>
+                    <option value="Urgent">Urgent</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Purchase Category <span class="required">*</span></label>
+                <select id="category" required>
+                    <option value="">Select Category</option>
+                    <option>Office Supplies</option>
+                    <option>IT & Computer Equipment</option>
+                    <option>Furniture & Fixtures</option>
+                    <option>Machinery & Equipment</option>
+                    <option>Raw Materials</option>
+                    <option>Tools & Maintenance</option>
+                    <option>Cleaning Supplies</option>
+                    <option>Professional Services</option>
+                    <option>Software & Subscriptions</option>
+                    <option>Vehicles & Transportation</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- REQUESTER DETAILS -->
+
+    <section class="section">
+
+        <div class="section-heading">02. Requester & Department Details</div>
+
+        <div class="fields-grid">
+
+            <div class="field">
+                <label>Requester Name <span class="required">*</span></label>
+                <input type="text" id="requesterName" required placeholder="Full name">
+            </div>
+
+            <div class="field">
+                <label>Job Title</label>
+                <input type="text" placeholder="Enter job title">
+            </div>
+
+            <div class="field">
+                <label>Department <span class="required">*</span></label>
+                <select id="department" required>
+                    <option value="">Select Department</option>
+                    <option>Administration</option>
+                    <option>Accounting & Finance</option>
+                    <option>Human Resources</option>
+                    <option>Information Technology</option>
+                    <option>Operations</option>
+                    <option>Sales & Marketing</option>
+                    <option>Production</option>
+                    <option>Procurement</option>
+                    <option>Maintenance</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Employee ID</label>
+                <input type="text" placeholder="Employee ID">
+            </div>
+
+            <div class="field">
+                <label>Contact Number</label>
+                <input type="tel" placeholder="Enter contact number">
+            </div>
+
+            <div class="field">
+                <label>Cost Center</label>
+                <input type="text" placeholder="Cost center / code">
+            </div>
+
+        </div>
+    </section>
+
+    <!-- BUDGET DETAILS -->
+
+    <section class="section">
+
+        <div class="section-heading">03. Budget & Financial Information</div>
+
+        <div class="fields-grid">
+
+            <div class="field">
+                <label>Budget Availability <span class="required">*</span></label>
+                <select id="budgetStatus" required>
+                    <option value="">Select Status</option>
+                    <option>Within Approved Budget</option>
+                    <option>Additional Budget Required</option>
+                    <option>Not Budgeted</option>
+                    <option>Pending Budget Confirmation</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Budget Code</label>
+                <input type="text" placeholder="Budget reference code">
+            </div>
+
+            <div class="field">
+                <label>Available Budget</label>
+                <input type="number" min="0" step="0.01" placeholder="0.00">
+            </div>
+
+            <div class="field">
+                <label>Currency</label>
+                <select id="currency" onchange="calculateTotals()">
+                    <option value="USD">USD ($)</option>
+                    <option value="PKR">PKR (Rs.)</option>
+                    <option value="GBP">GBP (£)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="AED">AED</option>
+                    <option value="CAD">CAD</option>
+                    <option value="AUD">AUD</option>
+                    <option value="INR">INR (₹)</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Funding Source</label>
+                <select>
+                    <option>Department Budget</option>
+                    <option>Operating Budget</option>
+                    <option>Capital Expenditure</option>
+                    <option>Project Budget</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Payment Terms</label>
+                <select>
+                    <option>As Per Supplier Agreement</option>
+                    <option>Advance Payment</option>
+                    <option>Due on Delivery</option>
+                    <option>Net 15 Days</option>
+                    <option>Net 30 Days</option>
+                    <option>Net 60 Days</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PURCHASE ITEMS -->
+
+    <section class="section">
+
+        <div class="section-heading">04. Requested Items & Services</div>
+
+        <div class="table-wrap">
+
+            <table class="items-table" id="itemsTable">
+
+                <thead>
+                    <tr>
+                        <th style="width:5%">#</th>
+                        <th style="width:29%">Item / Service Description</th>
+                        <th style="width:11%">Quantity</th>
+                        <th style="width:11%">Unit</th>
+                        <th style="width:15%">Unit Cost</th>
+                        <th style="width:15%">Line Total</th>
+                        <th class="no-print" style="width:14%">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="itemsBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="table-actions no-print">
+            <button type="button" class="add-btn" onclick="addRow()">
+                + Add Purchase Item
+            </button>
+        </div>
+
+        <div class="summary">
+
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <strong id="subtotal">0.00</strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Discount (%)</span>
+                <input type="number" id="discount" min="0" max="100"
+                       step="0.01" value="0" oninput="calculateTotals()">
+            </div>
+
+            <div class="summary-row">
+                <span>Discount Amount</span>
+                <strong id="discountAmount">0.00</strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Tax (%)</span>
+                <input type="number" id="taxRate" min="0" max="100"
+                       step="0.01" value="0" oninput="calculateTotals()">
+            </div>
+
+            <div class="summary-row">
+                <span>Tax Amount</span>
+                <strong id="taxAmount">0.00</strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Additional Charges</span>
+                <input type="number" id="additionalCharges" min="0"
+                       step="0.01" value="0" oninput="calculateTotals()">
+            </div>
+
+            <div class="summary-row total">
+                <span>Estimated Total</span>
+                <strong id="grandTotal">0.00</strong>
+            </div>
+
+        </div>
+
+        <div class="field" style="margin-top:14px;">
+            <label>Estimated Total in Words</label>
+            <input type="text" id="amountWords"
+                   placeholder="Enter estimated amount in words">
+        </div>
+
+    </section>
+
+    <!-- SUPPLIER INFORMATION -->
+
+    <section class="section">
+
+        <div class="section-heading">05. Preferred Supplier / Vendor Information</div>
+
+        <div class="fields-grid">
+
+            <div class="field">
+                <label>Supplier / Vendor Name</label>
+                <input type="text" placeholder="Supplier company name">
+            </div>
+
+            <div class="field">
+                <label>Contact Person</label>
+                <input type="text" placeholder="Contact person name">
+            </div>
+
+            <div class="field">
+                <label>Supplier Phone</label>
+                <input type="tel" placeholder="Contact number">
+            </div>
+
+            <div class="field">
+                <label>Supplier Email</label>
+                <input type="email" placeholder="supplier@example.com">
+            </div>
+
+            <div class="field">
+                <label>Supplier Quotation Number</label>
+                <input type="text" placeholder="Quotation reference">
+            </div>
+
+            <div class="field">
+                <label>Quotation Date</label>
+                <input type="date">
+            </div>
+
+            <div class="field full">
+                <label>Supplier Address</label>
+                <textarea placeholder="Enter supplier address"></textarea>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- DELIVERY INFORMATION -->
+
+    <section class="section">
+
+        <div class="section-heading">06. Delivery & Receiving Information</div>
+
+        <div class="fields-grid">
+
+            <div class="field half">
+                <label>Delivery Location</label>
+                <input type="text" placeholder="Building, branch or site location">
+            </div>
+
+            <div class="field">
+                <label>Receiving Department</label>
+                <input type="text" placeholder="Receiving department">
+            </div>
+
+            <div class="field">
+                <label>Delivery Contact Person</label>
+                <input type="text" placeholder="Contact person">
+            </div>
+
+            <div class="field">
+                <label>Receiving Phone Number</label>
+                <input type="tel" placeholder="Contact number">
+            </div>
+
+            <div class="field">
+                <label>Delivery Preference</label>
+                <select>
+                    <option>Standard Delivery</option>
+                    <option>Express Delivery</option>
+                    <option>Scheduled Delivery</option>
+                    <option>Supplier Pickup</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field full">
+                <label>Special Delivery Instructions</label>
+                <textarea placeholder="Enter access instructions, handling requirements or other delivery details"></textarea>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- JUSTIFICATION -->
+
+    <section class="section">
+
+        <div class="section-heading">07. Purchase Justification & Business Need</div>
+
+        <div class="field">
+            <label>Reason for Purchase <span class="required">*</span></label>
+            <textarea id="justification" required
+                placeholder="Explain why this purchase is necessary and how it supports business operations."></textarea>
+        </div>
+
+        <div class="field" style="margin-top:12px;">
+            <label>Expected Business Benefit / Intended Use</label>
+            <textarea placeholder="Describe the intended use, expected benefits or operational requirements."></textarea>
+        </div>
+
+        <div class="field" style="margin-top:12px;">
+            <label>Additional Notes & Special Requirements</label>
+            <textarea placeholder="Enter specifications, preferred brands, quality standards or other relevant notes."></textarea>
+        </div>
+
+    </section>
+
+    <!-- APPROVAL -->
+
+    <section class="section">
+
+        <div class="section-heading">08. Review & Authorization</div>
+
+        <div class="fields-grid">
+
+            <div class="field">
+                <label>Department Manager</label>
+                <input type="text" placeholder="Manager name">
+            </div>
+
+            <div class="field">
+                <label>Procurement Officer</label>
+                <input type="text" placeholder="Officer name">
+            </div>
+
+            <div class="field">
+                <label>Final Approver</label>
+                <input type="text" placeholder="Approver name">
+            </div>
+
+        </div>
+
+        <div class="field" style="margin-top:13px;">
+            <label>Approval Decision</label>
+            <div class="inline-options">
+                <label><input type="radio" name="decision" value="Approved"> Approved</label>
+                <label><input type="radio" name="decision" value="Rejected"> Rejected</label>
+                <label><input type="radio" name="decision" value="Pending"> Pending</label>
+                <label><input type="radio" name="decision" value="Returned for Revision"> Returned for Revision</label>
+            </div>
+        </div>
+
+        <div class="field" style="margin-top:10px;">
+            <label>Approval Comments</label>
+            <textarea placeholder="Enter approval notes, conditions or reasons for rejection."></textarea>
+        </div>
+
+        <div class="approval-grid">
+
+            <div class="approval-box">
+                <h4>REQUESTER AUTHORIZATION</h4>
+                <div class="signature-line"></div>
+                <div class="signature-caption">Requester Signature</div>
+                <label>Date</label>
+                <input type="date">
+            </div>
+
+            <div class="approval-box">
+                <h4>DEPARTMENT APPROVAL</h4>
+                <div class="signature-line"></div>
+                <div class="signature-caption">Manager Signature</div>
+                <label>Date</label>
+                <input type="date">
+            </div>
+
+            <div class="approval-box">
+                <h4>PROCUREMENT REVIEW</h4>
+                <div class="signature-line"></div>
+                <div class="signature-caption">Procurement Officer Signature</div>
+                <label>Date</label>
+                <input type="date">
+            </div>
+
+            <div class="approval-box">
+                <h4>FINAL AUTHORIZATION</h4>
+                <div class="signature-line"></div>
+                <div class="signature-caption">Authorized Signature</div>
+                <label>Date</label>
+                <input type="date">
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- TERMS -->
+
+    <section class="section">
+
+        <div class="section-heading">09. Purchase Terms & Acknowledgment</div>
+
+        <div class="notice">
+            <strong>Internal Purchase Authorization:</strong>
+            This purchase request is subject to the organization's procurement
+            policies, approved budget limits, supplier evaluation procedures
+            and applicable authorization requirements. Submission of this
+            request does not constitute a purchase order or a commitment to
+            purchase until formally approved by the authorized personnel.
+        </div>
+
+        <div class="inline-options" style="margin-top:12px;">
+            <label>
+                <input type="checkbox" id="acknowledgment">
+                I confirm that the information provided in this request is
+                accurate and that the purchase is required for legitimate
+                business purposes.
+            </label>
+        </div>
+
+    </section>
+
+    <footer class="footer">
+        PURCHASE REQUEST FORM | Internal Business Document
+        <br>
+        All purchases are subject to company procurement and approval policies.
+    </footer>
+
+</main>
+
+<script>
+"use strict";
+
+/* =================================
+   LOGO UPLOAD
+================================= */
+
+const logoUpload = document.getElementById("logoUpload");
+const logoBox = document.getElementById("logoBox");
+let currentLogoURL = null;
+
+logoUpload.addEventListener("change", function() {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP logo.");
+        this.value = "";
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert("Logo size must not exceed 5 MB.");
+        this.value = "";
+        return;
+    }
+
+    if (currentLogoURL) {
+        URL.revokeObjectURL(currentLogoURL);
+    }
+
+    currentLogoURL = URL.createObjectURL(file);
+
+    const img = document.createElement("img");
+    img.src = currentLogoURL;
+    img.alt = "Company Logo";
+
+    img.onerror = function() {
+        alert("Unable to preview this logo file.");
+        logoBox.innerHTML =
+            '<span class="logo-placeholder">COMPANY<br>LOGO</span>';
+        URL.revokeObjectURL(currentLogoURL);
+        currentLogoURL = null;
+    };
+
+    logoBox.replaceChildren(img);
+
+});
+
+
+/* =================================
+   PURCHASE ITEM ROWS
+================================= */
+
+const itemsBody = document.getElementById("itemsBody");
+
+function addRow() {
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="item-number"></td>
+
+        <td>
+            <input type="text"
+                class="item-description"
+                aria-label="Item description"
+                placeholder="Item / service">
+        </td>
+
+        <td>
+            <input type="number"
+                class="item-qty"
+                min="0"
+                step="any"
+                value="1"
+                aria-label="Quantity">
+        </td>
+
+        <td>
+            <select class="item-unit" aria-label="Unit">
+                <option>Piece</option>
+                <option>Box</option>
+                <option>Pack</option>
+                <option>Set</option>
+                <option>Kg</option>
+                <option>Gram</option>
+                <option>Liter</option>
+                <option>Meter</option>
+                <option>Hour</option>
+                <option>Day</option>
+                <option>Month</option>
+                <option>Service</option>
+                <option>Other</option>
+            </select>
+        </td>
+
+        <td>
+            <input type="number"
+                class="item-price"
+                min="0"
+                step="0.01"
+                value="0"
+                aria-label="Unit cost">
+        </td>
+
+        <td class="item-total">0.00</td>
+
+        <td class="no-print">
+            <button type="button"
+                class="remove-btn"
+                aria-label="Remove item"
+                onclick="removeRow(this)">Remove</button>
+        </td>
+    `;
+
+    itemsBody.appendChild(row);
+
+    row.querySelectorAll("input, select").forEach(input => {
+        input.addEventListener("input", function() {
+            validateItemInput(this);
+            calculateTotals();
+        });
+
+        input.addEventListener("change", calculateTotals);
+    });
+
+    updateRowNumbers();
+    calculateTotals();
+
+}
+
+
+function removeRow(button) {
+
+    const rows = itemsBody.querySelectorAll("tr");
+
+    if (rows.length <= 1) {
+        alert("At least one purchase item row must remain.");
+        return;
+    }
+
+    button.closest("tr").remove();
+
+    updateRowNumbers();
+    calculateTotals();
+
+}
+
+
+function updateRowNumbers() {
+
+    const rows = itemsBody.querySelectorAll("tr");
+
+    rows.forEach((row, index) => {
+        row.querySelector(".item-number").textContent = index + 1;
+    });
+
+}
+
+
+/* =================================
+   NUMBER VALIDATION
+================================= */
+
+function validateItemInput(input) {
+
+    if (input.type !== "number") return;
+
+    let value = Number(input.value);
+
+    if (input.value !== "" && (!Number.isFinite(value) || value < 0)) {
+        input.value = 0;
+    }
+
+}
+
+
+/* =================================
+   CURRENCY FORMATTING
+================================= */
+
+function formatMoney(value) {
+
+    const currency = document.getElementById("currency").value;
+
+    try {
+        return new Intl.NumberFormat("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(value);
+    } catch (error) {
+        return Number(value).toFixed(2);
+    }
+
+}
+
+
+/* =================================
+   AUTOMATIC CALCULATIONS
+================================= */
+
+function getNumber(id) {
+
+    const element = document.getElementById(id);
+    const value = Number(element.value);
+
+    if (!Number.isFinite(value) || value < 0) return 0;
+
+    return value;
+
+}
+
+
+function calculateTotals() {
+
+    let subtotal = 0;
+
+    const rows = itemsBody.querySelectorAll("tr");
+
+    rows.forEach(row => {
+
+        const quantity = Math.max(
+            0,
+            Number(row.querySelector(".item-qty").value) || 0
+        );
+
+        const price = Math.max(
+            0,
+            Number(row.querySelector(".item-price").value) || 0
+        );
+
+        const lineTotal = quantity * price;
+
+        row.querySelector(".item-total").textContent =
+            formatMoney(lineTotal);
+
+        subtotal += lineTotal;
+
+    });
+
+    let discountRate = getNumber("discount");
+    let taxRate = getNumber("taxRate");
+
+    discountRate = Math.min(100, discountRate);
+    taxRate = Math.min(100, taxRate);
+
+    document.getElementById("discount").value = discountRate;
+    document.getElementById("taxRate").value = taxRate;
+
+    const discountAmount = subtotal * discountRate / 100;
+
+    const taxableAmount = Math.max(0, subtotal - discountAmount);
+
+    const taxAmount = taxableAmount * taxRate / 100;
+
+    const additionalCharges = getNumber("additionalCharges");
+
+    const grandTotal =
+        taxableAmount + taxAmount + additionalCharges;
+
+    document.getElementById("subtotal").textContent =
+        formatMoney(subtotal);
+
+    document.getElementById("discountAmount").textContent =
+        formatMoney(discountAmount);
+
+    document.getElementById("taxAmount").textContent =
+        formatMoney(taxAmount);
+
+    document.getElementById("grandTotal").textContent =
+        formatMoney(grandTotal);
+
+}
+
+
+/* =================================
+   DATE DEFAULTS & VALIDATION
+================================= */
+
+const today = new Date();
+
+const localDate = new Date(
+    today.getTime() - today.getTimezoneOffset() * 60000
+).toISOString().slice(0, 10);
+
+document.getElementById("requestDate").value = localDate;
+
+document.getElementById("requestDate").addEventListener("change", function() {
+    document.getElementById("deliveryDate").min = this.value;
+});
+
+document.getElementById("deliveryDate").addEventListener("change", function() {
+
+    const requestDate = document.getElementById("requestDate").value;
+
+    if (requestDate && this.value && this.value < requestDate) {
+        alert("Delivery date cannot be earlier than the request date.");
+        this.value = "";
+    }
+
+});
+
+
+/* =================================
+   PRINT FORM / SAVE PDF
+================================= */
+
+function printForm() {
+
+    const form = document.querySelector(".form-container");
+
+    const requiredFields = form.querySelectorAll("[required]");
+
+    let firstInvalid = null;
+
+    document.querySelectorAll(".invalid").forEach(element => {
+        element.classList.remove("invalid");
+    });
+
+    for (const field of requiredFields) {
+
+        if (!field.value.trim()) {
+
+            field.classList.add("invalid");
+
+            if (!firstInvalid) {
+                firstInvalid = field;
+            }
+
+        }
+
+    }
+
+    const requesterEmail = document.querySelector(
+        '.company-fields input[type="email"]'
+    );
+
+    if (requesterEmail.value && !requesterEmail.validity.valid) {
+        requesterEmail.classList.add("invalid");
+        firstInvalid = firstInvalid || requesterEmail;
+    }
+
+    if (firstInvalid) {
+
+        const error = document.getElementById("errorMessage");
+
+        error.textContent =
+            "Please complete all required fields and correct any invalid information before printing.";
+
+        error.style.display = "block";
+
+        firstInvalid.focus();
+        firstInvalid.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+        return;
+
+    }
+
+    document.getElementById("errorMessage").style.display = "none";
+
+    calculateTotals();
+
+    window.print();
+
+}
+
+
+/* =================================
+   RESET FORM
+================================= */
+
+function resetForm() {
+
+    const confirmed = confirm(
+        "Are you sure you want to reset the entire purchase request? All entered information will be cleared."
+    );
+
+    if (!confirmed) return;
+
+    const form = document.querySelector(".form-container");
+
+    form.querySelectorAll("input, textarea, select").forEach(element => {
+
+        if (element.type === "checkbox" || element.type === "radio") {
+            element.checked = false;
+        } else if (element.type !== "file") {
+            element.value = "";
+        }
+
+        element.classList.remove("invalid");
+
+    });
+
+    if (currentLogoURL) {
+        URL.revokeObjectURL(currentLogoURL);
+        currentLogoURL = null;
+    }
+
+    logoUpload.value = "";
+
+    logoBox.innerHTML =
+        '<span class="logo-placeholder">COMPANY<br>LOGO</span>';
+
+    itemsBody.innerHTML = "";
+
+    document.getElementById("discount").value = "0";
+    document.getElementById("taxRate").value = "0";
+    document.getElementById("additionalCharges").value = "0";
+    document.getElementById("currency").value = "USD";
+
+    document.getElementById("requestDate").value = localDate;
+
+    document.getElementById("errorMessage").style.display = "none";
+
+    addRow();
+    calculateTotals();
+
+}
+
+
+/* =================================
+   INITIALIZE FORM
+================================= */
+
+addRow();
+calculateTotals();
+
+</script>
+
+</body>
+</html>

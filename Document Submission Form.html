@@ -1,0 +1,1356 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document Submission Form</title>
+
+<style>
+:root {
+    --navy:#17365d;
+    --blue:#286090;
+    --light:#eaf1f8;
+    --border:#cbd3dc;
+    --text:#263445;
+}
+
+* { box-sizing:border-box; }
+
+body {
+    margin:0;
+    padding:25px 15px;
+    background:#edf1f5;
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:13px;
+}
+
+.toolbar {
+    max-width:950px;
+    margin:0 auto 15px;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    gap:9px;
+    flex-wrap:wrap;
+}
+
+button,.upload-label {
+    border:none;
+    padding:10px 16px;
+    border-radius:4px;
+    font-size:12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.print-btn { background:var(--navy);color:white; }
+.reset-btn { background:#e4e7ec;color:#344054; }
+.add-btn { background:var(--blue);color:white; }
+.remove-btn { background:#fce8e8;color:#b42318;padding:7px 11px; }
+
+.upload-label {
+    display:inline-block;
+    background:var(--light);
+    color:var(--navy);
+    border:1px solid #bdcbdc;
+    margin-top:8px;
+    padding:7px 10px;
+}
+
+.paper {
+    width:100%;
+    max-width:950px;
+    margin:auto;
+    padding:35px 38px;
+    background:white;
+    border:1px solid #e0e4e9;
+    box-shadow:0 3px 15px rgba(0,0,0,.07);
+}
+
+.company-header {
+    display:grid;
+    grid-template-columns:145px 1fr;
+    gap:24px;
+    padding-bottom:20px;
+    border-bottom:3px solid var(--navy);
+    align-items:start;
+}
+
+.logo-area { text-align:center; }
+
+.logo-box {
+    width:125px;
+    height:105px;
+    border:1px dashed #aab5c2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px;
+    margin:auto;
+    overflow:hidden;
+    color:#8b98a8;
+    font-size:11px;
+    text-align:center;
+}
+
+.logo-box img {
+    max-width:100%;
+    max-height:100%;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+}
+
+.company-fields {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px 14px;
+}
+
+.field {
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    min-width:0;
+}
+
+.field.full { grid-column:1/-1; }
+
+label {
+    color:#344054;
+    font-size:11px;
+    font-weight:bold;
+}
+
+input,select,textarea {
+    width:100%;
+    min-width:0;
+    border:1px solid var(--border);
+    border-radius:3px;
+    padding:8px 9px;
+    color:var(--text);
+    background:white;
+    font-family:inherit;
+    font-size:12px;
+    outline:none;
+}
+
+input:focus,select:focus,textarea:focus {
+    border-color:var(--blue);
+    box-shadow:0 0 0 2px rgba(40,96,144,.09);
+}
+
+textarea { resize:vertical;min-height:58px; }
+
+.form-title {
+    text-align:center;
+    padding:23px 0 18px;
+}
+
+.form-title h1 {
+    font-size:23px;
+    color:var(--navy);
+    margin:0 0 6px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.form-title p {
+    font-size:11px;
+    color:#667085;
+    margin:0;
+}
+
+.section { margin-top:20px; }
+
+.section-heading {
+    background:var(--navy);
+    color:white;
+    padding:9px 12px;
+    font-size:12px;
+    font-weight:bold;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+    margin-bottom:12px;
+    break-after:avoid;
+    page-break-after:avoid;
+}
+
+.grid-2 {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px 17px;
+}
+
+.grid-3 {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.grid-4 {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.inline-options {
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    align-items:center;
+    padding:5px 0;
+}
+
+.inline-options label {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-weight:normal;
+    font-size:12px;
+}
+
+.inline-options input {
+    width:auto;
+    accent-color:var(--navy);
+}
+
+table {
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+}
+
+th {
+    background:#eaf0f6;
+    color:var(--navy);
+    font-size:10px;
+    text-transform:uppercase;
+    text-align:left;
+    padding:9px 7px;
+    border:1px solid #bdc9d6;
+}
+
+td {
+    border:1px solid var(--border);
+    padding:5px;
+    vertical-align:middle;
+}
+
+td input,td select {
+    border:none;
+    padding:7px 5px;
+    border-radius:0;
+    background:transparent;
+}
+
+.document-table th:nth-child(1){width:7%}
+.document-table th:nth-child(2){width:29%}
+.document-table th:nth-child(3){width:17%}
+.document-table th:nth-child(4){width:14%}
+.document-table th:nth-child(5){width:16%}
+.document-table th:nth-child(6){width:17%}
+
+.checklist {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px 20px;
+}
+
+.check-item {
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    font-size:12px;
+    color:#344054;
+}
+
+.check-item input {
+    width:14px;
+    height:14px;
+    margin:0;
+    accent-color:var(--navy);
+}
+
+.status-box {
+    border:1px solid var(--border);
+    padding:12px;
+    border-radius:3px;
+}
+
+.status-box>.field { margin-bottom:10px; }
+
+.signature-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:35px;
+    margin-top:20px;
+}
+
+.signature-card { padding-top:35px; }
+
+.signature-line {
+    border-top:1px solid #344054;
+    padding-top:7px;
+    font-size:11px;
+    font-weight:bold;
+    color:#344054;
+}
+
+.signature-card .field { margin-top:12px; }
+
+.footer {
+    border-top:1px solid var(--border);
+    margin-top:28px;
+    padding-top:10px;
+    text-align:center;
+    color:#778394;
+    font-size:10px;
+}
+
+.table-actions { margin-top:9px; }
+
+@media(max-width:650px) {
+    body { padding:10px 5px; }
+
+    .paper { padding:20px 14px; }
+
+    .company-header {
+        grid-template-columns:1fr;
+        gap:15px;
+    }
+
+    .company-fields,.grid-2,.grid-3,.grid-4 {
+        grid-template-columns:1fr;
+    }
+
+    .checklist { grid-template-columns:1fr; }
+
+    .signature-grid { gap:18px; }
+
+    .toolbar { justify-content:center; }
+
+    .toolbar button { flex:1; }
+
+    .table-wrap { overflow-x:auto; }
+
+    .document-table { min-width:680px; }
+
+    .form-title h1 { font-size:19px; }
+}
+
+/* A4 PRINT SETTINGS */
+
+@page {
+    size:A4 portrait;
+    margin:12mm;
+}
+
+@media print {
+
+    html,body {
+        width:100%;
+        margin:0 !important;
+        padding:0 !important;
+        background:#ffffff !important;
+        font-size:11px;
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+    }
+
+    .no-print,
+    .toolbar,
+    button,
+    .upload-label {
+        display:none !important;
+    }
+
+    .paper {
+        width:100% !important;
+        max-width:100% !important;
+        margin:0 !important;
+        padding:0 !important;
+        box-shadow:none !important;
+        border:none !important;
+    }
+
+    .company-header {
+        grid-template-columns:125px 1fr;
+        gap:18px;
+    }
+
+    .company-fields {
+        grid-template-columns:1fr 1fr;
+    }
+
+    input,textarea,select {
+        color:#000000 !important;
+        background:transparent !important;
+        box-shadow:none !important;
+        font-size:10px;
+        border-color:#b9c1ca;
+        print-color-adjust:exact;
+    }
+
+    input,select { padding:5px 4px; }
+
+    textarea { min-height:45px; }
+
+    .section { margin-top:15px; }
+
+    .section-heading {
+        break-after:avoid;
+        page-break-after:avoid;
+    }
+
+    table {
+        width:100%;
+        border-collapse:collapse;
+    }
+
+    thead { display:table-header-group; }
+
+    tr {
+        break-inside:avoid;
+        page-break-inside:avoid;
+    }
+
+    td,th { overflow-wrap:anywhere; }
+
+    .signature-grid {
+        break-inside:avoid;
+        page-break-inside:avoid;
+    }
+
+    .signature-card {
+        break-inside:avoid;
+        page-break-inside:avoid;
+    }
+
+    .table-wrap { overflow:visible !important; }
+
+    .document-table { min-width:0 !important; }
+
+    .logo-box { border:1px solid #cbd3dc; }
+
+    .footer {
+        break-inside:avoid;
+        page-break-inside:avoid;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ACTION TOOLBAR -->
+
+<div class="toolbar no-print">
+
+    <label for="paperSize">Paper Size</label>
+
+    <select id="paperSize" style="width:auto;">
+        <option value="A4">A4 Portrait</option>
+        <option value="Letter">US Letter</option>
+    </select>
+
+    <button type="button" class="print-btn" id="printButton">
+        PRINT FORM / SAVE PDF
+    </button>
+
+    <button type="button" class="reset-btn" id="resetButton">
+        RESET FORM
+    </button>
+
+</div>
+
+<main class="paper" id="documentForm">
+
+<!-- COMPANY HEADER -->
+
+<header class="company-header">
+
+    <div class="logo-area">
+
+        <div class="logo-box" id="logoBox">
+            <span>COMPANY<br>LOGO</span>
+        </div>
+
+        <label class="upload-label no-print" for="logoUpload">
+            Upload Company Logo
+        </label>
+
+        <input type="file" id="logoUpload"
+        accept=".jpg,.jpeg,.png,.svg,.webp"
+        hidden>
+
+    </div>
+
+    <div class="company-fields">
+
+        <div class="field full">
+            <label>COMPANY NAME *</label>
+            <input type="text" placeholder="Enter company name" required>
+        </div>
+
+        <div class="field full">
+            <label>BUSINESS ADDRESS</label>
+            <input type="text" placeholder="Enter business address">
+        </div>
+
+        <div class="field">
+            <label>PHONE NUMBER</label>
+            <input type="tel" placeholder="Enter phone number">
+        </div>
+
+        <div class="field">
+            <label>EMAIL ADDRESS</label>
+            <input type="email" placeholder="Enter email address">
+        </div>
+
+        <div class="field">
+            <label>WEBSITE</label>
+            <input type="url" placeholder="www.example.com">
+        </div>
+
+        <div class="field">
+            <label>REGISTRATION NUMBER</label>
+            <input type="text" placeholder="Registration number">
+        </div>
+
+    </div>
+
+</header>
+
+<!-- TITLE -->
+
+<div class="form-title">
+    <h1>Document Submission Form</h1>
+    <p>Official Record of Submitted Documents and Supporting Materials</p>
+</div>
+
+<!-- 01 -->
+
+<section class="section">
+
+<div class="section-heading">01. Submission Information</div>
+
+<div class="grid-3">
+
+    <div class="field">
+        <label>SUBMISSION NUMBER *</label>
+        <input type="text" placeholder="e.g. DSF-001" required>
+    </div>
+
+    <div class="field">
+        <label>REFERENCE NUMBER</label>
+        <input type="text" placeholder="Reference ID">
+    </div>
+
+    <div class="field">
+        <label>SUBMISSION DATE *</label>
+        <input type="date" required>
+    </div>
+
+    <div class="field">
+        <label>SUBMISSION TIME</label>
+        <input type="time">
+    </div>
+
+    <div class="field">
+        <label>REQUIRED RESPONSE DATE</label>
+        <input type="date">
+    </div>
+
+    <div class="field">
+        <label>SUBMISSION PRIORITY</label>
+        <select>
+            <option value="">Select Priority</option>
+            <option>Normal</option>
+            <option>High</option>
+            <option>Urgent</option>
+            <option>Critical</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>SUBMISSION CATEGORY *</label>
+        <select required>
+            <option value="">Select Category</option>
+            <option>Administrative</option>
+            <option>Financial</option>
+            <option>Legal</option>
+            <option>Human Resources</option>
+            <option>Procurement</option>
+            <option>Project Related</option>
+            <option>Compliance</option>
+            <option>Customer Related</option>
+            <option>Technical</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>SUBMISSION PURPOSE *</label>
+        <select required>
+            <option value="">Select Purpose</option>
+            <option>For Review</option>
+            <option>For Approval</option>
+            <option>For Verification</option>
+            <option>For Record Keeping</option>
+            <option>For Processing</option>
+            <option>For Information</option>
+            <option>For Compliance</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>SUBMISSION METHOD</label>
+        <select>
+            <option value="">Select Method</option>
+            <option>In Person</option>
+            <option>Email</option>
+            <option>Courier</option>
+            <option>Postal Mail</option>
+            <option>Online Portal</option>
+            <option>Internal Office Delivery</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+</div>
+</section>
+
+<!-- 02 -->
+
+<section class="section">
+
+<div class="section-heading">02. Submitter Information</div>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>SUBMITTER FULL NAME *</label>
+        <input type="text" placeholder="Enter full name" required>
+    </div>
+
+    <div class="field">
+        <label>EMPLOYEE / CLIENT ID</label>
+        <input type="text" placeholder="Enter ID number">
+    </div>
+
+    <div class="field">
+        <label>DEPARTMENT / ORGANIZATION</label>
+        <input type="text" placeholder="Department or organization">
+    </div>
+
+    <div class="field">
+        <label>JOB TITLE / DESIGNATION</label>
+        <input type="text" placeholder="Enter designation">
+    </div>
+
+    <div class="field">
+        <label>PHONE NUMBER *</label>
+        <input type="tel" placeholder="Contact number" required>
+    </div>
+
+    <div class="field">
+        <label>EMAIL ADDRESS</label>
+        <input type="email" placeholder="Enter email address">
+    </div>
+
+    <div class="field full">
+        <label>SUBMITTER ADDRESS</label>
+        <textarea placeholder="Enter complete address"></textarea>
+    </div>
+
+</div>
+</section>
+
+<!-- 03 -->
+
+<section class="section">
+
+<div class="section-heading">03. Recipient / Receiving Department</div>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>RECIPIENT NAME</label>
+        <input type="text" placeholder="Person receiving documents">
+    </div>
+
+    <div class="field">
+        <label>RECEIVING DEPARTMENT *</label>
+        <input type="text" placeholder="Enter department" required>
+    </div>
+
+    <div class="field">
+        <label>RECIPIENT DESIGNATION</label>
+        <input type="text" placeholder="Enter designation">
+    </div>
+
+    <div class="field">
+        <label>OFFICE / BRANCH</label>
+        <input type="text" placeholder="Enter office or branch">
+    </div>
+
+</div>
+</section>
+
+<!-- 04 -->
+
+<section class="section">
+
+<div class="section-heading">04. Document Details</div>
+
+<p style="font-size:11px;color:#667085;margin:0 0 10px;">
+List all documents submitted. Add additional rows as required.
+</p>
+
+<div class="table-wrap">
+
+<table class="document-table">
+
+<thead>
+<tr>
+    <th>No.</th>
+    <th>Document Name / Description</th>
+    <th>Document Reference</th>
+    <th>Document Date</th>
+    <th>Format</th>
+    <th>Copies / Pages</th>
+</tr>
+</thead>
+
+<tbody id="documentRows">
+
+<tr>
+    <td class="row-number" style="text-align:center;">1</td>
+    <td><input type="text" placeholder="Document name"></td>
+    <td><input type="text" placeholder="Reference ID"></td>
+    <td><input type="date"></td>
+    <td>
+        <select>
+            <option value="">Select</option>
+            <option>Original</option>
+            <option>Photocopy</option>
+            <option>Certified Copy</option>
+            <option>Digital Copy</option>
+            <option>Scanned Copy</option>
+            <option>Other</option>
+        </select>
+    </td>
+    <td><input type="text" placeholder="e.g. 2 copies"></td>
+</tr>
+
+<tr>
+    <td class="row-number" style="text-align:center;">2</td>
+    <td><input type="text" placeholder="Document name"></td>
+    <td><input type="text" placeholder="Reference ID"></td>
+    <td><input type="date"></td>
+    <td>
+        <select>
+            <option value="">Select</option>
+            <option>Original</option>
+            <option>Photocopy</option>
+            <option>Certified Copy</option>
+            <option>Digital Copy</option>
+            <option>Scanned Copy</option>
+            <option>Other</option>
+        </select>
+    </td>
+    <td><input type="text" placeholder="e.g. 2 copies"></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<div class="table-actions no-print">
+    <button type="button" class="add-btn" id="addRowButton">
+        + ADD DOCUMENT ROW
+    </button>
+
+    <button type="button" class="remove-btn" id="removeRowButton">
+        REMOVE LAST ROW
+    </button>
+</div>
+
+</section>
+
+<!-- 05 -->
+
+<section class="section">
+
+<div class="section-heading">05. Document Checklist</div>
+
+<div class="checklist">
+
+    <label class="check-item">
+        <input type="checkbox"> All required documents included
+    </label>
+
+    <label class="check-item">
+        <input type="checkbox"> Documents are properly signed
+    </label>
+
+    <label class="check-item">
+        <input type="checkbox"> Documents are dated
+    </label>
+
+    <label class="check-item">
+        <input type="checkbox"> Required attachments included
+    </label>
+
+    <label class="check-item">
+        <input type="checkbox"> Copies are clear and readable
+    </label>
+
+    <label class="check-item">
+        <input type="checkbox"> Original documents provided where required
+    </label>
+
+    <label class="check-item">
+        <input type="checkbox"> Reference numbers verified
+    </label>
+
+    <label class="check-item">
+        <input type="checkbox"> Documents arranged in proper order
+    </label>
+
+</div>
+
+<div class="field" style="margin-top:14px;">
+    <label>ADDITIONAL ATTACHMENTS / ENCLOSURES</label>
+    <textarea placeholder="List any additional documents, files, or supporting materials included."></textarea>
+</div>
+
+</section>
+
+<!-- 06 -->
+
+<section class="section">
+
+<div class="section-heading">06. Submission Classification</div>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>DOCUMENT CONFIDENTIALITY</label>
+        <select>
+            <option value="">Select Classification</option>
+            <option>Public</option>
+            <option>Internal Use Only</option>
+            <option>Confidential</option>
+            <option>Strictly Confidential</option>
+            <option>Restricted</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>DOCUMENT HANDLING</label>
+        <select>
+            <option value="">Select Handling</option>
+            <option>Return Original Documents</option>
+            <option>Retain in Office Records</option>
+            <option>Forward to Relevant Department</option>
+            <option>Digital Archive</option>
+            <option>As Per Instructions</option>
+        </select>
+    </div>
+
+    <div class="field full">
+        <label>SPECIAL HANDLING INSTRUCTIONS</label>
+        <textarea placeholder="Enter special handling or security instructions."></textarea>
+    </div>
+
+</div>
+</section>
+
+<!-- 07 -->
+
+<section class="section">
+
+<div class="section-heading">07. Receiving & Verification Record</div>
+
+<div class="grid-2">
+
+    <div class="field">
+        <label>DATE RECEIVED</label>
+        <input type="date">
+    </div>
+
+    <div class="field">
+        <label>TIME RECEIVED</label>
+        <input type="time">
+    </div>
+
+    <div class="field">
+        <label>RECEIVED BY</label>
+        <input type="text" placeholder="Receiving employee name">
+    </div>
+
+    <div class="field">
+        <label>RECEIVING EMPLOYEE ID</label>
+        <input type="text" placeholder="Employee ID">
+    </div>
+
+    <div class="field">
+        <label>DOCUMENT VERIFICATION</label>
+        <select>
+            <option value="">Select Result</option>
+            <option>Verified</option>
+            <option>Partially Verified</option>
+            <option>Pending Verification</option>
+            <option>Not Verified</option>
+            <option>Rejected</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>RECEIPT / ACKNOWLEDGEMENT NUMBER</label>
+        <input type="text" placeholder="Receipt number">
+    </div>
+
+</div>
+
+<div class="field" style="margin-top:13px;">
+    <label>VERIFICATION COMMENTS / DISCREPANCIES</label>
+    <textarea placeholder="Record missing documents, discrepancies, or verification remarks."></textarea>
+</div>
+
+</section>
+
+<!-- 08 -->
+
+<section class="section">
+
+<div class="section-heading">08. Submission Processing Status</div>
+
+<div class="status-box">
+
+    <div class="field">
+        <label>DOCUMENT SUBMISSION STATUS</label>
+
+        <div class="inline-options">
+            <label><input type="radio" name="submissionStatus" value="Received"> Received</label>
+            <label><input type="radio" name="submissionStatus" value="Under Review"> Under Review</label>
+            <label><input type="radio" name="submissionStatus" value="Approved"> Approved</label>
+            <label><input type="radio" name="submissionStatus" value="Rejected"> Rejected</label>
+            <label><input type="radio" name="submissionStatus" value="Incomplete"> Incomplete</label>
+            <label><input type="radio" name="submissionStatus" value="Pending"> Pending</label>
+        </div>
+    </div>
+
+    <div class="grid-2">
+
+        <div class="field">
+            <label>PROCESSING DEPARTMENT</label>
+            <input type="text" placeholder="Department name">
+        </div>
+
+        <div class="field">
+            <label>PROCESSING DATE</label>
+            <input type="date">
+        </div>
+
+        <div class="field">
+            <label>REVIEWED / APPROVED BY</label>
+            <input type="text" placeholder="Authorized person's name">
+        </div>
+
+        <div class="field">
+            <label>FINAL DECISION DATE</label>
+            <input type="date">
+        </div>
+
+    </div>
+
+    <div class="field" style="margin-top:12px;">
+        <label>PROCESSING REMARKS / REASON FOR REJECTION</label>
+        <textarea placeholder="Enter review findings, approval remarks, or rejection reasons."></textarea>
+    </div>
+
+</div>
+</section>
+
+<!-- 09 -->
+
+<section class="section">
+
+<div class="section-heading">09. Declaration & Acknowledgement</div>
+
+<p style="font-size:11px;line-height:1.8;color:#344054;">
+I hereby confirm that the documents listed in this form have been submitted
+for the stated purpose. I acknowledge that the receiving department may verify
+the submitted documents and request additional information or supporting
+materials if necessary. The information provided in this form is accurate to
+the best of my knowledge.
+</p>
+
+<div class="field">
+    <label>ADDITIONAL NOTES / COMMENTS</label>
+    <textarea placeholder="Enter additional information relevant to this submission."></textarea>
+</div>
+
+</section>
+
+<!-- 10 -->
+
+<section class="section">
+
+<div class="section-heading">10. Signatures & Authorization</div>
+
+<div class="signature-grid">
+
+    <div class="signature-card">
+        <div class="signature-line">SUBMITTED BY</div>
+
+        <div class="field">
+            <label>SUBMITTER NAME</label>
+            <input type="text" placeholder="Full name">
+        </div>
+
+        <div class="field">
+            <label>SIGNATURE</label>
+            <input type="text" placeholder="Enter signature / initials">
+        </div>
+
+        <div class="field">
+            <label>DATE</label>
+            <input type="date">
+        </div>
+    </div>
+
+    <div class="signature-card">
+        <div class="signature-line">RECEIVED / VERIFIED BY</div>
+
+        <div class="field">
+            <label>RECEIVING OFFICER NAME</label>
+            <input type="text" placeholder="Full name">
+        </div>
+
+        <div class="field">
+            <label>SIGNATURE</label>
+            <input type="text" placeholder="Enter signature / initials">
+        </div>
+
+        <div class="field">
+            <label>DATE</label>
+            <input type="date">
+        </div>
+    </div>
+
+    <div class="signature-card">
+        <div class="signature-line">REVIEWED BY</div>
+
+        <div class="field">
+            <label>REVIEWER NAME</label>
+            <input type="text" placeholder="Full name">
+        </div>
+
+        <div class="field">
+            <label>SIGNATURE</label>
+            <input type="text" placeholder="Enter signature / initials">
+        </div>
+
+        <div class="field">
+            <label>DATE</label>
+            <input type="date">
+        </div>
+    </div>
+
+    <div class="signature-card">
+        <div class="signature-line">AUTHORIZED APPROVAL</div>
+
+        <div class="field">
+            <label>AUTHORIZED PERSON NAME</label>
+            <input type="text" placeholder="Full name">
+        </div>
+
+        <div class="field">
+            <label>SIGNATURE</label>
+            <input type="text" placeholder="Enter signature / initials">
+        </div>
+
+        <div class="field">
+            <label>DATE</label>
+            <input type="date">
+        </div>
+    </div>
+
+</div>
+</section>
+
+<footer class="footer">
+    Document Submission Form | Official Business Record | Keep a copy for your records.
+</footer>
+
+</main>
+
+<script>
+
+/* ===================================
+   PRINT FUNCTION - CORRECTED
+=================================== */
+
+document.getElementById("printButton").addEventListener("click", function(event) {
+
+    event.preventDefault();
+
+    // Directly open the native browser print dialog.
+    // No form validation is performed, so blank forms can also be printed.
+    window.print();
+
+});
+
+
+/* ===================================
+   PAPER SIZE SETTINGS
+=================================== */
+
+const paperSize = document.getElementById("paperSize");
+
+paperSize.addEventListener("change", function() {
+
+    let pageStyle = document.getElementById("dynamicPageStyle");
+
+    if (!pageStyle) {
+        pageStyle = document.createElement("style");
+        pageStyle.id = "dynamicPageStyle";
+        document.head.appendChild(pageStyle);
+    }
+
+    const selectedSize = this.value === "Letter" ? "Letter" : "A4";
+
+    pageStyle.textContent = `
+        @media print {
+            @page {
+                size: ${selectedSize} portrait;
+                margin: 12mm;
+            }
+        }
+    `;
+
+});
+
+
+/* ===================================
+   LOGO UPLOAD AND PREVIEW
+=================================== */
+
+const logoUpload = document.getElementById("logoUpload");
+const logoBox = document.getElementById("logoBox");
+
+let logoURL = null;
+
+logoUpload.addEventListener("change", function() {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG, or WebP image.");
+        this.value = "";
+        return;
+    }
+
+    if (logoURL) {
+        URL.revokeObjectURL(logoURL);
+    }
+
+    logoURL = URL.createObjectURL(file);
+
+    const img = document.createElement("img");
+
+    img.src = logoURL;
+    img.alt = "Company Logo";
+
+    logoBox.replaceChildren(img);
+
+});
+
+
+/* ===================================
+   ADD DOCUMENT ROW
+=================================== */
+
+document.getElementById("addRowButton").addEventListener("click", function() {
+
+    const tbody = document.getElementById("documentRows");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="row-number" style="text-align:center;"></td>
+
+        <td><input type="text" placeholder="Document name"></td>
+
+        <td><input type="text" placeholder="Reference ID"></td>
+
+        <td><input type="date"></td>
+
+        <td>
+            <select>
+                <option value="">Select</option>
+                <option>Original</option>
+                <option>Photocopy</option>
+                <option>Certified Copy</option>
+                <option>Digital Copy</option>
+                <option>Scanned Copy</option>
+                <option>Other</option>
+            </select>
+        </td>
+
+        <td><input type="text" placeholder="e.g. 2 copies"></td>
+    `;
+
+    tbody.appendChild(row);
+
+    updateRowNumbers();
+
+});
+
+
+/* ===================================
+   REMOVE DOCUMENT ROW
+=================================== */
+
+document.getElementById("removeRowButton").addEventListener("click", function() {
+
+    const tbody = document.getElementById("documentRows");
+
+    if (tbody.rows.length <= 1) {
+        alert("At least one document row must remain.");
+        return;
+    }
+
+    tbody.deleteRow(tbody.rows.length - 1);
+
+    updateRowNumbers();
+
+});
+
+
+/* ===================================
+   AUTOMATIC ROW NUMBERING
+=================================== */
+
+function updateRowNumbers() {
+
+    const rows = document.querySelectorAll("#documentRows tr");
+
+    rows.forEach((row, index) => {
+
+        row.querySelector(".row-number").textContent = index + 1;
+
+    });
+
+}
+
+
+/* ===================================
+   RESET FORM - CORRECTED
+=================================== */
+
+document.getElementById("resetButton").addEventListener("click", function() {
+
+    const confirmed = confirm(
+        "Are you sure you want to reset the entire form? All entered information will be cleared."
+    );
+
+    if (!confirmed) return;
+
+    const documentForm = document.getElementById("documentForm");
+
+    // Clear all fields.
+    documentForm.querySelectorAll("input, textarea, select").forEach(element => {
+
+        if (element.type === "checkbox" || element.type === "radio") {
+            element.checked = false;
+        } else if (element.type !== "file") {
+            element.value = "";
+        }
+
+    });
+
+    // Restore original two blank document rows.
+    document.getElementById("documentRows").innerHTML = `
+        <tr>
+            <td class="row-number" style="text-align:center;">1</td>
+            <td><input type="text" placeholder="Document name"></td>
+            <td><input type="text" placeholder="Reference ID"></td>
+            <td><input type="date"></td>
+            <td>
+                <select>
+                    <option value="">Select</option>
+                    <option>Original</option>
+                    <option>Photocopy</option>
+                    <option>Certified Copy</option>
+                    <option>Digital Copy</option>
+                    <option>Scanned Copy</option>
+                    <option>Other</option>
+                </select>
+            </td>
+            <td><input type="text" placeholder="e.g. 2 copies"></td>
+        </tr>
+
+        <tr>
+            <td class="row-number" style="text-align:center;">2</td>
+            <td><input type="text" placeholder="Document name"></td>
+            <td><input type="text" placeholder="Reference ID"></td>
+            <td><input type="date"></td>
+            <td>
+                <select>
+                    <option value="">Select</option>
+                    <option>Original</option>
+                    <option>Photocopy</option>
+                    <option>Certified Copy</option>
+                    <option>Digital Copy</option>
+                    <option>Scanned Copy</option>
+                    <option>Other</option>
+                </select>
+            </td>
+            <td><input type="text" placeholder="e.g. 2 copies"></td>
+        </tr>
+    `;
+
+    // Clear uploaded logo.
+    if (logoURL) {
+        URL.revokeObjectURL(logoURL);
+        logoURL = null;
+    }
+
+    logoUpload.value = "";
+
+    logoBox.innerHTML = "<span>COMPANY<br>LOGO</span>";
+
+    // Reset paper selection.
+    paperSize.value = "A4";
+
+    const dynamicStyle = document.getElementById("dynamicPageStyle");
+
+    if (dynamicStyle) {
+        dynamicStyle.remove();
+    }
+
+    updateRowNumbers();
+
+});
+
+</script>
+
+</body>
+</html>

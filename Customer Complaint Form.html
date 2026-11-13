@@ -1,0 +1,1261 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Complaint Form</title>
+
+<style>
+:root {
+    --navy: #183451;
+    --blue: #28618f;
+    --light: #edf3f8;
+    --border: #cbd5df;
+    --text: #273746;
+    --muted: #687888;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 25px 12px;
+    background: #edf1f5;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+/* TOOLBAR */
+.toolbar {
+    max-width: 950px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.toolbar button, .toolbar select {
+    padding: 11px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.print-btn { background: var(--navy); color: white; }
+.reset-btn { background: #e3e8ee; color: #273746; }
+.toolbar select { border: 1px solid var(--border); background: white; }
+
+/* MAIN DOCUMENT */
+.form-container {
+    max-width: 950px;
+    margin: auto;
+    padding: 32px 38px;
+    background: white;
+    border: 1px solid #dce2e8;
+    box-shadow: 0 4px 18px rgba(0,0,0,.07);
+}
+
+/* COMPANY HEADER */
+.company-header {
+    display: grid;
+    grid-template-columns: 155px 1fr;
+    gap: 24px;
+    align-items: center;
+    padding-bottom: 22px;
+    border-bottom: 2px solid var(--navy);
+}
+
+.logo-column { text-align: center; }
+
+.logo-box {
+    width: 135px;
+    height: 100px;
+    border: 1px dashed #aab8c6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto auto 9px;
+    overflow: hidden;
+    background: #fafbfd;
+}
+
+.logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    color: #8291a0;
+    font-size: 11px;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.upload-btn {
+    background: var(--light);
+    color: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 7px 10px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.company-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px 14px;
+}
+
+.company-info .full { grid-column: 1 / -1; }
+
+.company-info input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    padding: 7px 3px;
+    outline: none;
+}
+
+/* DOCUMENT TITLE */
+.document-title {
+    text-align: center;
+    padding: 23px 0 18px;
+}
+
+.document-title h1 {
+    margin: 0 0 7px;
+    font-size: 25px;
+    letter-spacing: .5px;
+    color: var(--navy);
+}
+
+.document-title p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+/* DOCUMENT META */
+.document-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    background: #f5f8fb;
+    border: 1px solid var(--border);
+    padding: 13px;
+    margin-bottom: 18px;
+}
+
+.field { min-width: 0; }
+
+.field label {
+    display: block;
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 6px;
+    color: #34485a;
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 9px;
+    min-height: 34px;
+    background: white;
+    outline: none;
+    font-family: inherit;
+    color: var(--text);
+    font-size: 12px;
+}
+
+.field textarea {
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.5;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+    border-color: var(--blue);
+}
+
+/* SECTIONS */
+.section-heading {
+    background: var(--navy);
+    color: white;
+    padding: 10px 13px;
+    margin: 20px 0 13px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px 16px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 13px 16px;
+}
+
+.full { grid-column: 1 / -1; }
+
+/* NORMAL CHECKBOX AND RADIO SIZES */
+.radio-group,
+.check-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 18px;
+    padding: 7px 0;
+}
+
+.radio-group label,
+.check-group label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0;
+    line-height: 18px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* Fixed size for all checkboxes and radio buttons */
+.check-group input[type="checkbox"],
+.radio-group input[type="radio"] {
+    appearance: auto;
+    -webkit-appearance: auto;
+    width: 14px !important;
+    height: 14px !important;
+    min-width: 14px !important;
+    min-height: 14px !important;
+    max-width: 14px !important;
+    max-height: 14px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: 0 0 14px;
+    cursor: pointer;
+    accent-color: var(--blue);
+}
+
+/* TABLE */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin-bottom: 9px;
+}
+
+th {
+    background: #eaf0f6;
+    color: var(--navy);
+    font-weight: bold;
+    text-align: left;
+}
+
+th, td {
+    border: 1px solid var(--border);
+    padding: 8px;
+    vertical-align: top;
+}
+
+td input, td select, td textarea {
+    width: 100%;
+    border: 1px solid #d5dde5;
+    padding: 7px;
+    min-width: 85px;
+    font-family: inherit;
+}
+
+.add-row {
+    background: var(--light);
+    border: 1px solid #b9c9d8;
+    color: var(--navy);
+    border-radius: 3px;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.remove-row {
+    border: 0;
+    background: #fbecec;
+    color: #a02d2d;
+    padding: 7px 9px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+/* SIGNATURES */
+.signature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.signature-box {
+    border-bottom: 1px solid #657585;
+    height: 53px;
+}
+
+.signature-label {
+    font-size: 11px;
+    color: #465667;
+    margin-top: 7px;
+    line-height: 1.6;
+}
+
+.note {
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.footer {
+    margin-top: 25px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.error-message {
+    display: none;
+    padding: 10px;
+    background: #fff1f1;
+    border: 1px solid #e5b9b9;
+    color: #a12828;
+    margin-bottom: 12px;
+    font-size: 12px;
+}
+
+/* MOBILE RESPONSIVE */
+@media(max-width:650px) {
+    body { padding: 10px 5px; }
+
+    .form-container { padding: 20px 14px; }
+
+    .company-header { grid-template-columns: 1fr; }
+
+    .company-info { grid-template-columns: 1fr; }
+
+    .company-info .full { grid-column: auto; }
+
+    .grid-2, .grid-3, .document-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .full { grid-column: auto; }
+
+    .document-title h1 { font-size: 21px; }
+
+    .signature-grid { gap: 20px; }
+
+    .toolbar { justify-content: center; }
+
+    .radio-group, .check-group {
+        gap: 10px 14px;
+    }
+}
+
+/* PRINT SETTINGS */
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        font-size: 11px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print { display: none !important; }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+        border: none;
+    }
+
+    input, textarea, select {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        border-bottom: 1px solid #b9c2ca !important;
+        border-radius: 0 !important;
+        padding: 5px 2px !important;
+        appearance: none;
+        -webkit-appearance: none;
+    }
+
+    /* Maintain normal checkbox and radio dimensions in print */
+    .check-group input[type="checkbox"],
+    .radio-group input[type="radio"] {
+        appearance: auto !important;
+        -webkit-appearance: auto !important;
+        width: 14px !important;
+        height: 14px !important;
+        min-width: 14px !important;
+        min-height: 14px !important;
+        max-width: 14px !important;
+        max-height: 14px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        flex: 0 0 14px !important;
+        accent-color: var(--blue);
+    }
+
+    .company-info input {
+        border-bottom: 1px solid #cbd5df !important;
+    }
+
+    .company-header,
+    .document-title,
+    .document-meta,
+    .section-heading,
+    .signature-grid,
+    .footer {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    thead { display: table-header-group; }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    th, td { overflow-wrap: anywhere; }
+
+    .table-wrapper { overflow: visible; }
+
+    .logo-box { background: white; }
+
+    .radio-group, .check-group {
+        break-inside: avoid;
+    }
+
+    .signature-box { height: 48px; }
+
+    .footer { margin-top: 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+    <label for="paperSize" style="font-size:12px;font-weight:bold;">Paper:</label>
+
+    <select id="paperSize" onchange="changePaperSize()">
+        <option value="A4">A4 Portrait</option>
+        <option value="Letter">US Letter</option>
+    </select>
+
+    <button class="reset-btn" type="button" onclick="resetForm()">RESET FORM</button>
+
+    <button class="print-btn" type="button" onclick="printForm()">
+        PRINT FORM / SAVE PDF
+    </button>
+</div>
+
+<div class="form-container">
+
+    <div id="errorBox" class="error-message no-print"></div>
+
+    <!-- COMPANY HEADER -->
+    <header class="company-header">
+
+        <div class="logo-column">
+            <div class="logo-box" id="logoBox">
+                <span class="logo-placeholder" id="logoPlaceholder">
+                    COMPANY<br>LOGO
+                </span>
+                <img id="logoPreview" alt="Company Logo" style="display:none;">
+            </div>
+
+            <input type="file" id="logoUpload"
+                accept=".jpg,.jpeg,.png,.svg,.webp" hidden>
+
+            <button class="upload-btn no-print" type="button"
+                onclick="document.getElementById('logoUpload').click()">
+                UPLOAD COMPANY LOGO
+            </button>
+        </div>
+
+        <div class="company-info">
+            <input type="text" placeholder="Company Name" aria-label="Company Name">
+            <input type="text" placeholder="Phone Number" aria-label="Phone Number">
+            <input class="full" type="text" placeholder="Business Address" aria-label="Business Address">
+            <input type="email" placeholder="Email Address" aria-label="Email Address">
+            <input type="url" placeholder="Website" aria-label="Website">
+            <input class="full" type="text" placeholder="Business Registration Number (Optional)" aria-label="Business Registration Number">
+        </div>
+
+    </header>
+
+    <!-- TITLE -->
+    <div class="document-title">
+        <h1>Customer Complaint Form</h1>
+        <p>Customer Service • Complaint Management • Resolution Tracking</p>
+    </div>
+
+    <!-- COMPLAINT REFERENCE -->
+    <div class="document-meta">
+
+        <div class="field">
+            <label>Complaint Reference Number *</label>
+            <input type="text" id="complaintNumber" required>
+        </div>
+
+        <div class="field">
+            <label>Date Received *</label>
+            <input type="date" id="dateReceived" required>
+        </div>
+
+        <div class="field">
+            <label>Received Time</label>
+            <input type="time" id="receivedTime">
+        </div>
+
+        <div class="field">
+            <label>Complaint Channel *</label>
+            <select id="channel" required>
+                <option value="">Select Channel</option>
+                <option>In Person</option>
+                <option>Phone Call</option>
+                <option>Email</option>
+                <option>Website / Online Form</option>
+                <option>Social Media</option>
+                <option>Written Letter</option>
+                <option>Live Chat</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Priority Level *</label>
+            <select id="priority" required>
+                <option value="">Select Priority</option>
+                <option>Low</option>
+                <option>Normal</option>
+                <option>High</option>
+                <option>Urgent</option>
+                <option>Critical</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Complaint Status</label>
+            <select id="complaintStatus">
+                <option>New</option>
+                <option>Under Review</option>
+                <option>Under Investigation</option>
+                <option>Awaiting Customer Response</option>
+                <option>Resolution Proposed</option>
+                <option>Resolved</option>
+                <option>Closed</option>
+                <option>Escalated</option>
+            </select>
+        </div>
+
+    </div>
+
+    <!-- CUSTOMER INFORMATION -->
+    <div class="section-heading">01. Customer Information</div>
+
+    <div class="grid-2">
+
+        <div class="field">
+            <label>Customer Full Name *</label>
+            <input type="text" id="customerName" required>
+        </div>
+
+        <div class="field">
+            <label>Customer / Account ID</label>
+            <input type="text" id="customerId">
+        </div>
+
+        <div class="field">
+            <label>Phone Number *</label>
+            <input type="tel" id="customerPhone" required>
+        </div>
+
+        <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="customerEmail">
+        </div>
+
+        <div class="field full">
+            <label>Customer Address</label>
+            <textarea id="customerAddress" rows="2"></textarea>
+        </div>
+
+        <div class="field">
+            <label>Preferred Contact Method</label>
+            <select id="contactMethod">
+                <option value="">Select Method</option>
+                <option>Phone</option>
+                <option>Email</option>
+                <option>SMS / Text Message</option>
+                <option>WhatsApp</option>
+                <option>Postal Mail</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Preferred Contact Time</label>
+            <select id="contactTime">
+                <option value="">Select Time</option>
+                <option>Morning</option>
+                <option>Afternoon</option>
+                <option>Evening</option>
+                <option>Anytime</option>
+            </select>
+        </div>
+
+    </div>
+
+    <!-- CLASSIFICATION -->
+    <div class="section-heading">02. Complaint Classification</div>
+
+    <div class="grid-2">
+
+        <div class="field">
+            <label>Complaint Category *</label>
+            <select id="category" required>
+                <option value="">Select Category</option>
+                <option>Product Quality</option>
+                <option>Defective / Damaged Product</option>
+                <option>Service Quality</option>
+                <option>Delivery / Shipping Delay</option>
+                <option>Incorrect Order</option>
+                <option>Billing / Payment Issue</option>
+                <option>Refund / Return Request</option>
+                <option>Staff Conduct</option>
+                <option>Communication Issue</option>
+                <option>Warranty / Repair Issue</option>
+                <option>Pricing / Charges</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Complaint Type</label>
+            <select id="complaintType">
+                <option value="">Select Type</option>
+                <option>First-Time Complaint</option>
+                <option>Repeat Complaint</option>
+                <option>Formal Complaint</option>
+                <option>Escalated Complaint</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Product / Service Name</label>
+            <input type="text" id="productService">
+        </div>
+
+        <div class="field">
+            <label>Order / Invoice / Transaction Number</label>
+            <input type="text" id="transactionNumber">
+        </div>
+
+        <div class="field">
+            <label>Purchase / Service Date</label>
+            <input type="date" id="purchaseDate">
+        </div>
+
+        <div class="field">
+            <label>Branch / Location</label>
+            <input type="text" id="branch">
+        </div>
+
+    </div>
+
+    <!-- COMPLAINT DETAILS -->
+    <div class="section-heading">03. Complaint Description</div>
+
+    <div class="grid-2">
+
+        <div class="field full">
+            <label>Subject / Short Summary *</label>
+            <input type="text" id="complaintSubject" required>
+        </div>
+
+        <div class="field full">
+            <label>Detailed Description of Complaint *</label>
+            <textarea id="complaintDescription" rows="5" required
+                placeholder="Describe what happened, when it happened, and the issue experienced by the customer."></textarea>
+        </div>
+
+        <div class="field full">
+            <label>Customer's Expected Resolution *</label>
+            <textarea id="expectedResolution" rows="3" required></textarea>
+        </div>
+
+        <div class="field">
+            <label>Has the Customer Contacted Us Before?</label>
+            <div class="radio-group">
+                <label><input type="radio" name="previousContact" value="Yes"> Yes</label>
+                <label><input type="radio" name="previousContact" value="No" checked> No</label>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Previous Complaint Reference</label>
+            <input type="text" id="previousReference">
+        </div>
+
+    </div>
+
+    <!-- AFFECTED ITEMS -->
+    <div class="section-heading">04. Affected Products / Services</div>
+
+    <p class="note">Add one or more products or services related to the complaint, if applicable.</p>
+
+    <div class="table-wrapper">
+        <table id="itemsTable">
+            <thead>
+                <tr>
+                    <th style="width:7%">No.</th>
+                    <th style="width:24%">Product / Service</th>
+                    <th style="width:18%">Order / Item ID</th>
+                    <th style="width:13%">Quantity</th>
+                    <th style="width:23%">Issue / Defect</th>
+                    <th class="no-print" style="width:15%">Action</th>
+                </tr>
+            </thead>
+            <tbody id="itemsBody"></tbody>
+        </table>
+    </div>
+
+    <button type="button" class="add-row no-print" onclick="addItemRow()">
+        + ADD ITEM
+    </button>
+
+    <!-- SUPPORTING EVIDENCE -->
+    <div class="section-heading">05. Supporting Evidence</div>
+
+    <div class="grid-2">
+
+        <div class="field">
+            <label>Evidence Available</label>
+            <div class="check-group">
+                <label><input type="checkbox"> Photographs</label>
+                <label><input type="checkbox"> Receipt / Invoice</label>
+                <label><input type="checkbox"> Email / Messages</label>
+                <label><input type="checkbox"> Video</label>
+                <label><input type="checkbox"> Other Documents</label>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Upload Supporting Files</label>
+            <input type="file" id="evidenceFiles" multiple
+                accept="image/*,.pdf,.doc,.docx">
+            <p class="note">File names are recorded for reference. Attachments are not embedded in the printed form.</p>
+            <div id="fileNames" class="note"></div>
+        </div>
+
+        <div class="field full">
+            <label>Evidence / Attachment Description</label>
+            <textarea id="evidenceDescription" rows="2"></textarea>
+        </div>
+
+    </div>
+
+    <!-- INTERNAL REVIEW -->
+    <div class="section-heading">06. Internal Review & Investigation</div>
+
+    <div class="grid-2">
+
+        <div class="field">
+            <label>Assigned Department</label>
+            <select id="department">
+                <option value="">Select Department</option>
+                <option>Customer Service</option>
+                <option>Sales</option>
+                <option>Operations</option>
+                <option>Technical Support</option>
+                <option>Quality Control</option>
+                <option>Accounts / Finance</option>
+                <option>Management</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Assigned Employee</label>
+            <input type="text" id="assignedEmployee">
+        </div>
+
+        <div class="field">
+            <label>Investigation Start Date</label>
+            <input type="date" id="investigationDate">
+        </div>
+
+        <div class="field">
+            <label>Target Resolution Date</label>
+            <input type="date" id="targetDate">
+        </div>
+
+        <div class="field full">
+            <label>Investigation Findings</label>
+            <textarea id="investigationFindings" rows="4"></textarea>
+        </div>
+
+        <div class="field full">
+            <label>Root Cause</label>
+            <select id="rootCause">
+                <option value="">Select Root Cause</option>
+                <option>Product Defect</option>
+                <option>Human Error</option>
+                <option>Process Failure</option>
+                <option>Communication Gap</option>
+                <option>Supplier / Vendor Issue</option>
+                <option>Delivery / Logistics Issue</option>
+                <option>System / Technical Issue</option>
+                <option>Customer Misunderstanding</option>
+                <option>Unable to Determine</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+    </div>
+
+    <!-- RESOLUTION -->
+    <div class="section-heading">07. Proposed Resolution & Corrective Action</div>
+
+    <div class="grid-2">
+
+        <div class="field full">
+            <label>Proposed Resolution</label>
+            <div class="check-group">
+                <label><input type="checkbox"> Refund</label>
+                <label><input type="checkbox"> Replacement</label>
+                <label><input type="checkbox"> Repair</label>
+                <label><input type="checkbox"> Rework / Re-service</label>
+                <label><input type="checkbox"> Discount / Compensation</label>
+                <label><input type="checkbox"> Apology</label>
+                <label><input type="checkbox"> Explanation</label>
+                <label><input type="checkbox"> Other</label>
+            </div>
+        </div>
+
+        <div class="field full">
+            <label>Details of Corrective Action</label>
+            <textarea id="correctiveAction" rows="4"></textarea>
+        </div>
+
+        <div class="field">
+            <label>Resolution Date</label>
+            <input type="date" id="resolutionDate">
+        </div>
+
+        <div class="field">
+            <label>Resolution Status</label>
+            <select id="resolutionStatus">
+                <option>Pending</option>
+                <option>In Progress</option>
+                <option>Proposed to Customer</option>
+                <option>Accepted by Customer</option>
+                <option>Rejected by Customer</option>
+                <option>Completed</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Customer Satisfaction After Resolution</label>
+            <select id="satisfaction">
+                <option value="">Not Yet Confirmed</option>
+                <option>Very Satisfied</option>
+                <option>Satisfied</option>
+                <option>Neutral</option>
+                <option>Dissatisfied</option>
+                <option>Very Dissatisfied</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Follow-up Required?</label>
+            <div class="radio-group">
+                <label><input type="radio" name="followup" value="Yes"> Yes</label>
+                <label><input type="radio" name="followup" value="No" checked> No</label>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Follow-up Date</label>
+            <input type="date" id="followupDate">
+        </div>
+
+        <div class="field">
+            <label>Follow-up By</label>
+            <input type="text" id="followupBy">
+        </div>
+
+        <div class="field full">
+            <label>Additional Notes / Customer Communication</label>
+            <textarea id="additionalNotes" rows="3"></textarea>
+        </div>
+
+    </div>
+
+    <!-- INTERNAL RECORD -->
+    <div class="section-heading">08. Internal Complaint Record</div>
+
+    <div class="grid-3">
+
+        <div class="field">
+            <label>Handled By</label>
+            <input type="text" id="handledBy">
+        </div>
+
+        <div class="field">
+            <label>Reviewed By</label>
+            <input type="text" id="reviewedBy">
+        </div>
+
+        <div class="field">
+            <label>Closure Date</label>
+            <input type="date" id="closureDate">
+        </div>
+
+        <div class="field full">
+            <label>Internal Management Comments</label>
+            <textarea id="managementComments" rows="3"></textarea>
+        </div>
+
+    </div>
+
+    <!-- CUSTOMER ACKNOWLEDGMENT -->
+    <div class="section-heading">09. Customer Confirmation & Acknowledgment</div>
+
+    <div class="field">
+        <label>Customer Confirmation</label>
+        <p class="note">
+            I acknowledge that the above complaint and its proposed or completed resolution
+            have been discussed with me. My signature confirms receipt of the communication
+            and does not waive any applicable legal rights.
+        </p>
+    </div>
+
+    <div class="signature-grid">
+
+        <div>
+            <div class="signature-box"></div>
+            <div class="signature-label">
+                Customer Signature / Name<br>
+                Date: __________________________
+            </div>
+        </div>
+
+        <div>
+            <div class="signature-box"></div>
+            <div class="signature-label">
+                Authorized Representative Signature<br>
+                Date: __________________________
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Customer Complaint Form | Confidential Business Record |
+        Retain a copy according to your organization's record-retention policy.
+    </div>
+
+</div>
+
+<script>
+"use strict";
+
+// INITIALIZE FORM
+(function initializeForm() {
+    const today = new Date();
+    const localDate = new Date(
+        today.getTime() - today.getTimezoneOffset() * 60000
+    ).toISOString().slice(0, 10);
+
+    document.getElementById("dateReceived").value = localDate;
+
+    document.getElementById("complaintNumber").value =
+        "CMP-" + localDate.replace(/-/g, "") + "-001";
+
+    addItemRow();
+})();
+
+// LOGO UPLOAD
+document.getElementById("logoUpload").addEventListener("change", function(e) {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const allowed = [
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp"
+    ];
+
+    if (!allowed.includes(file.type)) {
+        alert("Please upload a JPG, PNG, SVG or WebP logo.");
+        this.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        const preview = document.getElementById("logoPreview");
+        preview.src = event.target.result;
+        preview.style.display = "block";
+
+        document.getElementById("logoPlaceholder").style.display = "none";
+    };
+
+    reader.readAsDataURL(file);
+});
+
+// FILE UPLOAD DISPLAY
+document.getElementById("evidenceFiles").addEventListener("change", function() {
+    const names = Array.from(this.files).map(file => file.name);
+
+    document.getElementById("fileNames").textContent =
+        names.length ? "Selected files: " + names.join(", ") : "";
+});
+
+// ADD TABLE ROW
+function addItemRow() {
+    const tbody = document.getElementById("itemsBody");
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td class="row-number"></td>
+        <td><input type="text" aria-label="Product or Service"></td>
+        <td><input type="text" aria-label="Order or Item ID"></td>
+        <td><input type="number" min="0" step="1" aria-label="Quantity"></td>
+        <td><textarea rows="2" aria-label="Issue or Defect"></textarea></td>
+        <td class="no-print">
+            <button type="button" class="remove-row"
+                onclick="removeItemRow(this)">Remove</button>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+    updateRowNumbers();
+}
+
+function removeItemRow(button) {
+    const tbody = document.getElementById("itemsBody");
+
+    if (tbody.rows.length <= 1) {
+        alert("At least one item row must remain.");
+        return;
+    }
+
+    button.closest("tr").remove();
+    updateRowNumbers();
+}
+
+function updateRowNumbers() {
+    document.querySelectorAll("#itemsBody tr").forEach((row, index) => {
+        row.querySelector(".row-number").textContent = index + 1;
+    });
+}
+
+// PAPER SIZE
+function changePaperSize() {
+    const size = document.getElementById("paperSize").value;
+
+    let style = document.getElementById("dynamicPageStyle");
+
+    if (!style) {
+        style = document.createElement("style");
+        style.id = "dynamicPageStyle";
+        document.head.appendChild(style);
+    }
+
+    style.textContent =
+        "@page { size: " + size + " portrait; margin: 12mm; }";
+}
+
+// FORM VALIDATION
+function validateForm() {
+    const requiredFields =
+        document.querySelectorAll(".form-container [required]");
+
+    const errorBox = document.getElementById("errorBox");
+
+    errorBox.style.display = "none";
+
+    for (const field of requiredFields) {
+
+        if (!field.value.trim()) {
+            errorBox.textContent =
+                "Please complete all required fields marked with *.";
+
+            errorBox.style.display = "block";
+            field.focus();
+
+            field.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+            return false;
+        }
+
+        if (field.type === "email" && !field.checkValidity()) {
+            errorBox.textContent = "Please enter a valid email address.";
+            errorBox.style.display = "block";
+            field.focus();
+            return false;
+        }
+    }
+
+    const purchase = document.getElementById("purchaseDate").value;
+    const received = document.getElementById("dateReceived").value;
+
+    if (purchase && received && purchase > received) {
+        errorBox.textContent =
+            "Purchase / Service Date cannot be later than Date Received.";
+
+        errorBox.style.display = "block";
+        document.getElementById("purchaseDate").focus();
+
+        return false;
+    }
+
+    const investigation =
+        document.getElementById("investigationDate").value;
+
+    const target = document.getElementById("targetDate").value;
+
+    if (investigation && target && target < investigation) {
+        errorBox.textContent =
+            "Target Resolution Date cannot be earlier than Investigation Start Date.";
+
+        errorBox.style.display = "block";
+        document.getElementById("targetDate").focus();
+
+        return false;
+    }
+
+    return true;
+}
+
+// PRINT
+function printForm() {
+    if (!validateForm()) return;
+
+    window.print();
+}
+
+// RESET
+function resetForm() {
+    const confirmed = confirm(
+        "Are you sure you want to reset this complaint form? All entered information will be cleared."
+    );
+
+    if (!confirmed) return;
+
+    document.querySelectorAll(
+        ".form-container input, .form-container textarea, .form-container select"
+    ).forEach(element => {
+
+        if (element.type === "file") {
+            element.value = "";
+
+        } else if (
+            element.type === "checkbox" ||
+            element.type === "radio"
+        ) {
+            element.checked = element.defaultChecked;
+
+        } else if (element.tagName === "SELECT") {
+            element.selectedIndex = 0;
+
+        } else {
+            element.value = "";
+        }
+    });
+
+    document.getElementById("logoPreview").src = "";
+    document.getElementById("logoPreview").style.display = "none";
+
+    document.getElementById("logoPlaceholder").style.display = "block";
+
+    document.getElementById("fileNames").textContent = "";
+    document.getElementById("errorBox").style.display = "none";
+
+    document.getElementById("itemsBody").innerHTML = "";
+    addItemRow();
+
+    const today = new Date();
+    const localDate = new Date(
+        today.getTime() - today.getTimezoneOffset() * 60000
+    ).toISOString().slice(0, 10);
+
+    document.getElementById("dateReceived").value = localDate;
+
+    document.getElementById("complaintNumber").value =
+        "CMP-" + localDate.replace(/-/g, "") + "-001";
+}
+</script>
+
+</body>
+</html>
