@@ -1,0 +1,1261 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Appointment Booking Form</title>
+
+<style>
+:root {
+    --navy: #183653;
+    --blue: #28618c;
+    --light: #eaf1f7;
+    --border: #cbd5df;
+    --text: #283746;
+    --muted: #657586;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 12px;
+    background: #eef1f5;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    padding: 30px 35px;
+    background: white;
+    border: 1px solid #d8e0e8;
+    box-shadow: 0 3px 18px rgba(0,0,0,.07);
+}
+
+.actions {
+    max-width: 900px;
+    margin: 0 auto 12px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+button {
+    border: none;
+    border-radius: 4px;
+    padding: 10px 17px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.print-btn {
+    background: var(--navy);
+    color: white;
+}
+
+.reset-btn {
+    background: #e5e9ee;
+    color: #344454;
+}
+
+.add-btn {
+    background: var(--blue);
+    color: white;
+    padding: 8px 13px;
+}
+
+.remove-btn {
+    background: #f5e8e8;
+    color: #a33a3a;
+    padding: 6px 10px;
+}
+
+.document-header {
+    display: grid;
+    grid-template-columns: 145px 1fr;
+    gap: 24px;
+    align-items: start;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--navy);
+}
+
+.logo-column {
+    text-align: center;
+}
+
+.logo-box {
+    width: 125px;
+    height: 100px;
+    border: 1px dashed #9aaaba;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #fafbfd;
+    margin-bottom: 9px;
+}
+
+.logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    color: #8b99a7;
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.upload-btn {
+    display: inline-block;
+    background: #eaf1f7;
+    color: var(--navy);
+    padding: 7px 9px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.company-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px 15px;
+}
+
+.field {
+    min-width: 0;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #445568;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    height: 34px;
+    padding: 7px 9px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: white;
+    color: #263748;
+    font-family: inherit;
+    font-size: 12px;
+}
+
+textarea {
+    height: 65px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 1px solid var(--blue);
+    border-color: var(--blue);
+}
+
+.document-title {
+    text-align: center;
+    padding: 22px 0 17px;
+}
+
+.document-title h1 {
+    margin: 0 0 6px;
+    font-size: 25px;
+    color: var(--navy);
+    letter-spacing: .7px;
+    text-transform: uppercase;
+}
+
+.document-title p {
+    margin: 0;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.section {
+    margin-top: 20px;
+}
+
+.section-heading {
+    margin: 0 0 12px;
+    padding: 8px 11px;
+    background: var(--light);
+    border-left: 4px solid var(--navy);
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 17px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px 14px;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.choice-group {
+    display: flex;
+    gap: 17px;
+    flex-wrap: wrap;
+    align-items: center;
+    min-height: 34px;
+}
+
+.choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0;
+}
+
+.choice input {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    accent-color: var(--navy);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th, td {
+    border: 1px solid var(--border);
+    padding: 7px;
+    text-align: left;
+    vertical-align: middle;
+    overflow-wrap: anywhere;
+}
+
+th {
+    background: #edf2f6;
+    color: var(--navy);
+    font-size: 11px;
+}
+
+td input, td select {
+    height: 30px;
+    padding: 5px;
+}
+
+.service-table th:nth-child(1) { width: 7%; }
+.service-table th:nth-child(2) { width: 34%; }
+.service-table th:nth-child(3) { width: 20%; }
+.service-table th:nth-child(4) { width: 20%; }
+.service-table th:nth-child(5) { width: 19%; }
+
+.table-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 9px;
+}
+
+.note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 7px;
+}
+
+.status-box {
+    padding: 12px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+}
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+    margin-top: 18px;
+}
+
+.signature-line {
+    border-bottom: 1px solid #536273;
+    height: 45px;
+    margin-bottom: 7px;
+}
+
+.signature-caption {
+    font-size: 11px;
+    color: #526173;
+}
+
+.footer {
+    margin-top: 25px;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+    text-align: center;
+    font-size: 10px;
+    color: #758291;
+}
+
+.required {
+    color: #c0392b;
+}
+
+.error-message {
+    display: none;
+    color: #b42318;
+    background: #fff1f0;
+    border: 1px solid #f2c5c2;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+@media(max-width:650px) {
+    body {
+        padding: 10px 5px;
+    }
+
+    .form-container {
+        padding: 18px 13px;
+    }
+
+    .document-header {
+        grid-template-columns: 1fr;
+    }
+
+    .logo-column {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        justify-content: flex-start;
+    }
+
+    .logo-box {
+        margin: 0;
+    }
+
+    .company-fields,
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+
+    .field.full {
+        grid-column: auto;
+    }
+
+    .document-title h1 {
+        font-size: 20px;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+    }
+
+    .service-table {
+        min-width: 620px;
+    }
+
+    .signature-grid {
+        gap: 20px;
+    }
+
+    .actions {
+        justify-content: center;
+    }
+
+    .actions button {
+        flex: 1;
+    }
+}
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        font-size: 11px;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .no-print,
+    button,
+    .upload-btn,
+    .table-controls,
+    .error-message {
+        display: none !important;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    input, textarea, select {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: 1px solid #b8c1ca;
+        font-size: 10px;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        width: 12px;
+        height: 12px;
+        accent-color: #183653;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    .document-header {
+        grid-template-columns: 125px 1fr;
+    }
+
+    .logo-box {
+        background: white;
+    }
+
+    .section-heading {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .signature-grid,
+    .status-box {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .footer {
+        break-inside: avoid;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="actions no-print">
+    <button class="print-btn" type="button" onclick="printForm()">PRINT FORM / SAVE PDF</button>
+    <button class="reset-btn" type="button" onclick="resetForm()">RESET FORM</button>
+</div>
+
+<div class="form-container">
+<form id="appointmentForm" novalidate>
+
+<div id="errorMessage" class="error-message"></div>
+
+<!-- COMPANY HEADER -->
+<header class="document-header">
+
+    <div class="logo-column">
+        <div class="logo-box" id="logoBox">
+            <span class="logo-placeholder">COMPANY<br>LOGO</span>
+        </div>
+        <label class="upload-btn no-print">
+            UPLOAD LOGO
+            <input type="file" id="logoUpload" accept=".jpg,.jpeg,.png,.svg,.webp" hidden>
+        </label>
+    </div>
+
+    <div class="company-fields">
+        <div class="field full">
+            <label>Company / Business Name</label>
+            <input type="text" name="companyName" placeholder="Enter business name">
+        </div>
+
+        <div class="field full">
+            <label>Business Address</label>
+            <input type="text" name="companyAddress" placeholder="Street address, city, country">
+        </div>
+
+        <div class="field">
+            <label>Phone Number</label>
+            <input type="tel" name="companyPhone" placeholder="+00 000 0000000">
+        </div>
+
+        <div class="field">
+            <label>Email Address</label>
+            <input type="email" name="companyEmail" placeholder="business@example.com">
+        </div>
+
+        <div class="field">
+            <label>Website</label>
+            <input type="text" name="companyWebsite" placeholder="www.example.com">
+        </div>
+
+        <div class="field">
+            <label>Business Registration No. (Optional)</label>
+            <input type="text" name="registrationNumber">
+        </div>
+    </div>
+
+</header>
+
+<div class="document-title">
+    <h1>Appointment Booking Form</h1>
+    <p>Client Appointment Scheduling & Booking Record</p>
+</div>
+
+<!-- BOOKING REFERENCE -->
+<section class="section">
+    <h2 class="section-heading">01. Booking Information</h2>
+
+    <div class="grid-3">
+        <div class="field">
+            <label>Booking Reference No.</label>
+            <input type="text" name="bookingNumber" placeholder="e.g. AP-001">
+        </div>
+
+        <div class="field">
+            <label>Booking Date <span class="required">*</span></label>
+            <input type="date" name="bookingDate" required>
+        </div>
+
+        <div class="field">
+            <label>Booking Source</label>
+            <select name="bookingSource">
+                <option value="">Select Source</option>
+                <option>Phone Call</option>
+                <option>Website</option>
+                <option>Email</option>
+                <option>Walk-in</option>
+                <option>Social Media</option>
+                <option>Referral</option>
+                <option>Other</option>
+            </select>
+        </div>
+    </div>
+</section>
+
+<!-- CLIENT INFORMATION -->
+<section class="section">
+    <h2 class="section-heading">02. Client Information</h2>
+
+    <div class="grid-2">
+        <div class="field">
+            <label>Client Full Name <span class="required">*</span></label>
+            <input type="text" name="clientName" required placeholder="Enter full name">
+        </div>
+
+        <div class="field">
+            <label>Client / Customer ID</label>
+            <input type="text" name="clientId" placeholder="Optional">
+        </div>
+
+        <div class="field">
+            <label>Phone Number <span class="required">*</span></label>
+            <input type="tel" name="clientPhone" required placeholder="Enter contact number">
+        </div>
+
+        <div class="field">
+            <label>Email Address</label>
+            <input type="email" name="clientEmail" placeholder="Enter email address">
+        </div>
+
+        <div class="field full">
+            <label>Client Address</label>
+            <input type="text" name="clientAddress" placeholder="Street, city, postal code">
+        </div>
+
+        <div class="field">
+            <label>Preferred Contact Method</label>
+            <select name="contactMethod">
+                <option value="">Select Method</option>
+                <option>Phone Call</option>
+                <option>SMS</option>
+                <option>Email</option>
+                <option>WhatsApp</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Existing / New Client</label>
+            <select name="clientType">
+                <option value="">Select Client Type</option>
+                <option>New Client</option>
+                <option>Existing Client</option>
+                <option>Returning Client</option>
+            </select>
+        </div>
+    </div>
+</section>
+
+<!-- APPOINTMENT DETAILS -->
+<section class="section">
+    <h2 class="section-heading">03. Appointment Details</h2>
+
+    <div class="grid-2">
+        <div class="field">
+            <label>Appointment Type <span class="required">*</span></label>
+            <select name="appointmentType" required>
+                <option value="">Select Appointment Type</option>
+                <option>Initial Consultation</option>
+                <option>Follow-up Appointment</option>
+                <option>Regular Service</option>
+                <option>Assessment</option>
+                <option>Meeting</option>
+                <option>Virtual Consultation</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Service / Department</label>
+            <select name="service">
+                <option value="">Select Service</option>
+                <option>Consultation</option>
+                <option>Personal Care</option>
+                <option>Professional Service</option>
+                <option>Business Meeting</option>
+                <option>Technical Service</option>
+                <option>Customer Support</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Appointment Date <span class="required">*</span></label>
+            <input type="date" name="appointmentDate" id="appointmentDate" required>
+        </div>
+
+        <div class="field">
+            <label>Appointment Time <span class="required">*</span></label>
+            <input type="time" name="appointmentTime" required>
+        </div>
+
+        <div class="field">
+            <label>Expected Duration</label>
+            <select name="duration">
+                <option value="">Select Duration</option>
+                <option>15 Minutes</option>
+                <option>30 Minutes</option>
+                <option>45 Minutes</option>
+                <option>1 Hour</option>
+                <option>1 Hour 30 Minutes</option>
+                <option>2 Hours</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Assigned Staff / Professional</label>
+            <input type="text" name="assignedStaff" placeholder="Enter staff member name">
+        </div>
+
+        <div class="field">
+            <label>Appointment Location</label>
+            <select name="location">
+                <option value="">Select Location</option>
+                <option>Office / Business Premises</option>
+                <option>Client Location</option>
+                <option>Online / Virtual</option>
+                <option>Phone Consultation</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Meeting Link / Room Details</label>
+            <input type="text" name="meetingDetails" placeholder="Enter link or room number">
+        </div>
+
+        <div class="field full">
+            <label>Specific Appointment Requirements</label>
+            <textarea name="requirements" placeholder="Enter any special arrangements or requirements..."></textarea>
+        </div>
+    </div>
+</section>
+
+<!-- AVAILABILITY -->
+<section class="section">
+    <h2 class="section-heading">04. Scheduling Preferences</h2>
+
+    <div class="grid-2">
+        <div class="field">
+            <label>Preferred Alternative Date</label>
+            <input type="date" name="alternativeDate">
+        </div>
+
+        <div class="field">
+            <label>Preferred Alternative Time</label>
+            <input type="time" name="alternativeTime">
+        </div>
+
+        <div class="field full">
+            <label>Preferred Time of Day</label>
+            <div class="choice-group">
+                <label class="choice"><input type="radio" name="preferredTime" value="Morning"> Morning</label>
+                <label class="choice"><input type="radio" name="preferredTime" value="Afternoon"> Afternoon</label>
+                <label class="choice"><input type="radio" name="preferredTime" value="Evening"> Evening</label>
+                <label class="choice"><input type="radio" name="preferredTime" value="Flexible"> Flexible</label>
+            </div>
+        </div>
+
+        <div class="field full">
+            <label>Appointment Reminders</label>
+            <div class="choice-group">
+                <label class="choice"><input type="checkbox" name="reminders" value="SMS"> SMS Reminder</label>
+                <label class="choice"><input type="checkbox" name="reminders" value="Email"> Email Reminder</label>
+                <label class="choice"><input type="checkbox" name="reminders" value="WhatsApp"> WhatsApp Reminder</label>
+                <label class="choice"><input type="checkbox" name="reminders" value="Phone"> Phone Reminder</label>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Reminder Timing</label>
+            <select name="reminderTiming">
+                <option value="">Select Reminder Timing</option>
+                <option>15 Minutes Before</option>
+                <option>1 Hour Before</option>
+                <option>3 Hours Before</option>
+                <option>1 Day Before</option>
+                <option>2 Days Before</option>
+            </select>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICE DETAILS -->
+<section class="section">
+    <h2 class="section-heading">05. Requested Services</h2>
+
+    <div class="table-wrap">
+        <table class="service-table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Service / Description</th>
+                    <th>Staff / Provider</th>
+                    <th>Duration</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody id="serviceRows">
+                <tr>
+                    <td class="row-number">1</td>
+                    <td><input type="text" name="serviceDescription[]" aria-label="Service description"></td>
+                    <td><input type="text" name="serviceProvider[]" aria-label="Service provider"></td>
+                    <td>
+                        <select name="serviceDuration[]" aria-label="Service duration">
+                            <option value="">Select</option>
+                            <option>15 Min</option>
+                            <option>30 Min</option>
+                            <option>45 Min</option>
+                            <option>1 Hour</option>
+                            <option>2 Hours</option>
+                        </select>
+                    </td>
+                    <td><input type="text" name="serviceNotes[]" aria-label="Service notes"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-controls no-print">
+        <button type="button" class="add-btn" onclick="addServiceRow()">+ ADD SERVICE</button>
+    </div>
+</section>
+
+<!-- PAYMENT -->
+<section class="section">
+    <h2 class="section-heading">06. Appointment Fee & Payment</h2>
+
+    <div class="grid-3">
+        <div class="field">
+            <label>Appointment Fee</label>
+            <input type="number" name="appointmentFee" id="appointmentFee" min="0" step="0.01" value="0">
+        </div>
+
+        <div class="field">
+            <label>Discount Amount</label>
+            <input type="number" name="discount" id="discount" min="0" step="0.01" value="0">
+        </div>
+
+        <div class="field">
+            <label>Additional Charges</label>
+            <input type="number" name="additionalCharges" id="additionalCharges" min="0" step="0.01" value="0">
+        </div>
+
+        <div class="field">
+            <label>Payment Method</label>
+            <select name="paymentMethod">
+                <option value="">Select Method</option>
+                <option>Cash</option>
+                <option>Bank Transfer</option>
+                <option>Credit Card</option>
+                <option>Debit Card</option>
+                <option>Mobile Wallet</option>
+                <option>Cheque</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Payment Status</label>
+            <select name="paymentStatus">
+                <option value="">Select Status</option>
+                <option>Unpaid</option>
+                <option>Partially Paid</option>
+                <option>Paid</option>
+                <option>Waived</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Amount Paid</label>
+            <input type="number" name="amountPaid" id="amountPaid" min="0" step="0.01" value="0">
+        </div>
+    </div>
+
+    <div class="status-box" style="margin-top:14px">
+        <div class="grid-3">
+            <div>
+                <label>Subtotal</label>
+                <input type="text" id="subtotal" value="0.00" readonly>
+            </div>
+            <div>
+                <label>Net Appointment Fee</label>
+                <input type="text" id="netTotal" value="0.00" readonly>
+            </div>
+            <div>
+                <label>Balance Due</label>
+                <input type="text" id="balanceDue" value="0.00" readonly>
+            </div>
+        </div>
+        <p class="note">Balance Due = Appointment Fee − Discount + Additional Charges − Amount Paid.</p>
+    </div>
+</section>
+
+<!-- BOOKING STATUS -->
+<section class="section">
+    <h2 class="section-heading">07. Booking Confirmation & Status</h2>
+
+    <div class="grid-2">
+        <div class="field">
+            <label>Booking Status</label>
+            <select name="bookingStatus">
+                <option value="">Select Status</option>
+                <option>Pending</option>
+                <option>Confirmed</option>
+                <option>Rescheduled</option>
+                <option>Completed</option>
+                <option>Cancelled</option>
+                <option>No Show</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Confirmation Date</label>
+            <input type="date" name="confirmationDate">
+        </div>
+
+        <div class="field">
+            <label>Confirmed By</label>
+            <input type="text" name="confirmedBy">
+        </div>
+
+        <div class="field">
+            <label>Confirmation Reference</label>
+            <input type="text" name="confirmationReference">
+        </div>
+    </div>
+</section>
+
+<!-- CANCELLATION -->
+<section class="section">
+    <h2 class="section-heading">08. Rescheduling / Cancellation Record</h2>
+
+    <div class="grid-3">
+        <div class="field">
+            <label>Action</label>
+            <select name="bookingAction">
+                <option value="">Select Action</option>
+                <option>None</option>
+                <option>Rescheduled</option>
+                <option>Cancelled</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Action Date</label>
+            <input type="date" name="actionDate">
+        </div>
+
+        <div class="field">
+            <label>Revised Appointment Date</label>
+            <input type="date" name="revisedDate">
+        </div>
+
+        <div class="field">
+            <label>Revised Appointment Time</label>
+            <input type="time" name="revisedTime">
+        </div>
+
+        <div class="field">
+            <label>Handled By</label>
+            <input type="text" name="actionHandledBy">
+        </div>
+
+        <div class="field">
+            <label>Cancellation Reason</label>
+            <select name="cancellationReason">
+                <option value="">Select Reason</option>
+                <option>Client Request</option>
+                <option>Staff Unavailable</option>
+                <option>Emergency</option>
+                <option>Schedule Conflict</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="field full">
+            <label>Additional Action Notes</label>
+            <textarea name="actionNotes" placeholder="Enter cancellation or rescheduling details..."></textarea>
+        </div>
+    </div>
+</section>
+
+<!-- NOTES -->
+<section class="section">
+    <h2 class="section-heading">09. Additional Notes & Special Instructions</h2>
+
+    <div class="field">
+        <label>Internal / Client Notes</label>
+        <textarea name="additionalNotes" placeholder="Enter any additional information, special requests or instructions..."></textarea>
+    </div>
+</section>
+
+<!-- TERMS -->
+<section class="section">
+    <h2 class="section-heading">10. Appointment Terms & Conditions</h2>
+
+    <div class="field">
+        <textarea name="terms" style="height:105px">1. Please arrive at least 10 minutes before your scheduled appointment.
+2. Kindly notify the business in advance if you need to reschedule or cancel.
+3. Appointments are subject to availability and business confirmation.
+4. Late arrival may affect the available appointment duration.
+5. Any applicable cancellation or advance payment policy will be communicated by the business.
+6. Please provide accurate contact information for appointment updates and reminders.</textarea>
+    </div>
+
+    <div style="margin-top:12px">
+        <label class="choice">
+            <input type="checkbox" name="termsAccepted" required>
+            I have read and agree to the appointment terms and conditions.
+            <span class="required">*</span>
+        </label>
+    </div>
+</section>
+
+<!-- SIGNATURE -->
+<section class="section">
+    <h2 class="section-heading">11. Authorization & Signatures</h2>
+
+    <div class="signature-grid">
+        <div>
+            <div class="signature-line"></div>
+            <div class="signature-caption">Client Signature</div>
+            <div class="field" style="margin-top:10px">
+                <label>Client Name</label>
+                <input type="text" name="clientSignatureName">
+            </div>
+            <div class="field" style="margin-top:9px">
+                <label>Date</label>
+                <input type="date" name="clientSignatureDate">
+            </div>
+        </div>
+
+        <div>
+            <div class="signature-line"></div>
+            <div class="signature-caption">Authorized Staff Signature</div>
+            <div class="field" style="margin-top:10px">
+                <label>Staff Name</label>
+                <input type="text" name="staffSignatureName">
+            </div>
+            <div class="field" style="margin-top:9px">
+                <label>Date</label>
+                <input type="date" name="staffSignatureDate">
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="footer">
+    Appointment Booking Form | Business Record | Please retain a copy for your records.
+</div>
+
+</form>
+</div>
+
+<script>
+const form = document.getElementById('appointmentForm');
+const errorBox = document.getElementById('errorMessage');
+
+function printForm() {
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    const emailFields = [
+        form.elements.companyEmail,
+        form.elements.clientEmail
+    ];
+
+    for (const field of emailFields) {
+        if (field.value.trim() && !field.validity.valid) {
+            field.reportValidity();
+            return;
+        }
+    }
+
+    window.print();
+}
+
+// LOGO UPLOAD
+document.getElementById('logoUpload').addEventListener('change', function() {
+    const file = this.files[0];
+    if (!file) return;
+
+    const allowed = ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'];
+
+    if (!allowed.includes(file.type)) {
+        alert('Please upload a JPG, PNG, SVG or WebP image.');
+        this.value = '';
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        const box = document.getElementById('logoBox');
+        box.innerHTML = '';
+
+        const img = document.createElement('img');
+        img.src = event.target.result;
+        img.alt = 'Company Logo';
+        box.appendChild(img);
+    };
+
+    reader.readAsDataURL(file);
+});
+
+// ADD SERVICE ROW
+function addServiceRow() {
+    const tbody = document.getElementById('serviceRows');
+    const row = document.createElement('tr');
+
+    row.innerHTML = `
+        <td class="row-number"></td>
+        <td><input type="text" name="serviceDescription[]" aria-label="Service description"></td>
+        <td><input type="text" name="serviceProvider[]" aria-label="Service provider"></td>
+        <td>
+            <select name="serviceDuration[]" aria-label="Service duration">
+                <option value="">Select</option>
+                <option>15 Min</option>
+                <option>30 Min</option>
+                <option>45 Min</option>
+                <option>1 Hour</option>
+                <option>2 Hours</option>
+            </select>
+        </td>
+        <td><input type="text" name="serviceNotes[]" aria-label="Service notes"></td>
+    `;
+
+    tbody.appendChild(row);
+    updateRowNumbers();
+}
+
+function updateRowNumbers() {
+    document.querySelectorAll('#serviceRows tr').forEach((row, index) => {
+        row.querySelector('.row-number').textContent = index + 1;
+    });
+}
+
+// FINANCIAL CALCULATIONS
+const moneyInputs = [
+    'appointmentFee',
+    'discount',
+    'additionalCharges',
+    'amountPaid'
+];
+
+function getAmount(id) {
+    const input = document.getElementById(id);
+    const value = Number(input.value);
+
+    return Number.isFinite(value) && value >= 0 ? value : 0;
+}
+
+function formatMoney(value) {
+    return value.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
+function calculatePayment() {
+    const fee = getAmount('appointmentFee');
+    const discount = getAmount('discount');
+    const extra = getAmount('additionalCharges');
+    const paid = getAmount('amountPaid');
+
+    const net = Math.max(0, fee - discount) + extra;
+    const balance = Math.max(0, net - paid);
+
+    document.getElementById('subtotal').value = formatMoney(fee);
+    document.getElementById('netTotal').value = formatMoney(net);
+    document.getElementById('balanceDue').value = formatMoney(balance);
+}
+
+moneyInputs.forEach(id => {
+    document.getElementById(id).addEventListener('input', function() {
+        if (Number(this.value) < 0) {
+            this.value = 0;
+        }
+        calculatePayment();
+    });
+
+    document.getElementById(id).addEventListener('change', function() {
+        if (this.value === '') this.value = 0;
+        calculatePayment();
+    });
+});
+
+// APPOINTMENT DATE VALIDATION
+const appointmentDate = document.getElementById('appointmentDate');
+
+appointmentDate.addEventListener('change', function() {
+    const bookingDate = form.elements.bookingDate.value;
+
+    if (bookingDate && this.value && this.value < bookingDate) {
+        alert('Appointment date cannot be earlier than the booking date.');
+        this.value = '';
+    }
+});
+
+form.elements.bookingDate.addEventListener('change', function() {
+    if (appointmentDate.value && this.value && appointmentDate.value < this.value) {
+        alert('Booking date cannot be later than the appointment date.');
+        appointmentDate.value = '';
+    }
+});
+
+// RESET FORM
+function resetForm() {
+    const confirmed = confirm(
+        'Are you sure you want to reset the entire appointment booking form? All entered information will be cleared.'
+    );
+
+    if (!confirmed) return;
+
+    form.reset();
+
+    // Restore default terms and financial values
+    document.getElementById('appointmentFee').value = '0';
+    document.getElementById('discount').value = '0';
+    document.getElementById('additionalCharges').value = '0';
+    document.getElementById('amountPaid').value = '0';
+
+    // Restore one default service row
+    const tbody = document.getElementById('serviceRows');
+    tbody.innerHTML = `
+        <tr>
+            <td class="row-number">1</td>
+            <td><input type="text" name="serviceDescription[]" aria-label="Service description"></td>
+            <td><input type="text" name="serviceProvider[]" aria-label="Service provider"></td>
+            <td>
+                <select name="serviceDuration[]" aria-label="Service duration">
+                    <option value="">Select</option>
+                    <option>15 Min</option>
+                    <option>30 Min</option>
+                    <option>45 Min</option>
+                    <option>1 Hour</option>
+                    <option>2 Hours</option>
+                </select>
+            </td>
+            <td><input type="text" name="serviceNotes[]" aria-label="Service notes"></td>
+        </tr>
+    `;
+
+    // Clear uploaded logo
+    document.getElementById('logoUpload').value = '';
+    document.getElementById('logoBox').innerHTML =
+        '<span class="logo-placeholder">COMPANY<br>LOGO</span>';
+
+    errorBox.style.display = 'none';
+    calculatePayment();
+}
+
+// PREVENT FAKE SUBMISSION
+form.addEventListener('submit', function(event) {
+    event.preventDefault();
+});
+
+calculatePayment();
+</script>
+
+</body>
+</html>
