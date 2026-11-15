@@ -28,6 +28,61 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
 }
+/* STARTIS STUDIO WEBSITE HEADER */
+.brand-header {
+    max-width: 900px;
+    margin: 0 auto 22px;
+    padding: 17px 15px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #dce3eb;
+    border-radius: 5px;
+    box-shadow: 0 3px 15px rgba(0,0,0,.05);
+}
+
+.brand-name {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 29px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    color: #183653;
+    text-transform: uppercase;
+}
+
+.brand-line {
+    width: 105px;
+    height: 3px;
+    margin: 9px auto 7px;
+    background: linear-gradient(to right, #183653, #c6a15b, #183653);
+    border-radius: 5px;
+}
+
+.brand-tagline {
+    margin: 0;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    color: #758291;
+    text-transform: uppercase;
+}
+
+/* MOBILE */
+@media(max-width:650px) {
+    .brand-header {
+        margin-bottom: 14px;
+        padding: 15px 8px;
+    }
+
+    .brand-name {
+        font-size: 23px;
+        letter-spacing: 3px;
+    }
+
+    .brand-tagline {
+        font-size: 8px;
+        letter-spacing: 1.5px;
+    }
+}
 
 .form-container {
     width: 100%;
@@ -407,6 +462,10 @@ td input, td select {
 }
 
 @media print {
+/* HIDE STARTIS STUDIO HEADER WHEN PRINTING */
+.brand-header {
+    display: none !important;
+}
     body {
         margin: 0;
         padding: 0;
@@ -495,15 +554,13 @@ td input, td select {
 </head>
 
 <body>
+<!-- STARTIS STUDIO BRAND HEADER -->
+<div class="brand-header no-print">
+    <h2 class="brand-name">STARTIS STUDIO</h2>
+    <div class="brand-line"></div>
+    <p class="brand-tagline">Professional Business Forms & Templates</p>
+</div>
 
-
-<!-- STARTIS STUDIO HEADER CODE YAHAN -->
-
-<!-- AAPKA ORIGINAL FORM CODE YAHAN -->
-
-</body>
-</html>
-    
 <div class="actions no-print">
     <button class="print-btn" type="button" onclick="printForm()">PRINT FORM / SAVE PDF</button>
     <button class="reset-btn" type="button" onclick="resetForm()">RESET FORM</button>
